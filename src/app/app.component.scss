@@ -13,17 +13,9 @@ app-sidebar {
   padding: 2rem;
   transition: margin-left 0.3s;
   background-color: var(--background-color);
-
-  button {
-    background: var(--primary-color);
-    color: var(--background-color);
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-bottom: 1rem;
-  }
+  position: relative;
 }
+
 
 .main-container:not(.sidebar-open) app-sidebar {
   width: 40px;
