@@ -172,3 +172,11 @@ a {
     display: none;
   }
 }
+
+:host-context(body.dark-mode) {
+  border-right-color: #444;
+
+  .user-profile {
+    border-top-color: #444;
+  }
+}
