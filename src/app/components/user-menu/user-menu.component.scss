@@ -53,11 +53,11 @@
 
 .card .list .element:hover {
   background-color: var(--secondary-color);
-  color: var(--primary-color);
+  color: var(--text-color);
 }
 
 .card .list .element:hover svg {
-  stroke: var(--primary-color);
+  stroke: var(--text-color);
 }
 
 .card .list .element:active {
