@@ -1,0 +1,45 @@
+<div class="team-register-container">
+  <h2>Registrar Equipo</h2>
+  <form (ngSubmit)="registerTeam()">
+    <div class="form-group">
+      <label for="teamName">Nombre del Equipo</label>
+      <input type="text" id="teamName" name="teamName" [(ngModel)]="teamName" required>
+    </div>
+    <div class="form-group">
+      <label for="region">Región</label>
+      <select id="region" name="region" [(ngModel)]="selectedRegion" (change)="onRegionChange()">
+        <option *ngFor="let region of regions" [ngValue]="region">{{ region.region }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="comuna">Comuna</label>
+      <select id="comuna" name="comuna" [(ngModel)]="selectedComuna" [disabled]="!selectedRegion">
+        <option *ngFor="let comuna of comunas" [ngValue]="comuna">{{ comuna }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="logo">Logo del Equipo</label>
+      <input type="file" id="logo" (change)="onFileSelected($event)" accept="image/*" required>
+    </div>
+    <div class="form-group">
+      <h3>Horario Disponible</h3>
+      <div *ngFor="let day of availableDays">
+        <label>
+          <input type="checkbox" [checked]="schedule[day]" (change)="toggleDay(day)">
+          {{ day }}
+        </label>
+        <div *ngIf="schedule[day]">
+          <label for="startTime-{{day}}">Desde:</label>
+          <select id="startTime-{{day}}" name="startTime-{{day}}" [(ngModel)]="schedule[day]!.startTime">
+            <option *ngFor="let time of timeSlots" [ngValue]="time">{{ time }}</option>
+          </select>
+          <label for="endTime-{{day}}">Hasta:</label>
+          <select id="endTime-{{day}}" name="endTime-{{day}}" [(ngModel)]="schedule[day]!.endTime">
+            <option *ngFor="let time of timeSlots" [ngValue]="time">{{ time }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <button type="submit">Registrar Equipo</button>
+  </form>
+</div>
