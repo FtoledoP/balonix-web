@@ -195,3 +195,26 @@
     margin: 1rem;
   }
 }
+
+body.dark-mode {
+  .register-container {
+    background: #1E1E1E;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+
+    .form-group {
+      input {
+        background-color: #333;
+        border-color: var(--accent-color-2);
+        color: white;
+      }
+    }
+
+    .phone-input-container {
+      .country-code {
+        background-color: #333;
+        border-color: var(--accent-color-2);
+        color: white;
+      }
+    }
+  }
+}
