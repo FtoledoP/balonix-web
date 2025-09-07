@@ -1,7 +1,7 @@
 :host {
-  background-color: var(--secondary-background-color);
-  border-right: 1px solid var(--accent-color-2);
-  color: var(--primary-color);
+  background-image: linear-gradient(to bottom, var(--sidebar-gradient-start), var(--sidebar-gradient-end));
+  border-right: 1px solid var(--secondary-color);
+  color: var(--text-color);
   padding: 1rem;
   display: flex;
   flex-direction: column;
@@ -23,7 +23,7 @@
   font-weight: 700;
   opacity: 0;
   transition: opacity 0.3s ease;
-  color: var(--secondary-color);
+  color: var(--text-secondary-color);
 
   span {
     color: var(--primary-color);
@@ -78,7 +78,7 @@ a {
   display: flex;
   align-items: center;
   gap: 1rem;
-  color: var(--primary-color);
+  color: var(--text-color);
   text-decoration: none;
   padding: 0.5rem;
   border-radius: 4px;
