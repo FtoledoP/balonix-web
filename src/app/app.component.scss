@@ -26,5 +26,5 @@ app-sidebar {
 }
 
 .main-container:not(.sidebar-open) app-sidebar {
-  width: 0;
+  width: 40px;
 }

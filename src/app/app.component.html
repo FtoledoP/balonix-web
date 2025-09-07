@@ -1,7 +1,6 @@
 <div class="main-container" [class.sidebar-open]="(sidebarService.isOpen$ | async)">
   <app-sidebar *ngIf="isLoggedIn"></app-sidebar>
   <div class="content">
-    <button (click)="toggleSidebar()" *ngIf="isLoggedIn">Toggle Sidebar</button>
     <router-outlet></router-outlet>
   </div>
 </div>

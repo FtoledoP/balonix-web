@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { SidebarService } from '../../services/sidebar.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,4 +12,9 @@ import { RouterModule } from '@angular/router';
 })
 export class SidebarComponent {
 
+  constructor(private sidebarService: SidebarService) { }
+
+  toggleSidebar() {
+    this.sidebarService.toggle();
+  }
 }
