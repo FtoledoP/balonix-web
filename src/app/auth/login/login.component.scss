@@ -26,7 +26,7 @@
   position: relative;
   z-index: 1;
   padding: 2rem;
-  background-image: linear-gradient(to bottom, var(--sidebar-gradient-start), var(--sidebar-gradient-end));
+  background-color: var(--secondary-background-color);
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
   text-align: center;
@@ -73,7 +73,7 @@
     background-color: inherit;
     border-radius: 100px;
     font-weight: 600;
-    color: var(--text-color);
+    color: var(--primary-color);
     box-shadow: 0 0 0 2px var(--primary-color);
     cursor: pointer;
     overflow: hidden;
@@ -83,7 +83,7 @@
   .animated-button svg {
     position: absolute;
     width: 24px;
-    fill: var(--text-color);
+    fill: var(--primary-color);
     z-index: 9;
     transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
   }

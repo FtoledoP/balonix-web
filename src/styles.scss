@@ -1,13 +1,20 @@
 @import 'ngx-toastr/toastr';
 
 :root {
-  --primary-color: #3D52A0;
-  --secondary-color: #7091E6;
-  --accent-color-1: #8697C4;
-  --accent-color-2: #ADBBDA;
-  --background-color: #EDE8F5;
-  --secondary-background-color: #ffffff;
-  --text-color: #333;
+  --primary-color: #5E5CE6;
+  --secondary-color: #F2F2F7;
+  --gradient-color-start: #6A11CB;
+  --gradient-color-end: #2575FC;
+  --background-color: #F9F9F9;
+  --secondary-background-color: #FFFFFF;
+  --form-background-color: #F2F2F7;
+  --text-color: #121212;
+  --text-secondary-color: #8A8A8E;
+  --input-background-color: #F2F2F7;
+  --input-text-color: #121212;
+  --sidebar-gradient-start: #FFFFFF;
+  --sidebar-gradient-end: #D8DCFF;
+  --link-color: #5E5CE6;
 }
 
 body {
