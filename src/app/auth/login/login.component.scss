@@ -26,15 +26,15 @@
   position: relative;
   z-index: 1;
   padding: 2rem;
-  background: var(--secondary-background-color);
+  background: var(--form-background-color);
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
   text-align: center;
   width: 100%;
   max-width: 400px;
 
   h2 {
-    color: var(--primary-color);
+    color: var(--text-color);
     margin-bottom: 1.5rem;
   }
 
@@ -45,17 +45,19 @@
     label {
       display: block;
       margin-bottom: 0.5rem;
-      color: var(--accent-color-1);
+      color: var(--text-secondary-color);
       font-weight: bold;
     }
 
     input {
       width: 100%;
       padding: 0.75rem;
-      border: 1px solid var(--accent-color-2);
+      border: 1px solid var(--secondary-color);
       border-radius: 4px;
       box-sizing: border-box;
       font-weight: bold;
+      background-color: var(--input-background-color);
+      color: var(--input-text-color);
     }
   }
 
@@ -71,7 +73,7 @@
     background-color: inherit;
     border-radius: 100px;
     font-weight: 600;
-    color: var(--primary-color);
+    color: var(--text-color);
     box-shadow: 0 0 0 2px var(--primary-color);
     cursor: pointer;
     overflow: hidden;
@@ -81,7 +83,7 @@
   .animated-button svg {
     position: absolute;
     width: 24px;
-    fill: var(--primary-color);
+    fill: var(--text-color);
     z-index: 9;
     transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
   }
@@ -101,7 +103,7 @@
     transform: translate(-50%, -50%);
     width: 20px;
     height: 20px;
-    background-color: var(--primary-color);
+    background-image: linear-gradient(to right, var(--gradient-color-start), var(--gradient-color-end));
     border-radius: 50%;
     opacity: 0;
     transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
@@ -155,53 +157,14 @@
 
   p {
     margin-top: 1.5rem;
-    color: var(--accent-color-1);
+    color: var(--text-secondary-color);
 
     a {
-      color: var(--secondary-color);
+      color: var(--link-color);
       text-decoration: none;
 
       &:hover {
         text-decoration: underline;
-      }
-    }
-  }
-}
-
-body.dark-mode {
-  .login-container {
-    background: #1E1E1E;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
-
-    h2 {
-      color: var(--primary-color);
-    }
-
-    .form-group {
-      label {
-        color: var(--accent-color-1);
-      }
-
-      input {
-        background-color: #333;
-        border-color: var(--accent-color-2);
-        color: white;
-      }
-    }
-
-    .animated-button {
-      background-color: var(--secondary-color);
-
-      &:hover {
-        background-color: var(--accent-color-1);
-      }
-    }
-
-    p {
-      color: var(--accent-color-1);
-
-      a {
-        color: var(--secondary-color);
       }
     }
   }

@@ -19,11 +19,16 @@ body {
 }
 
 body.dark-mode {
-  --primary-color: #7091E6;
-  --secondary-color: #86A7FC;
-  --accent-color-1: #ADBBDA;
-  --accent-color-2: #A088F9;
+  --primary-color: #5E5CE6;
+  --secondary-color: #3A3A3C;
+  --gradient-color-start: #6A11CB;
+  --gradient-color-end: #2575FC;
   --background-color: #121212;
   --secondary-background-color: #1E1E1E;
-  --text-color: #fff;
+  --form-background-color: #2C2C2E;
+  --text-color: #FFFFFF;
+  --text-secondary-color: #A9A9A9;
+  --link-color: #8280ff;
+  --input-background-color: #FFFFFF;
+  --input-text-color: #121212;
 }

@@ -96,7 +96,7 @@ a {
 
   &:hover {
     background-color: var(--secondary-color);
-    color: var(--secondary-background-color);
+    color: var(--text-color);
   }
 
   &.active {
@@ -207,15 +207,10 @@ a {
   }
 }
 
-:host-context(body.dark-mode) {
-  border-right-color: #444;
-
-  .user-profile {
-    border-top-color: #444;
-
-    &::before {
-      background-color: #444;
-    }
+a {
+  &.active {
+    background-image: linear-gradient(to right, var(--gradient-color-start), var(--gradient-color-end));
+    color: var(--text-color);
   }
 }
 
