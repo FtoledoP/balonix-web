@@ -1,0 +1,22 @@
+.main-container {
+  display: flex;
+  height: 100vh;
+}
+
+app-sidebar {
+  width: 250px;
+  transition: width 0.3s;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 2rem;
+  transition: margin-left 0.3s;
+  background-color: var(--background-color);
+  position: relative;
+}
+
+
+.main-container:not(.sidebar-open) app-sidebar {
+  width: 40px;
+}
