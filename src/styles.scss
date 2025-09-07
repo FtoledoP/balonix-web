@@ -8,6 +8,14 @@
   --background-color: #EDE8F5;
 }
 
+body.dark-mode {
+  --primary-color: #EDE8F5;
+  --secondary-color: #ADBBDA;
+  --accent-color-1: #8697C4;
+  --accent-color-2: #7091E6;
+  --background-color: #3D52A0;
+}
+
 body, html {
   margin: 0;
   padding: 0;
