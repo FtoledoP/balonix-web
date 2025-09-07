@@ -67,7 +67,7 @@
       padding: 0.75rem;
       border: 1px solid var(--accent-color-2);
       border-right: none;
-      background-color: #eee;
+      background-color: var(--background-color);;
       border-radius: 4px 0 0 4px;
       white-space: nowrap;
       color: var(--accent-color-1);
@@ -213,7 +213,7 @@ body.dark-mode {
       .country-code {
         background-color: #333;
         border-color: var(--accent-color-2);
-        color: white;
+        color: #fff;
       }
     }
   }
