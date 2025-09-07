@@ -1,11 +1,26 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FirebaseService } from '../services/firebase.service';
+import { Router } from '@angular/router';
+import { signOut } from 'firebase/auth';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
 
+  constructor(private firebaseService: FirebaseService, private router: Router) { }
+
+  async logout() {
+    try {
+      await signOut(this.firebaseService.auth);
+      this.router.navigate(['/login']);
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  }
 }

@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  --primary-color: #3D52A0;
+  --secondary-color: #7091E6;
+  --accent-color-1: #8697C4;
+  --accent-color-2: #ADBBDA;
+  --background-color: #EDE8F5;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+}
