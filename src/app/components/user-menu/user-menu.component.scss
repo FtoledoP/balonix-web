@@ -1,0 +1,114 @@
+:host {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+:host-context(.main-container:not(.sidebar-open)) {
+  position: fixed;
+  bottom: auto;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  margin-left: 10px;
+}
+
+.card {
+  width: 200px;
+  background-color: var(--secondary-background-color);
+  border: 1px solid var(--accent-color-2);
+  border-radius: 10px;
+  padding: 15px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card .separator {
+  border-top: 1.5px solid var(--accent-color-2);
+}
+
+.card .list {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0px 10px;
+  margin: 0;
+}
+
+.card .list .element {
+  display: flex;
+  align-items: center;
+  color: var(--primary-color);
+  gap: 10px;
+  transition: all 0.3s ease-out;
+  padding: 4px 7px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.card .list .element svg {
+  width: 19px;
+  height: 19px;
+  stroke: var(--primary-color);
+  transition: all 0.3s ease-out;
+}
+
+.card .list .element .label {
+  font-weight: 600;
+  margin: 0;
+}
+
+.card .list .element:hover {
+  background-color: var(--primary-color);
+  color: var(--secondary-background-color);
+  transform: translate(1px, -1px);
+}
+
+.card .list .element:hover svg {
+  stroke: var(--secondary-background-color);
+}
+
+.card .list .delete:hover {
+  background-color: #e53935; /* Un color rojo para la opción de cerrar sesión */
+}
+
+.card .list .element:active {
+  transform: scale(0.99);
+}
+
+body.dark-mode {
+  .card {
+    background-color: #2a2a2a;
+    border-color: #444;
+  }
+
+  .card .separator {
+    border-top-color: #444;
+  }
+
+  .card .list .element {
+    color: var(--accent-color-1);
+  }
+
+  .card .list .element svg {
+    stroke: var(--accent-color-1);
+  }
+
+  .card .list .element:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+  }
+
+  .card .list .element:hover svg {
+    stroke: #fff;
+  }
+
+  .card .list .delete:hover {
+    background-color: #b71c1c;
+  }
+}
