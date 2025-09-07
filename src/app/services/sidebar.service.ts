@@ -13,4 +13,8 @@ export class SidebarService {
   toggle() {
     this.isOpen.next(!this.isOpen.value);
   }
+
+  public get currentValue() {
+    return this.isOpen.value;
+  }
 }

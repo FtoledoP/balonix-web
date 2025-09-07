@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, ElementRef, HostListener, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { SidebarService } from '../../services/sidebar.service';
@@ -15,8 +15,11 @@ import { Observable } from 'rxjs';
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent implements OnInit {
+  // Component properties
   userProfile$: Observable<UserProfile | null>;
   isUserMenuOpen = false;
+  userMenuTop = 0;
+  userMenuLeft = 0;
 
   constructor(
     public sidebarService: SidebarService,
@@ -45,7 +48,27 @@ export class SidebarComponent implements OnInit {
     if (event) {
       event.stopPropagation();
     }
-    this.isUserMenuOpen = !this.isUserMenuOpen;
+
+    if (this.isUserMenuOpen) {
+      this.isUserMenuOpen = false;
+    } else {
+      const target = event?.currentTarget as HTMLElement;
+      if (target) {
+        const rect = target.getBoundingClientRect();
+        const isSidebarOpen = this.sidebarService.currentValue;
+
+        if (isSidebarOpen) {
+          // Position centered above the element
+          this.userMenuTop = rect.top - 110; // Adjusted for menu height + offset
+          this.userMenuLeft = rect.left + rect.width / 2;
+        } else {
+          // Position to the right, vertically centered and nudged up
+          this.userMenuTop = rect.top + rect.height / 2 - 70; // Nudged up by 20px
+          this.userMenuLeft = rect.right + 10; // 10px offset
+        }
+        this.isUserMenuOpen = true;
+      }
+    }
   }
 
   getInitials(name: string, lastName: string): string {
