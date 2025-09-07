@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'ngx-toastr/toastr';
 
 :root {
   --primary-color: #3D52A0;
@@ -7,20 +7,23 @@
   --accent-color-2: #ADBBDA;
   --background-color: #EDE8F5;
   --secondary-background-color: #ffffff;
+  --text-color: #333;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 body.dark-mode {
-  --primary-color: #6b6b6b;
-  --secondary-color: #ffffff;
-  --accent-color-1: #868686;
-  --accent-color-2: #525252;
+  --primary-color: #7091E6;
+  --secondary-color: #86A7FC;
+  --accent-color-1: #ADBBDA;
+  --accent-color-2: #A088F9;
   --background-color: #121212;
-  --secondary-background-color: #222222;
-}
-
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: 'Poppins', sans-serif;
+  --secondary-background-color: #1E1E1E;
+  --text-color: #fff;
 }

@@ -46,6 +46,7 @@
       display: block;
       margin-bottom: 0.5rem;
       color: var(--accent-color-1);
+      font-weight: bold;
     }
 
     input {
@@ -54,6 +55,27 @@
       border: 1px solid var(--accent-color-2);
       border-radius: 4px;
       box-sizing: border-box;
+      font-weight: bold;
+    }
+  }
+
+  .phone-input-container {
+    display: flex;
+    align-items: center;
+
+    .country-code {
+      padding: 0.75rem;
+      border: 1px solid var(--accent-color-2);
+      border-right: none;
+      background-color: #eee;
+      border-radius: 4px 0 0 4px;
+      white-space: nowrap;
+      color: var(--accent-color-1);
+      font-weight: bold;
+    }
+
+    input {
+      border-radius: 0 4px 4px 0;
     }
   }
 
