@@ -148,15 +148,14 @@ a {
 
   &:hover {
     background-color: var(--secondary-color);
-    color: var(--secondary-background-color);
+    color: var(--text-secondary-color);
 
     .user-avatar {
-      background-color: var(--secondary-background-color);
-      color: var(--primary-color);
+      color: var(--text-color);
     }
 
     .settings-icon svg {
-      fill: var(--secondary-background-color);
+      fill: var(--text-secondary-color);
     }
   }
 
@@ -165,7 +164,6 @@ a {
     height: 40px;
     border-radius: 50%;
     background-image: linear-gradient(to bottom, var(--gradient-color-start), var(--gradient-color-end));
-    color: var(--text-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -216,14 +214,13 @@ a {
 
 .user-profile.menu-open {
   background-color: var(--primary-color);
-  color: var(--secondary-background-color);
+  color: var(--text-color);
 
   .user-avatar {
-    background-color: var(--secondary-background-color);
-    color: var(--primary-color);
+    color: var(--text-color) !important;
   }
 
   .settings-icon svg {
-    fill: var(--secondary-background-color);
+    fill: var(--text-color);
   }
 }
