@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FirebaseService } from '../../services/firebase.service';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { ToastrService } from 'ngx-toastr';
@@ -21,7 +21,8 @@ export class LoginComponent {
 
   constructor(
     private firebaseService: FirebaseService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   async login() {
@@ -33,8 +34,9 @@ export class LoginComponent {
     this.isLoading = true;
 
     try {
-      const userCredential = await signInWithEmailAndPassword(this.firebaseService.auth, this.email, this.password);
+      await signInWithEmailAndPassword(this.firebaseService.auth, this.email, this.password);
       this.toastr.success('Inicio de sesión exitoso');
+      this.router.navigate(['/home']);
     } catch (error: any) {
       if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
         this.toastr.error('Correo electrónico o contraseña incorrectos');
