@@ -123,3 +123,52 @@ a {
 :host-context(.main-container.sidebar-open) .logo-text {
   opacity: 1;
 }
+
+.user-profile {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--accent-color-2);
+
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: var(--secondary-background-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .user-name {
+    transition: opacity 0.3s;
+  }
+
+  .settings-icon {
+    margin-left: auto;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: center;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--primary-color);
+    }
+  }
+}
+
+:host-context(.main-container:not(.sidebar-open)) .user-profile {
+  justify-content: center;
+
+  .user-name,
+  .settings-icon {
+    display: none;
+  }
+}
