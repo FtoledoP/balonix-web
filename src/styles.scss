@@ -6,14 +6,16 @@
   --accent-color-1: #8697C4;
   --accent-color-2: #ADBBDA;
   --background-color: #EDE8F5;
+  --secondary-background-color: #EDE8F5;
 }
 
 body.dark-mode {
-  --primary-color: #EDE8F5;
-  --secondary-color: #ADBBDA;
-  --accent-color-1: #8697C4;
-  --accent-color-2: #7091E6;
-  --background-color: #3D52A0;
+  --primary-color: #6b6b6b;
+  --secondary-color: #ffffff;
+  --accent-color-1: #868686;
+  --accent-color-2: #525252;
+  --background-color: #121212;
+  --secondary-background-color: #161616;
 }
 
 body, html {
