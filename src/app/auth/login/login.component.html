@@ -1,3 +1,4 @@
+<app-loader *ngIf="isLoading"></app-loader>
 <div class="login-container">
   <h2>Iniciar Sesión</h2>
   <form (ngSubmit)="login()">
@@ -26,5 +27,6 @@
       </button>
     </div>
 </form>
+<button (click)="testLoader()" style="margin-top: 1rem;">Test Loader</button>
 <p>¿No tienes una cuenta? <a routerLink="/register">Regístrate</a></p>
 </div>

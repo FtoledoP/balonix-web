@@ -1,0 +1,37 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loader {
+  overflow: visible;
+  height: fit-content;
+  width: fit-content;
+  padding: 0px;
+  display: flex;
+}
+
+.logo {
+  fill: none;
+  stroke-dasharray: 50px;
+  stroke: white;
+  animation: load 10s infinite linear;
+}
+
+@keyframes load {
+  0% {
+    stroke-dashoffset: 0px;
+  }
+
+  100% {
+    stroke-dashoffset: 500px;
+  }
+}

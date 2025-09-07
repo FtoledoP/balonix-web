@@ -5,11 +5,13 @@ import { FirebaseService } from '../../services/firebase.service';
 import { createUserWithEmailAndPassword, deleteUser } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { ToastrService } from 'ngx-toastr';
+import { LoaderComponent } from '../../components/loader/loader.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, RouterModule],
+  imports: [FormsModule, RouterModule, LoaderComponent, CommonModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
@@ -19,6 +21,7 @@ export class RegisterComponent {
   email = '';
   password = '';
   phoneNumber = '';
+  isLoading = false;
 
   constructor(
     private firebaseService: FirebaseService,
@@ -35,6 +38,8 @@ export class RegisterComponent {
       this.toastr.warning('El número de teléfono debe tener 8 dígitos');
       return;
     }
+
+    this.isLoading = true;
 
     try {
       const userCredential = await createUserWithEmailAndPassword(this.firebaseService.auth, this.email, this.password);
@@ -59,6 +64,8 @@ export class RegisterComponent {
       } else {
         this.toastr.error('Error al registrar el usuario');
       }
+    } finally {
+      this.isLoading = false;
     }
   }
 }
