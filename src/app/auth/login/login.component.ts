@@ -45,8 +45,4 @@ export class LoginComponent {
       this.isLoading = false;
     }
   }
-
-  testLoader() {
-    this.isLoading = true;
-  }
 }
