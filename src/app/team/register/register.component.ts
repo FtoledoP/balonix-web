@@ -15,6 +15,7 @@ import { Timestamp } from 'firebase/firestore';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent implements OnInit {
+  currentStep = 1;
   teamName = '';
   regions: any[] = [];
   comunas: string[] = [];
@@ -22,6 +23,7 @@ export class RegisterComponent implements OnInit {
   selectedComuna = '';
   selectedFile: File | null = null;
   
+  hasSchedule = false;
   availableDays = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
   timeSlots: string[] = [];
   schedule: { [key: string]: { startTime: string, endTime: string } | null } = {};
@@ -67,6 +69,18 @@ export class RegisterComponent implements OnInit {
     return slots;
   }
 
+  nextStep() {
+    if (this.currentStep < 3) {
+      this.currentStep++;
+    }
+  }
+
+  prevStep() {
+    if (this.currentStep > 1) {
+      this.currentStep--;
+    }
+  }
+
   async registerTeam() {
     if (!this.selectedFile) {
       console.error('No logo selected');
@@ -88,7 +102,7 @@ export class RegisterComponent implements OnInit {
         district: this.selectedComuna,
         captainId: user.uid,
         createdAt: Timestamp.now(),
-        schedule: this.schedule,
+        schedule: this.hasSchedule ? this.schedule : null,
         logoUrl: '' // Dejar vacío por ahora
       });
 

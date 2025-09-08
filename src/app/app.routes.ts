@@ -22,7 +22,6 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-      { path: 'team-register', component: RegisterComponent, canActivate: [AuthGuard] },
       { path: 'team-management', component: ManagementComponent, canActivate: [AuthGuard] },
     ],
   },

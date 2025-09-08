@@ -1,45 +1,91 @@
 <div class="team-register-container">
   <h2>Registrar Equipo</h2>
   <form (ngSubmit)="registerTeam()">
-    <div class="form-group">
-      <label for="teamName">Nombre del Equipo</label>
-      <input type="text" id="teamName" name="teamName" [(ngModel)]="teamName" required>
-    </div>
-    <div class="form-group">
-      <label for="region">Región</label>
-      <select id="region" name="region" [(ngModel)]="selectedRegion" (change)="onRegionChange()">
-        <option *ngFor="let region of regions" [ngValue]="region">{{ region.region }}</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="comuna">Comuna</label>
-      <select id="comuna" name="comuna" [(ngModel)]="selectedComuna" [disabled]="!selectedRegion">
-        <option *ngFor="let comuna of comunas" [ngValue]="comuna">{{ comuna }}</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="logo">Logo del Equipo</label>
-      <input type="file" id="logo" (change)="onFileSelected($event)" accept="image/*" required>
-    </div>
-    <div class="form-group">
-      <h3>Horario Disponible</h3>
-      <div *ngFor="let day of availableDays">
-        <label>
-          <input type="checkbox" [checked]="schedule[day]" (change)="toggleDay(day)">
-          {{ day }}
-        </label>
-        <div *ngIf="schedule[day]">
-          <label for="startTime-{{day}}">Desde:</label>
-          <select id="startTime-{{day}}" name="startTime-{{day}}" [(ngModel)]="schedule[day]!.startTime">
-            <option *ngFor="let time of timeSlots" [ngValue]="time">{{ time }}</option>
+    <div [ngSwitch]="currentStep">
+      <!-- Step 1: Team Info -->
+      <div *ngSwitchCase="1">
+        <div class="form-group">
+          <label for="teamName">Nombre del Equipo</label>
+          <input type="text" id="teamName" name="teamName" [(ngModel)]="teamName" required>
+        </div>
+        <div class="form-group">
+          <label for="region">Región</label>
+          <select id="region" name="region" [(ngModel)]="selectedRegion" (change)="onRegionChange()">
+            <option *ngFor="let region of regions" [ngValue]="region">{{ region.region }}</option>
           </select>
-          <label for="endTime-{{day}}">Hasta:</label>
-          <select id="endTime-{{day}}" name="endTime-{{day}}" [(ngModel)]="schedule[day]!.endTime">
-            <option *ngFor="let time of timeSlots" [ngValue]="time">{{ time }}</option>
+        </div>
+        <div class="form-group">
+          <label for="comuna">Comuna</label>
+          <select id="comuna" name="comuna" [(ngModel)]="selectedComuna" [disabled]="!selectedRegion">
+            <option *ngFor="let comuna of comunas" [ngValue]="comuna">{{ comuna }}</option>
           </select>
+        </div>
+        <div class="form-group">
+          <label for="logo">Logo del Equipo</label>
+          <input type="file" id="logo" (change)="onFileSelected($event)" accept="image/*" required>
+        </div>
+      </div>
+
+      <!-- Step 2: Availability -->
+      <div *ngSwitchCase="2">
+        <div class="form-group">
+          <label class="container">
+            Tengo horario disponible
+            <input type="checkbox" [(ngModel)]="hasSchedule" name="hasSchedule">
+            <div class="checkmark"></div>
+          </label>
+        </div>
+        <div *ngIf="hasSchedule">
+          <h3>Horario Disponible</h3>
+          <div class="days-container">
+            <div *ngFor="let day of availableDays" class="day-container">
+              <label class="container">
+                {{ day.substring(0, 3) }}
+                <input type="checkbox" [checked]="schedule[day]" (change)="toggleDay(day)">
+                <div class="checkmark"></div>
+              </label>
+            </div>
+          </div>
+          <div class="time-slots-container">
+            <div *ngFor="let day of availableDays">
+              <div *ngIf="schedule[day]" class="time-slot">
+                <label for="startTime-{{day}}">Desde:</label>
+                <select id="startTime-{{day}}" name="startTime-{{day}}" [(ngModel)]="schedule[day]!.startTime">
+                  <option *ngFor="let time of timeSlots" [ngValue]="time">{{ time }}</option>
+                </select>
+                <label for="endTime-{{day}}">Hasta:</label>
+                <select id="endTime-{{day}}" name="endTime-{{day}}" [(ngModel)]="schedule[day]!.endTime">
+                  <option *ngFor="let time of timeSlots" [ngValue]="time">{{ time }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Confirmation -->
+      <div *ngSwitchCase="3">
+        <h3>Confirmar Datos</h3>
+        <p><strong>Nombre del Equipo:</strong> {{ teamName }}</p>
+        <p><strong>Región:</strong> {{ selectedRegion?.region }}</p>
+        <p><strong>Comuna:</strong> {{ selectedComuna }}</p>
+        <div *ngIf="hasSchedule">
+          <h4>Horario Disponible:</h4>
+          <ul>
+            <li *ngFor="let day of availableDays">
+              <ng-container *ngIf="schedule[day]">
+                {{ day }}: {{ schedule[day]!.startTime }} - {{ schedule[day]!.endTime }}
+              </ng-container>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
-    <button type="submit">Registrar Equipo</button>
+
+    <div class="button-container">
+      <button type="button" (click)="prevStep()" *ngIf="currentStep > 1">Atrás</button>
+      <button type="button" (click)="nextStep()" *ngIf="currentStep < 3">Siguiente</button>
+      <button type="submit" *ngIf="currentStep === 3">Registrar Equipo</button>
+    </div>
   </form>
 </div>

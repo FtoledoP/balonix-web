@@ -5,12 +5,13 @@ import { SidebarService } from '../../services/sidebar.service';
 import { UserService, UserProfile } from '../../services/user.service';
 import { FirebaseService } from '../../services/firebase.service';
 import { UserMenuComponent } from '../../components/user-menu/user-menu.component';
+import { TeamRegisterModalComponent } from '../../components/team-register-modal/team-register-modal.component';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule, UserMenuComponent],
+  imports: [CommonModule, RouterModule, UserMenuComponent, TeamRegisterModalComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
@@ -20,6 +21,7 @@ export class SidebarComponent implements OnInit {
   isUserMenuOpen = false;
   userMenuTop = 0;
   userMenuLeft = 0;
+  isTeamRegisterModalOpen = false;
 
   constructor(
     public sidebarService: SidebarService,
@@ -42,6 +44,10 @@ export class SidebarComponent implements OnInit {
 
   toggleSidebar() {
     this.sidebarService.toggle();
+  }
+
+  toggleTeamRegisterModal() {
+    this.isTeamRegisterModalOpen = !this.isTeamRegisterModalOpen;
   }
 
   toggleUserMenu(event?: MouseEvent) {
