@@ -20,6 +20,7 @@ export class FirebaseService {
     private userService: UserService,
     private loadingService: LoadingService
   ) {
+    this.loadingService.show();
     this.app = initializeApp(environment.firebaseConfig);
     this.auth = getAuth(this.app);
     this.firestore = getFirestore(this.app);

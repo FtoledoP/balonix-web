@@ -15,6 +15,11 @@
   --sidebar-gradient-start: #cfc2ff;
   --sidebar-gradient-end: #dae9ff;
   --link-color: #5E5CE6;
+  --loader-background-color: rgba(255, 255, 255, 1);
+  --loader-color-light: #6A11CB;
+  --loader-color-dark: #2575FC;
+  --loader-stroke-color: #000000;
+  --loader-text-color: #121212;
 }
 
 body {
@@ -40,4 +45,9 @@ body.dark-mode {
   --input-text-color: #121212;
   --sidebar-gradient-start: #2a2a3a;
   --sidebar-gradient-end: #1E1E1E;
+  --loader-background-color: #121212;
+  --loader-color-light: #FFFFFF;
+  --loader-color-dark: #FFFFFF;
+  --loader-stroke-color: #FFFFFF;
+  --loader-text-color: #FFFFFF;
 }
