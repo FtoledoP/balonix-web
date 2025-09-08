@@ -22,6 +22,7 @@ export class RegisterComponent implements OnInit {
   selectedRegion: any = null;
   selectedComuna = '';
   selectedFile: File | null = null;
+  logoPreview: string | ArrayBuffer | null = null;
   
   hasSchedule = false;
   availableDays = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
@@ -44,7 +45,49 @@ export class RegisterComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0] ?? null;
+    const file = event.target.files[0] ?? null;
+    if (file) {
+      this.selectedFile = file;
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.logoPreview = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    // Add some visual feedback
+  }
+
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    // Remove visual feedback
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    // Remove visual feedback
+
+    if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
+      const file = event.dataTransfer.files[0];
+      this.selectedFile = file;
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.logoPreview = reader.result;
+      };
+      reader.readAsDataURL(file);
+      event.dataTransfer.clearData();
+    }
+  }
+
+  clearFileSelection() {
+    this.selectedFile = null;
+    this.logoPreview = null;
   }
 
   toggleDay(day: string) {

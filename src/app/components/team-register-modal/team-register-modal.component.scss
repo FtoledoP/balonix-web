@@ -12,10 +12,11 @@
 }
 
 .modal-content {
-  background-color: var(--secondary-background-color);
-  padding: 20px;
-  border-radius: 10px;
+  background-color: transparent;
+  padding: 0;
+  border-radius: 8px;
+  overflow: hidden;
   width: 500px;
   max-width: 90%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: none;
 }

@@ -21,6 +21,8 @@
   h2 {
     color: var(--text-color);
     margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--secondary-color);
   }
 
   .form-group {
@@ -137,5 +139,58 @@
     border: solid #f0f0f0;
     border-width: 0 0.15em 0.15em 0;
     transform: rotate(45deg);
+  }
+
+  /* From Uiverse.io by alsaad1060 */
+  .file-upload-form {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .file-upload-label input {
+    display: none;
+  }
+  .file-upload-label svg {
+    height: 50px;
+    fill: var(--text-color);
+    margin-bottom: 20px;
+  }
+  .file-upload-label {
+    cursor: pointer;
+    background-color: var(--secondary-color);
+    padding: 20px 40px;
+    border-radius: 30px;
+    border: 2px dashed var(--text-color);
+    box-shadow: 0px 0px 200px -50px rgba(0, 0, 0, 0.719);
+  }
+  .file-upload-design {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+  .browse-button {
+    background-color: var(--text-color);
+    padding: 5px 15px;
+    border-radius: 10px;
+    color: var(--background-color);
+    transition: all 0.3s;
+  }
+  .browse-button:hover {
+    background-color: var(--primary-color);
+  }
+
+  .file-upload-label.dragover {
+    border-color: var(--primary-color);
+    background-color: var(--secondary-color);
+  }
+
+  .logo-preview {
+    max-width: 100%;
+    max-height: 150px;
+    margin-bottom: 1rem;
   }
 }
