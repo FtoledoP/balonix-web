@@ -55,17 +55,9 @@ export class SidebarComponent implements OnInit {
       const target = event?.currentTarget as HTMLElement;
       if (target) {
         const rect = target.getBoundingClientRect();
-        const isSidebarOpen = this.sidebarService.currentValue;
-
-        if (isSidebarOpen) {
-          // Position centered above the element
-          this.userMenuTop = rect.top - 110; // Adjusted for menu height + offset
-          this.userMenuLeft = rect.left + rect.width / 2;
-        } else {
-          // Position to the right, vertically centered and nudged up
-          this.userMenuTop = rect.top + rect.height / 2 - 70; // Nudged up by 20px
-          this.userMenuLeft = rect.right + 10; // 10px offset
-        }
+        // Position centered above the element
+        this.userMenuTop = rect.top - 140; // Adjusted for menu height + offset
+        this.userMenuLeft = rect.left + rect.width / 2;
         this.isUserMenuOpen = true;
       }
     }

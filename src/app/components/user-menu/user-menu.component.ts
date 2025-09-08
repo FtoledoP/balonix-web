@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output, Input, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-user-menu',
@@ -15,6 +16,17 @@ export class UserMenuComponent {
   @Input() top: number = 0;
   @Input() left: number = 0;
   @Input() centered: boolean = false;
+
+  isDarkMode: boolean;
+
+  constructor(private themeService: ThemeService) {
+    this.isDarkMode = this.themeService.isDarkMode();
+  }
+
+  toggleTheme() {
+    this.themeService.toggleDarkMode();
+    this.isDarkMode = this.themeService.isDarkMode();
+  }
 
   @HostBinding('class.centered')
   get isCentered() {
