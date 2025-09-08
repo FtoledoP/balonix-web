@@ -6,6 +6,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { CommonModule } from '@angular/common';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-login',
@@ -17,12 +18,12 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
   email = '';
   password = '';
-  isLoading = false;
 
   constructor(
     private firebaseService: FirebaseService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private loadingService: LoadingService
   ) {}
 
   async login() {
@@ -31,7 +32,7 @@ export class LoginComponent {
       return;
     }
 
-    this.isLoading = true;
+    this.loadingService.show();
 
     try {
       await signInWithEmailAndPassword(this.firebaseService.auth, this.email, this.password);
@@ -43,8 +44,7 @@ export class LoginComponent {
       } else {
         this.toastr.error('Error al iniciar sesión');
       }
-    } finally {
-      this.isLoading = false;
+      this.loadingService.hide();
     }
   }
 }

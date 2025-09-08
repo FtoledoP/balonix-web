@@ -5,6 +5,7 @@ import { getFirestore, Firestore, doc, getDoc } from 'firebase/firestore';
 import { getStorage, FirebaseStorage } from 'firebase/storage';
 import { environment } from '../../environments/environment';
 import { UserService, UserProfile } from './user.service';
+import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,10 @@ export class FirebaseService {
   firestore: Firestore;
   storage: FirebaseStorage;
 
-  constructor(private userService: UserService) {
+  constructor(
+    private userService: UserService,
+    private loadingService: LoadingService
+  ) {
     this.app = initializeApp(environment.firebaseConfig);
     this.auth = getAuth(this.app);
     this.firestore = getFirestore(this.app);
@@ -30,8 +34,10 @@ export class FirebaseService {
         if (userDoc.exists()) {
           this.userService.setUserProfile(userDoc.data() as UserProfile);
         }
+        this.loadingService.hide();
       } else {
         this.userService.setUserProfile(null);
+        this.loadingService.hide();
       }
     });
   }
