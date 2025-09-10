@@ -146,7 +146,7 @@ a {
 
   &.active {
     background-image: linear-gradient(90deg, rgba(106, 17, 203, 0.1), rgba(37, 117, 252, 0.05));
-    color: #fff;
+    color: var(--text-color); /* Usar la variable de color de texto para mantener negro en modo claro */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
     &::before {
@@ -185,50 +185,20 @@ a {
 .user-profile {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  cursor: pointer;
-  position: relative;
-  border-radius: 12px;
-  transition: all 0.25s ease;
+  gap: 1.2rem;
   color: var(--text-color);
-  margin-bottom: 15px;
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid transparent;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background-image: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
-  }
-
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--text-color);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
-    border-color: rgba(255, 255, 255, 0.15);
-
-    .user-avatar {
-      color: #fff;
-      transform: scale(1.05);
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.18);
-      border-color: rgba(255, 255, 255, 0.3);
-    }
-
-    .settings-icon svg {
-      fill: var(--text-color);
-      transform: rotate(15deg) scale(1.1);
-    }
-  }
+  text-decoration: none;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  margin-bottom: 20px;
 
   .user-avatar {
-    width: 42px;
-    height: 42px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background-image: linear-gradient(to bottom, var(--gradient-color-start), var(--gradient-color-end));
     color: #fff;
@@ -237,65 +207,108 @@ a {
     justify-content: center;
     font-weight: 700;
     flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.9rem;
   }
-
+  
   .user-name {
-    transition: all 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
     font-weight: 600;
     letter-spacing: 0.3px;
+    font-size: 1.1rem;
   }
-
+  
   .settings-icon {
     margin-left: auto;
-    cursor: pointer;
     transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-
+    
     svg {
-      width: 24px;
-      height: 24px;
-      fill: var(--primary-color);
-      transition: all 0.3s ease;
+      width: 22px;
+      height: 22px;
+      color: var(--text-color);
+    }
+  }
+  
+  // Línea separadora horizontal debajo del perfil de usuario
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 10%;
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-image: linear-gradient(to bottom, var(--gradient-color-start), var(--gradient-color-end));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 0 4px 4px 0;
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    transform: translateX(3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+
+    &::before {
+      opacity: 1;
+    }
+
+    .user-avatar {
+      transform: scale(1.1);
+      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+    }
+    
+    .settings-icon {
+      transform: translateX(-2px);
+      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+    }
+  }
+
+  &.menu-open {
+    background-image: linear-gradient(90deg, rgba(106, 17, 203, 0.1), rgba(37, 117, 252, 0.05));
+    color: var(--text-color); /* Usar la variable de color de texto para mantener negro en modo claro */
+    transform: translateX(3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    &::before {
+      opacity: 1;
+    }
+
+    .user-avatar {
+      transform: scale(1.1);
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+    
+    .settings-icon {
+      transform: translateX(-2px);
+      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
     }
   }
 }
 
 :host-context(.main-container:not(.sidebar-open)) .user-profile {
-  width: 50px;
-  height: 50px;
-  padding: 0;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  align-self: center;
+  padding: 0.6rem 0;
+  gap: 0;
 
-  .user-name,
-  .settings-icon {
+  .user-name, .settings-icon {
+    opacity: 0;
+    width: 0;
     display: none;
   }
-}
-
-
-.user-profile.menu-open {
-  background-color: var(--secondary-color);
-  color: var(--text-color);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-  border-color: rgba(255, 255, 255, 0.2);
-
-  .user-avatar {
-    color: #fff !important;
-    transform: scale(1.05);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.18);
-    border-color: rgba(255, 255, 255, 0.3);
-  }
-
-  .settings-icon svg {
-    fill: var(--text-color);
-    transform: rotate(15deg) scale(1.1);
+  
+  &::after {
+    left: 15%;
+    width: 70%;
   }
 }
