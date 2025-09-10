@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/balonix-web",
+    "public": "dist/balonix-web/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
