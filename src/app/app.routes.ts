@@ -9,6 +9,7 @@ import { AuthLayoutComponent } from './layout/auth-layout/auth-layout.component'
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 
 export const routes: Routes = [
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: '',
     component: AuthLayoutComponent,
@@ -25,5 +26,4 @@ export const routes: Routes = [
       { path: 'team-management', component: ManagementComponent, canActivate: [AuthGuard] },
     ],
   },
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
 ];
