@@ -313,69 +313,95 @@
     background-size: contain;
   }
 
-  .phone-input-container {
-    background:
-      linear-gradient(0deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)) padding-box,
-      linear-gradient(135deg, rgba(112, 145, 230, 0.35), rgba(112, 145, 230, 0)) border-box;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+  .phone-icon {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%237091E6"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  .phone-input-wrapper {
+    display: flex;
+    width: 100%;
+    height: 50px;
     border-radius: 12px;
     overflow: hidden;
     transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.12s ease, background 0.2s ease;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 2px 4px rgba(0, 0, 0, 0.15);
-    display: flex;
-    align-items: center;
-    height: 50px;
-    width: 100%;
-
-    .country-code {
-      background: transparent;
-      padding: 0 12px 0 16px;
-      color: #ffffff;
-      font-size: 15px;
-      letter-spacing: 0.3px;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%237091E6"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>');
-      background-repeat: no-repeat;
-      background-position: 0 center;
-      background-size: 16px;
-      min-width: 70px;
-      border-right: 1px solid rgba(255, 255, 255, 0.1);
-      transition: border-color 0.2s ease, background-position 0.2s ease;
-    }
-
-    input {
-      border: none !important;
-      box-shadow: none !important;
-      background: transparent !important;
-      height: 100%;
-      flex: 1;
-      border-radius: 0 !important;
-      padding-left: 12px;
-      transition: background-position 0.2s ease;
-    }
 
     &:hover {
-      border-color: rgba(255, 255, 255, 0.3);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 4px 8px rgba(0, 0, 0, 0.2);
-      
-      .country-code {
-        border-right-color: rgba(255, 255, 255, 0.2);
-      }
     }
 
     &:focus-within {
       box-shadow: 0 0 0 3px rgba(112, 145, 230, 0.35), 0 8px 20px rgba(0, 0, 0, 0.25);
       transform: translateY(-2px);
-      border-color: transparent;
-      
-      .country-code {
-        border-right-color: rgba(255, 255, 255, 0.25);
-        background-position: 2px center;
+
+      .input-icon {
+        transform: scale(1.1);
       }
     }
   }
+
+  .phone-prefix-container {
+     display: flex;
+     align-items: center;
+     background:
+       linear-gradient(0deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)) padding-box,
+       linear-gradient(135deg, rgba(112, 145, 230, 0.35), rgba(112, 145, 230, 0)) border-box;
+     border: 1px solid rgba(255, 255, 255, 0.15);
+     border-right: none;
+     border-radius: 12px 0 0 12px;
+     padding-left: 16px;
+     padding-right: 12px;
+     height: 100%;
+     position: relative;
+     min-width: 90px;
+
+     .input-icon {
+       margin-right: 8px;
+       width: 20px;
+       height: 20px;
+       position: static;
+       transition: transform 0.2s ease;
+     }
+
+     .country-code {
+       font-size: 15px;
+       letter-spacing: 0.3px;
+       color: var(--input-text-color);
+       font-weight: bold;
+     }
+   }
+
+  .phone-number-container {
+      flex: 1;
+      height: 100%;
+
+      input {
+        width: 100%;
+        height: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-left: none;
+        border-radius: 0 12px 12px 0;
+        background:
+          linear-gradient(0deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)) padding-box,
+          linear-gradient(135deg, rgba(112, 145, 230, 0.35), rgba(112, 145, 230, 0)) border-box;
+        padding: 0 12px;
+        color: var(--input-text-color);
+        font-size: 15px;
+        letter-spacing: 0.3px;
+        outline: none;
+        box-shadow: none;
+        font-weight: bold;
+        transition: all 0.2s ease;
+
+        &:focus {
+          background: linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)) padding-box,
+                    linear-gradient(135deg, rgba(112, 145, 230, 0.5), rgba(112, 145, 230, 0.2)) border-box;
+        }
+      }
+    }
 
 /* Dark mode readability for all inputs */
 .register-container {
