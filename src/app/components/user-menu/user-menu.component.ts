@@ -42,9 +42,18 @@ export class UserMenuComponent {
   get styleLeft() {
     return this.left;
   }
+  
+  @HostBinding('class.right-aligned')
+  get isRightAligned() {
+    return !this.centered;
+  }
 
   onLogout() {
     this.logout.emit();
+    this.closeMenu.emit();
+  }
+  
+  onCloseMenu() {
     this.closeMenu.emit();
   }
 }

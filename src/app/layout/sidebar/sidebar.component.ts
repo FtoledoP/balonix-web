@@ -35,8 +35,15 @@ export class SidebarComponent implements OnInit {
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
-    if (this.isUserMenuOpen && !this.elementRef.nativeElement.querySelector('.user-profile').contains(event.target)) {
-      this.isUserMenuOpen = false;
+    // Verificar si el clic fue fuera del menú de usuario y del perfil de usuario
+    if (this.isUserMenuOpen) {
+      const userProfileElement = this.elementRef.nativeElement.querySelector('.user-profile');
+      const userMenuElement = this.elementRef.nativeElement.querySelector('app-user-menu');
+      
+      // Si el clic no fue dentro del perfil ni dentro del menú, cerramos el menú
+      if (!(userProfileElement?.contains(event.target) || userMenuElement?.contains(event.target))) {
+        this.isUserMenuOpen = false;
+      }
     }
   }
 
@@ -61,9 +68,20 @@ export class SidebarComponent implements OnInit {
       const target = event?.currentTarget as HTMLElement;
       if (target) {
         const rect = target.getBoundingClientRect();
-        // Position centered above the element
-        this.userMenuTop = rect.top - 140; // Adjusted for menu height + offset
-        this.userMenuLeft = rect.left + rect.width / 2;
+        const isSidebarOpen = this.sidebarService.currentValue;
+        
+        // Calcular posición antes de mostrar el menú
+        if (isSidebarOpen) {
+          // Con sidebar abierto, posicionar encima del perfil
+          this.userMenuTop = rect.top - 200; // Aumentar el margen para que se vea completo
+          this.userMenuLeft = rect.left + rect.width / 2;
+        } else {
+          // Con sidebar cerrado, posicionar a la derecha del perfil
+          this.userMenuTop = rect.top - 100; // Ajustar más arriba para que se vean todas las opciones
+          this.userMenuLeft = rect.right + 10; // 10px de margen
+        }
+        
+        // Establecer la posición y mostrar el menú inmediatamente
         this.isUserMenuOpen = true;
       }
     }
