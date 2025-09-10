@@ -209,24 +209,39 @@
         linear-gradient(0deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)) padding-box,
         linear-gradient(135deg, rgba(112, 145, 230, 0.35), rgba(112, 145, 230, 0)) border-box;
       backdrop-filter: blur(6px);
-      border-radius: 10px;
+      border-radius: 12px;
       transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.12s ease, background 0.2s ease;
       outline: none;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 0 0 rgba(0, 0, 0, 0);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 2px 4px rgba(0, 0, 0, 0.15);
+      font-size: 15px;
+      letter-spacing: 0.3px;
+      height: 50px;
     }
 
     input:hover {
-      border-color: rgba(255, 255, 255, 0.22);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 4px 8px rgba(0, 0, 0, 0.2);
+      background: linear-gradient(0deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06)) padding-box,
+                linear-gradient(135deg, rgba(112, 145, 230, 0.45), rgba(112, 145, 230, 0.1)) border-box;
     }
 
     input:focus {
       border-color: transparent;
       box-shadow: 0 0 0 3px rgba(112, 145, 230, 0.35), 0 8px 20px rgba(0, 0, 0, 0.25);
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      background: linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)) padding-box,
+                linear-gradient(135deg, rgba(112, 145, 230, 0.5), rgba(112, 145, 230, 0.2)) border-box;
     }
 
     input::placeholder {
-      color: rgba(255, 255, 255, 0.45);
+      color: rgba(255, 255, 255, 0.5);
+      font-style: italic;
+      font-size: 14px;
+      transition: opacity 0.2s ease;
+    }
+    
+    input:focus::placeholder {
+      opacity: 0.7;
     }
 
     /* Animated accent underline */
@@ -235,46 +250,67 @@
       position: absolute;
       left: 12px;
       right: 12px;
-      bottom: 6px;
+      bottom: 0;
       height: 2px;
       background: linear-gradient(90deg, var(--gradient-color-start), var(--gradient-color-end));
       transform: scaleX(0);
       transform-origin: left;
-      transition: transform 0.25s ease;
+      transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
       opacity: 0.9;
       pointer-events: none;
+      border-radius: 2px;
     }
 
     &:focus-within::after {
       transform: scaleX(1);
+      box-shadow: 0 0 8px rgba(112, 145, 230, 0.5);
     }
   }
 
-  /* Icons per field */
-  input[type="text"]#name,
-  input[type="text"]#lastName {
+  /* Enhanced icons per field */
+  .input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .input-icon {
+    position: absolute;
+    left: 16px;
+    width: 20px;
+    height: 20px;
+    z-index: 1;
+    transition: transform 0.2s ease;
+  }
+
+  .email-icon {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%237091E6"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  .password-icon {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%237091E6"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  .input-with-icon input {
+    padding-left: 50px;
+    letter-spacing: 0.05em;
+  }
+
+  .input-with-icon:focus-within .input-icon {
+    transform: scale(1.1);
+  }
+
+  .user-icon {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%237091E6"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zm0 2c-4.418 0-8 2.239-8 5v1h16v-1c0-2.761-3.582-5-8-5z"/></svg>');
     background-repeat: no-repeat;
-    background-position: 12px center;
-    background-size: 18px;
-    padding-left: 44px;
-  }
-
-  input[type="email"] {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%237091E6"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: 12px center;
-    background-size: 18px;
-    padding-left: 44px;
-  }
-
-  input[type="password"] {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%237091E6"><path d="M17 8h-1V6a4 4 0 10-8 0v2H7a2 2 0 00-2 2v8a2 2 0 002 2h10a2 2 0 002-2v-8a2 2 0 00-2-2zm-7-2a2 2 0 114 0v2h-4V6zm7 12H7v-8h10v8z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: 12px center;
-    background-size: 18px;
-    padding-left: 44px;
-    letter-spacing: 0.02em;
+    background-position: center;
+    background-size: contain;
   }
 
   .phone-input-container {
@@ -282,22 +318,62 @@
       linear-gradient(0deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)) padding-box,
       linear-gradient(135deg, rgba(112, 145, 230, 0.35), rgba(112, 145, 230, 0)) border-box;
     border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.12s ease, background 0.2s ease;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 2px 4px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    height: 50px;
+    width: 100%;
 
     .country-code {
       background: transparent;
-      padding-left: 16px;
-      color: var(--input-text-color);
+      padding: 0 12px 0 16px;
+      color: #ffffff;
+      font-size: 15px;
+      letter-spacing: 0.3px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%237091E6"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>');
+      background-repeat: no-repeat;
+      background-position: 0 center;
+      background-size: 16px;
+      min-width: 70px;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      transition: border-color 0.2s ease, background-position 0.2s ease;
     }
 
     input {
-      border: none;
-      box-shadow: none;
+      border: none !important;
+      box-shadow: none !important;
+      background: transparent !important;
+      height: 100%;
+      flex: 1;
+      border-radius: 0 !important;
+      padding-left: 12px;
+      transition: background-position 0.2s ease;
+    }
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 4px 8px rgba(0, 0, 0, 0.2);
+      
+      .country-code {
+        border-right-color: rgba(255, 255, 255, 0.2);
+      }
     }
 
     &:focus-within {
       box-shadow: 0 0 0 3px rgba(112, 145, 230, 0.35), 0 8px 20px rgba(0, 0, 0, 0.25);
+      transform: translateY(-2px);
+      border-color: transparent;
+      
+      .country-code {
+        border-right-color: rgba(255, 255, 255, 0.25);
+        background-position: 2px center;
+      }
     }
   }
 
@@ -320,17 +396,18 @@
     background-color: rgba(0, 0, 0, 0.08);
   }
 
-  .phone-input-container {
-    /* ensure inner input has square corners for a continuous shape */
-    input {
-      border-radius: 0 !important;
-    }
-  }
+  /* Estilos del contenedor de teléfono mejorados arriba */
 }
 
   /* Validation feedback without changing logic */
   input:invalid:focus {
-    box-shadow: 0 0 0 3px rgba(255, 99, 132, 0.35);
+    box-shadow: 0 0 0 3px rgba(255, 99, 132, 0.35), 0 8px 16px rgba(255, 99, 132, 0.15);
+    border-color: rgba(255, 99, 132, 0.5) !important;
+  }
+  
+  input:valid:focus {
+    border-color: rgba(72, 187, 120, 0.5) !important;
+    box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.35), 0 8px 16px rgba(72, 187, 120, 0.15);
   }
 
   /* Autofill look fix */
