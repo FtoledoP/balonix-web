@@ -124,6 +124,19 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  getStepTitle() {
+    switch (this.currentStep) {
+      case 1:
+        return 'Datos Principales';
+      case 2:
+        return 'Logo';
+      case 3:
+        return 'Disponibilidad Semanal';
+      default:
+        return 'Registrar Equipo';
+    }
+  }
+
   async registerTeam() {
     if (!this.selectedFile) {
       console.error('No logo selected');

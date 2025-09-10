@@ -40,21 +40,134 @@
     select,
     textarea {
       width: 100%;
-      padding: 0.75rem;
-      border: 1px solid var(--secondary-color);
-      border-radius: 4px;
+      padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: linear-gradient(0deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)) padding-box,
+        linear-gradient(135deg, rgba(112, 145, 230, 0.35), rgba(112, 145, 230, 0)) border-box;
+      backdrop-filter: blur(6px);
+      border-radius: 12px;
       box-sizing: border-box;
       font-weight: bold;
-      background-color: var(--input-background-color);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.12s ease, background 0.2s ease;
+      outline: none;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 2px 4px rgba(0, 0, 0, 0.15);
+      font-size: 15px;
+      letter-spacing: 0.3px;
+      height: 50px;
+      background-color: rgba(0, 0, 0, 0.08);
       color: var(--input-text-color);
     }
+
+    input:hover,
+    select:hover,
+    textarea:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      background: linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)) padding-box,
+                linear-gradient(135deg, rgba(112, 145, 230, 0.5), rgba(112, 145, 230, 0.2)) border-box;
+      border-color: rgba(72, 187, 120, 0.5);
+      box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.35), 0 8px 16px rgba(72, 187, 120, 0.15);
+    }
+  }
+
+  .input-with-icon {
+    position: relative;
+
+    i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.7);
+      z-index: 1;
+    }
+
+    input, select {
+      padding-left: 40px;
+    }
+    
+    select option {
+      background-color: white;
+      color: black;
+    }
+  }
+
+  .schedule-option {
+    margin-bottom: 2rem;
+  }
+
+  .switch-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .switch-slider {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 34px;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+
+    &:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+  }
+
+  input:checked + .switch-slider {
+    background-image: linear-gradient(to right, var(--gradient-color-start), var(--gradient-color-end));
+  }
+
+  input:checked + .switch-slider:before {
+    transform: translateX(26px);
+  }
+
+  .switch-label {
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .schedule-container {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05));
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  .schedule-subtitle {
+    color: var(--text-color);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    text-align: center;
   }
 
   .days-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
   }
 
   .day-container {
@@ -63,10 +176,146 @@
     align-items: center;
   }
 
+  .day-checkbox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .day-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  .day-checkmark {
+    position: relative;
+    height: 24px;
+    width: 24px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .day-checkbox:hover .day-checkmark {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .day-checkbox input:checked ~ .day-checkmark {
+    background-image: linear-gradient(to right, var(--gradient-color-start), var(--gradient-color-end));
+  }
+
+  .day-checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  .day-checkbox input:checked ~ .day-checkmark:after {
+    display: block;
+  }
+
+  .day-checkbox .day-checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .day-label {
+    color: var(--text-color);
+    font-weight: 500;
+  }
+
   .button-container {
     display: flex;
     justify-content: space-between;
     margin-top: 1.5rem;
+
+    .nav-button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      font-size: 1rem;
+    }
+
+    .back-button {
+      background-color: var(--secondary-background-color);
+      color: var(--text-color);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    .next-button {
+      background-image: linear-gradient(to right, var(--gradient-color-start), var(--gradient-color-end));
+      color: white;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    .register-button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 30px;
+      background-image: linear-gradient(to right, var(--gradient-color-start), var(--gradient-color-end));
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      font-size: 1rem;
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+        transform: translateX(-100%);
+        transition: transform 0.6s ease;
+      }
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+        &::before {
+          transform: translateX(100%);
+        }
+      }
+    }
+
+    button:disabled {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.4);
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
   }
 
   .time-slots-container {
@@ -79,6 +328,50 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+  }
+  
+  .time-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+  }
+
+  .time-select-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .time-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+
+    &:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  .time-label {
+    color: var(--text-color);
+    font-weight: 500;
+    margin-bottom: 0.25rem;
   }
 
   /* From Uiverse.io by gagan-gv */
@@ -141,7 +434,7 @@
     transform: rotate(45deg);
   }
 
-  /* From Uiverse.io by alsaad1060 */
+  /* File upload styles */
   .file-upload-form {
     width: 100%;
     height: fit-content;
@@ -149,48 +442,113 @@
     align-items: center;
     justify-content: center;
   }
+  
+  .file-upload-label {
+    cursor: pointer;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05));
+    padding: 30px 20px;
+    border-radius: 12px;
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    width: 100%;
+  }
+  
+  .file-upload-label:hover {
+    border-color: var(--gradient-color-start);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.1));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
   .file-upload-label input {
     display: none;
   }
-  .file-upload-label svg {
-    height: 50px;
-    fill: var(--text-color);
-    margin-bottom: 20px;
-  }
-  .file-upload-label {
-    cursor: pointer;
-    background-color: var(--secondary-color);
-    padding: 20px 40px;
-    border-radius: 30px;
-    border: 2px dashed var(--text-color);
-    box-shadow: 0px 0px 200px -50px rgba(0, 0, 0, 0.719);
-  }
+  
   .file-upload-design {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 5px;
+    gap: 15px;
   }
+  
+  .upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .upload-icon {
+    font-size: 48px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 15px;
+  }
+  
+  .upload-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .upload-text p {
+    margin: 0;
+    font-size: 16px;
+    color: var(--text-color);
+    font-weight: 500;
+  }
+  
+  .upload-divider {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+  }
+  
+  .upload-divider:before,
+  .upload-divider:after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .upload-divider span {
+    margin: 0 10px;
+    color: var(--text-color);
+    font-size: 14px;
+  }
+  
   .browse-button {
-    background-color: var(--text-color);
-    padding: 5px 15px;
-    border-radius: 10px;
-    color: var(--background-color);
-    transition: all 0.3s;
+    background-image: linear-gradient(to right, var(--gradient-color-start), var(--gradient-color-end));
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
   }
+  
   .browse-button:hover {
-    background-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
 
   .file-upload-label.dragover {
-    border-color: var(--primary-color);
-    background-color: var(--secondary-color);
+    border-color: var(--gradient-color-start);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.1));
   }
 
   .logo-preview {
     max-width: 100%;
-    max-height: 150px;
+    max-height: 200px;
+    border-radius: 8px;
     margin-bottom: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
 }

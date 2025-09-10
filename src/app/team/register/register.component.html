@@ -1,24 +1,35 @@
 <div class="team-register-container">
-  <h2>Registrar Equipo</h2>
+  <h2>{{ getStepTitle() }}</h2>
   <form (ngSubmit)="registerTeam()">
     <div [ngSwitch]="currentStep">
       <!-- Step 1: Team Info -->
       <div *ngSwitchCase="1">
         <div class="form-group">
           <label for="teamName">Nombre del Equipo</label>
-          <input type="text" id="teamName" name="teamName" [(ngModel)]="teamName" required>
+          <div class="input-with-icon">
+            <i class="fas fa-users"></i>
+            <input type="text" id="teamName" name="teamName" [(ngModel)]="teamName" required>
+          </div>
         </div>
         <div class="form-group">
           <label for="region">Región</label>
-          <select id="region" name="region" [(ngModel)]="selectedRegion" (change)="onRegionChange()">
-            <option *ngFor="let region of regions" [ngValue]="region">{{ region.region }}</option>
-          </select>
+          <div class="input-with-icon">
+            <i class="fas fa-map-marker-alt"></i>
+            <select id="region" name="region" [(ngModel)]="selectedRegion" (change)="onRegionChange()">
+              <option value="" disabled selected>Selecciona una región</option>
+              <option *ngFor="let region of regions" [ngValue]="region">{{ region.region }}</option>
+            </select>
+          </div>
         </div>
         <div class="form-group">
           <label for="comuna">Comuna</label>
-          <select id="comuna" name="comuna" [(ngModel)]="selectedComuna" [disabled]="!selectedRegion">
-            <option *ngFor="let comuna of comunas" [ngValue]="comuna">{{ comuna }}</option>
-          </select>
+          <div class="input-with-icon">
+            <i class="fas fa-map-pin"></i>
+            <select id="comuna" name="comuna" [(ngModel)]="selectedComuna" [disabled]="!selectedRegion">
+              <option value="" disabled selected>Selecciona una comuna</option>
+              <option *ngFor="let comuna of comunas" [ngValue]="comuna">{{ comuna }}</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -26,58 +37,71 @@
       <div *ngSwitchCase="2">
         <div class="form-group">
           <label for="logo">Logo del Equipo</label>
-          <form class="file-upload-form" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+          <div class="file-upload-form" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
             <label class="file-upload-label" for="file">
               <div class="file-upload-design">
                 <img [src]="logoPreview" *ngIf="logoPreview" class="logo-preview" />
-                <div *ngIf="!logoPreview">
-                  <svg height="1em" viewBox="0 0 640 512">
-                    <path
-                      d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39V392c0 13.3 10.7 24 24 24s24-10.7 24-24V257.9l39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z"
-                    ></path>
-                  </svg>
-                  <p>Drag and Drop</p>
-                  <p>or</p>
-                  <span class="browse-button">Browse file</span>
+                <div *ngIf="!logoPreview" class="upload-content" (click)="fileInput.click()">
+                  <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                  <div class="upload-text">
+                    <p>Arrastra y suelta tu logo aquí</p>
+                    <div class="upload-divider">
+                      <span>o</span>
+                    </div>
+                    <button type="button" class="browse-button" (click)="$event.stopPropagation(); fileInput.click()">Seleccionar archivo</button>
+                  </div>
                 </div>
               </div>
-              <input type="file" id="file" (change)="onFileSelected($event)" accept="image/*" required/>
+              <input #fileInput type="file" id="file" (change)="onFileSelected($event)" accept="image/*" style="display: none;">
             </label>
-          </form>
+          </div>
         </div>
       </div>
 
-      <!-- Step 3: Availability -->
+      <!-- Step 3: Schedule -->
       <div *ngSwitchCase="3">
-        <div class="form-group">
-          <label class="container">
-            Tengo horario disponible
+        <div class="form-group schedule-option">
+          <label class="switch-container">
             <input type="checkbox" [(ngModel)]="hasSchedule" name="hasSchedule">
-            <div class="checkmark"></div>
+            <span class="switch-slider"></span>
+            <span class="switch-label">Tengo horario disponible</span>
           </label>
         </div>
-        <div *ngIf="hasSchedule">
-          <h3>Horario Disponible</h3>
+        <div *ngIf="hasSchedule" class="schedule-container">
+          <h3 class="schedule-subtitle">Selecciona los días disponibles</h3>
           <div class="days-container">
             <div *ngFor="let day of availableDays" class="day-container">
-              <label class="container">
-                {{ day.substring(0, 3) }}
+              <label class="day-checkbox">
                 <input type="checkbox" [checked]="schedule[day]" (change)="toggleDay(day)">
-                <div class="checkmark"></div>
+                <span class="day-checkmark"></span>
+                <span class="day-label">{{ day.substring(0, 3) }}</span>
               </label>
             </div>
           </div>
           <div class="time-slots-container">
             <div *ngFor="let day of availableDays">
               <div *ngIf="schedule[day]" class="time-slot">
-                <label for="startTime-{{day}}">Desde:</label>
-                <select id="startTime-{{day}}" name="startTime-{{day}}" [(ngModel)]="schedule[day]!.startTime">
-                  <option *ngFor="let time of timeSlots" [ngValue]="time">{{ time }}</option>
-                </select>
-                <label for="endTime-{{day}}">Hasta:</label>
-                <select id="endTime-{{day}}" name="endTime-{{day}}" [(ngModel)]="schedule[day]!.endTime">
-                  <option *ngFor="let time of timeSlots" [ngValue]="time">{{ time }}</option>
-                </select>
+                <div class="time-slot-header">{{ day }}</div>
+                <div class="time-select-container">
+                  <div class="input-with-icon">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                      <div class="time-label">Hora de inicio</div>
+                      <select id="startTime-{{day}}" name="startTime-{{day}}" [(ngModel)]="schedule[day]!.startTime">
+                        <option *ngFor="let time of timeSlots" [ngValue]="time">{{ time }}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="input-with-icon">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                      <div class="time-label">Hora de fin</div>
+                      <select id="endTime-{{day}}" name="endTime-{{day}}" [(ngModel)]="schedule[day]!.endTime">
+                        <option *ngFor="let time of timeSlots" [ngValue]="time">{{ time }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -86,9 +110,9 @@
     </div>
 
     <div class="button-container">
-      <button type="button" (click)="prevStep()" *ngIf="currentStep > 1">Atrás</button>
-      <button type="button" (click)="nextStep()" *ngIf="currentStep < 3">Siguiente</button>
-      <button type="submit" *ngIf="currentStep === 3">Registrar Equipo</button>
+      <button type="button" class="nav-button back-button" (click)="prevStep()" *ngIf="currentStep > 1">Atrás</button>
+      <button type="button" class="nav-button next-button" (click)="nextStep()" *ngIf="currentStep < 3">Siguiente</button>
+      <button type="submit" class="register-button" *ngIf="currentStep === 3">Registrar Equipo</button>
     </div>
   </form>
 </div>
