@@ -60,49 +60,114 @@
 
       <!-- Step 3: Schedule -->
       <div *ngSwitchCase="3">
-        <div class="form-group schedule-option">
-          <label class="switch-container">
-            <input type="checkbox" [(ngModel)]="hasSchedule" name="hasSchedule">
-            <span class="switch-slider"></span>
-            <span class="switch-label">Tengo horario disponible</span>
-          </label>
-        </div>
-        <div *ngIf="hasSchedule" class="schedule-container">
-          <h3 class="schedule-subtitle">Selecciona los días disponibles</h3>
-          <div class="days-container">
-            <div *ngFor="let day of availableDays" class="day-container">
-              <label class="day-checkbox">
-                <input type="checkbox" [checked]="schedule[day]" (change)="toggleDay(day)">
-                <span class="day-checkmark"></span>
-                <span class="day-label">{{ day.substring(0, 3) }}</span>
-              </label>
+        <div class="schedule-container">
+          <!-- Progress Steps -->
+          <div class="progress-steps">
+            <div class="progress-step" [class.active]="currentSubStep === 'days'" (click)="setCurrentSubStep('days')">
+              <div class="step-number">1</div>
+              <div class="step-label">Días</div>
+            </div>
+            <div class="progress-connector"></div>
+            <div class="progress-step" [class.active]="currentSubStep === 'times'" (click)="setCurrentSubStep('times')">
+              <div class="step-number">2</div>
+              <div class="step-label">Horarios</div>
+            </div>
+            <div class="progress-connector"></div>
+            <div class="progress-step" [class.active]="currentSubStep === 'summary'" (click)="setCurrentSubStep('summary')">
+              <div class="step-number">3</div>
+              <div class="step-label">Resumen</div>
             </div>
           </div>
-          <div class="time-slots-container">
-            <div *ngFor="let day of availableDays">
-              <div *ngIf="schedule[day]" class="time-slot">
-                <div class="time-slot-header">{{ day }}</div>
-                <div class="time-select-container">
-                  <div class="input-with-icon">
-                    <i class="fas fa-clock"></i>
-                    <div>
-                      <div class="time-label">Hora de inicio</div>
-                      <select id="startTime-{{day}}" name="startTime-{{day}}" [(ngModel)]="schedule[day]!.startTime">
-                        <option *ngFor="let time of timeSlots" [ngValue]="time">{{ time }}</option>
-                      </select>
-                    </div>
+
+          <!-- Step: Days Selection -->
+          <div *ngIf="currentSubStep === 'days'">
+            <h3 class="schedule-subtitle">Selecciona los días disponibles</h3>
+            <div class="days-container">
+              <div *ngFor="let dayObj of selectedDays" class="day-card" [class.day-selected]="dayObj.timeSlot" (click)="toggleDay(dayObj.day)">
+                <div class="day-content">
+                  <span class="day-name">{{ dayObj.day.substring(0, 1) }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="step-actions">
+              <button type="button" class="next-button" [disabled]="!hasSelectedDays()" (click)="setCurrentSubStep('times')">
+                <span>Continuar</span>
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step: Times Selection -->
+          <div *ngIf="currentSubStep === 'times'">
+            <div class="step-header">
+              <h3 class="schedule-subtitle">Configura tus horarios</h3>
+              <button type="button" class="edit-button" (click)="setCurrentSubStep('days')">
+                Editar días
+              </button>
+            </div>
+            <div class="time-slots-container">
+              <div *ngFor="let dayObj of selectedDays">
+                <div *ngIf="dayObj.timeSlot" class="time-slot">
+                  <div class="time-slot-header">
+                    <span>{{ dayObj.day }}</span>
+                    <button type="button" class="edit-time-button" (click)="toggleDay(dayObj.day)">
+                      <i class="fas fa-times"></i>
+                    </button>
                   </div>
-                  <div class="input-with-icon">
-                    <i class="fas fa-clock"></i>
-                    <div>
-                      <div class="time-label">Hora de fin</div>
-                      <select id="endTime-{{day}}" name="endTime-{{day}}" [(ngModel)]="schedule[day]!.endTime">
-                        <option *ngFor="let time of timeSlots" [ngValue]="time">{{ time }}</option>
-                      </select>
+                  <div class="time-select-container">
+                    <div class="time-select-group">
+                      <label class="time-label">Hora de inicio</label>
+                      <div class="select-wrapper">
+                        <i class="fas fa-clock"></i>
+                        <select id="startTime-{{dayObj.day}}" name="startTime-{{dayObj.day}}" [(ngModel)]="schedule[dayObj.day]!.startTime" (change)="updateSelectedDayTime(dayObj.day)">
+                          <option *ngFor="let time of timeSlots" [ngValue]="time">{{ time }}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="time-select-group">
+                      <label class="time-label">Hora de fin</label>
+                      <div class="select-wrapper">
+                        <i class="fas fa-clock"></i>
+                        <select id="endTime-{{dayObj.day}}" name="endTime-{{dayObj.day}}" [(ngModel)]="schedule[dayObj.day]!.endTime" (change)="updateSelectedDayTime(dayObj.day)">
+                          <option *ngFor="let time of timeSlots" [ngValue]="time">{{ time }}</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="step-actions">
+              <button type="button" class="nav-button back-button" (click)="setCurrentSubStep('days')">Atrás</button>
+              <button type="button" class="next-button" [disabled]="!hasSelectedDaysWithTimes()" (click)="setCurrentSubStep('summary')">
+                <span>Continuar</span>
+                <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step: Summary -->
+          <div *ngIf="currentSubStep === 'summary'">
+            <div class="step-header">
+              <h3 class="schedule-subtitle">Resumen de tu disponibilidad</h3>
+              <button type="button" class="edit-button" (click)="setCurrentSubStep('times')">
+                Editar horarios
+              </button>
+            </div>
+            <div class="summary-container">
+              <div *ngFor="let dayObj of selectedDays">
+                <div *ngIf="dayObj.timeSlot" class="summary-item">
+                  <span class="summary-day">{{ dayObj.day }}</span>
+                  <span class="summary-time">{{ schedule[dayObj.day]!.startTime }} - {{ schedule[dayObj.day]!.endTime }}</span>
+                </div>
+              </div>
+              <div class="no-days-selected" *ngIf="!hasSelectedDaysWithTimes()">
+                <p>No has seleccionado ningún día con horario disponible</p>
+              </div>
+            </div>
+            <div class="summary-actions">
+              <button type="button" class="nav-button back-button" (click)="setCurrentSubStep('times')">Atrás</button>
+              <button type="button" class="nav-button confirm-button" [disabled]="!hasSelectedDaysWithTimes()">Confirmar horarios <i class="fas fa-check"></i></button>
             </div>
           </div>
         </div>
@@ -111,8 +176,11 @@
 
     <div class="button-container">
       <button type="button" class="nav-button back-button" (click)="prevStep()" *ngIf="currentStep > 1">Atrás</button>
-      <button type="button" class="nav-button next-button" (click)="nextStep()" *ngIf="currentStep < 3">Siguiente</button>
-      <button type="submit" class="register-button" *ngIf="currentStep === 3">Registrar Equipo</button>
+      <button type="button" class="next-button" (click)="nextStep()" *ngIf="currentStep < 3">
+        <span>Siguiente</span>
+        <i class="fas fa-arrow-right"></i>
+      </button>
+      <button type="submit" class="next-button" *ngIf="currentStep === 3">Registrar Equipo <i class="fas fa-check-circle"></i></button>
     </div>
   </form>
 </div>

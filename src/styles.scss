@@ -1,4 +1,4 @@
-@import 'ngx-toastr/toastr';
+@use 'ngx-toastr/toastr' as *;
 
 :root {
   --primary-color: #5E5CE6;

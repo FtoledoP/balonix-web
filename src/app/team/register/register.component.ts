@@ -16,6 +16,7 @@ import { Timestamp } from 'firebase/firestore';
 })
 export class RegisterComponent implements OnInit {
   currentStep = 1;
+  currentSubStep = 'days';
   teamName = '';
   regions: any[] = [];
   comunas: string[] = [];
@@ -24,17 +25,20 @@ export class RegisterComponent implements OnInit {
   selectedFile: File | null = null;
   logoPreview: string | ArrayBuffer | null = null;
   
-  hasSchedule = false;
   availableDays = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
   timeSlots: string[] = [];
   schedule: { [key: string]: { startTime: string, endTime: string } | null } = {};
+  selectedDays: { day: string, timeSlot: { start: string, end: string } | null }[] = [];
 
   constructor(private dataService: DataService, private firebaseService: FirebaseService) {}
 
   ngOnInit() {
     this.regions = this.dataService.getRegions();
     this.timeSlots = this.generateTimeSlots();
-    this.availableDays.forEach(day => this.schedule[day] = null);
+    this.availableDays.forEach(day => {
+      this.schedule[day] = null;
+      this.selectedDays.push({ day: day, timeSlot: null });
+    });
   }
 
   onRegionChange() {
@@ -93,8 +97,16 @@ export class RegisterComponent implements OnInit {
   toggleDay(day: string) {
     if (this.schedule[day]) {
       this.schedule[day] = null;
+      const dayIndex = this.selectedDays.findIndex(d => d.day === day);
+      if (dayIndex !== -1) {
+        this.selectedDays[dayIndex].timeSlot = null;
+      }
     } else {
       this.schedule[day] = { startTime: '06:00', endTime: '23:30' };
+      const dayIndex = this.selectedDays.findIndex(d => d.day === day);
+      if (dayIndex !== -1) {
+        this.selectedDays[dayIndex].timeSlot = { start: '06:00', end: '23:30' };
+      }
     }
   }
 
@@ -112,14 +124,53 @@ export class RegisterComponent implements OnInit {
     return slots;
   }
 
+  updateSelectedDayTime(day: string) {
+    if (this.schedule[day]) {
+      const dayIndex = this.selectedDays.findIndex(d => d.day === day);
+      if (dayIndex !== -1) {
+        this.selectedDays[dayIndex].timeSlot = {
+          start: this.schedule[day]!.startTime,
+          end: this.schedule[day]!.endTime
+        };
+      }
+    }
+  }
+
   nextStep() {
     if (this.currentStep < 3) {
       this.currentStep++;
+    } else if (this.currentStep === 3) {
+      if (this.currentSubStep === 'days') {
+        this.setCurrentSubStep('times');
+      } else if (this.currentSubStep === 'times') {
+        this.setCurrentSubStep('summary');
+      }
     }
+  }
+
+  setCurrentSubStep(step: string) {
+    this.currentSubStep = step;
+  }
+  
+  hasSelectedDaysWithTimes(): boolean {
+    return this.selectedDays.some(day => day.timeSlot !== null);
+  }
+  
+  hasSelectedDays(): boolean {
+    return this.availableDays.some(day => this.schedule[day] !== null);
   }
 
   prevStep() {
     if (this.currentStep > 1) {
+      if (this.currentStep === 3) {
+        if (this.currentSubStep === 'times') {
+          this.setCurrentSubStep('days');
+          return;
+        } else if (this.currentSubStep === 'summary') {
+          this.setCurrentSubStep('times');
+          return;
+        }
+      }
       this.currentStep--;
     }
   }
@@ -158,7 +209,7 @@ export class RegisterComponent implements OnInit {
         district: this.selectedComuna,
         captainId: user.uid,
         createdAt: Timestamp.now(),
-        schedule: this.hasSchedule ? this.schedule : null,
+        schedule: this.hasSelectedDaysWithTimes() ? this.schedule : null,
         logoUrl: '' // Dejar vacío por ahora
       });
 
