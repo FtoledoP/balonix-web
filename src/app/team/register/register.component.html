@@ -85,7 +85,7 @@
             <div class="days-container">
               <div *ngFor="let dayObj of selectedDays" class="day-card" [class.day-selected]="dayObj.timeSlot" (click)="toggleDay(dayObj.day)">
                 <div class="day-content">
-                  <span class="day-name">{{ dayObj.day.substring(0, 1) }}</span>
+                  <span class="day-name">{{ dayObj.day.substring(0, 2) }}</span>
                 </div>
               </div>
             </div>
