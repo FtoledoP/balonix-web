@@ -616,6 +616,10 @@
   overflow-y: auto;
   padding-right: 10px;
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
   
   @media (max-width: 768px) {
     max-height: 55vh;
@@ -627,14 +631,15 @@
   }
 
   .time-slot {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
-    width: 100%;
+    width: calc(33.33% - 8px);
+    min-width: 250px;
 
     &:hover {
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
@@ -645,11 +650,11 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-weight: 600;
-      margin-bottom: 16px;
-      color: var(--text-color);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding-bottom: 10px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--primary-color);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 8px;
 
       .edit-time-button {
         background: none;
@@ -670,13 +675,9 @@
 
     .time-select-container {
       display: flex;
-      gap: 16px;
+      gap: 10px;
       flex-wrap: wrap;
       
-      @media (max-width: 768px) {
-        flex-direction: column;
-      }
-
       @media (max-width: 768px) {
         flex-direction: column;
       }
@@ -685,19 +686,19 @@
         flex: 1;
         display: flex;
         flex-direction: column;
-        min-width: 120px;
+        min-width: 100px;
         
         @media (max-width: 768px) {
           width: 100%;
-          margin-bottom: 10px;
+          margin-bottom: 8px;
         }
       }
 
       .time-label {
-        font-size: 0.9rem;
-        margin-bottom: 8px;
-        color: rgba(255, 255, 255, 0.7);
-        font-weight: 500;
+        font-size: 0.85rem;
+        margin-bottom: 6px;
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 600;
       }
 
       .select-wrapper {
