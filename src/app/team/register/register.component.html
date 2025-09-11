@@ -101,12 +101,9 @@
           <div *ngIf="currentSubStep === 'times'">
             <div class="step-header">
               <h3 class="schedule-subtitle">Configura tus horarios</h3>
-              <button type="button" class="edit-button" (click)="setCurrentSubStep('days')">
-                Editar días
-              </button>
             </div>
             <div class="time-slots-container">
-              <div *ngFor="let dayObj of selectedDays">
+              <ng-container *ngFor="let dayObj of selectedDays">
                 <div *ngIf="dayObj.timeSlot" class="time-slot">
                   <div class="time-slot-header">
                     <span>{{ dayObj.day }}</span>
@@ -135,7 +132,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </ng-container>
             </div>
             <div class="step-actions">
               <button type="button" class="nav-button back-button" (click)="setCurrentSubStep('days')">Atrás</button>

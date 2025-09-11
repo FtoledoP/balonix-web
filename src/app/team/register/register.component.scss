@@ -12,31 +12,31 @@
 .team-register-container {
   position: relative;
   z-index: 1;
-  padding: 2rem;
+  padding: 1.5rem;
   background-image: linear-gradient(to bottom, var(--sidebar-gradient-start), var(--sidebar-gradient-end));
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
   text-align: center;
-  width: 100%;
-  max-width: 100%;
+  width: 90%;
+  max-width: 950px;
   margin: 0 auto;
   overflow-y: auto;
   
   @media (max-width: 1200px) {
-    width: 85%;
-    max-width: 85%;
+    width: 92%;
+    max-width: 850px;
   }
   
   @media (max-width: 768px) {
-    width: 90%;
-    max-width: 90%;
-    padding: 1.5rem;
+    width: 95%;
+    max-width: 650px;
+    padding: 1.25rem;
     border-radius: 8px;
   }
   
   @media (max-width: 480px) {
-    width: 95%;
-    max-width: 95%;
+    width: 98%;
+    max-width: 480px;
     padding: 1rem;
     max-height: 80vh;
   }
@@ -611,15 +611,15 @@
   }
 
   .time-slots-container {
-  margin-top: 20px;
-  max-height: 60vh;
+  margin-top: 15px;
+  max-height: 55vh;
   overflow-y: auto;
-  padding-right: 10px;
+  padding-right: 8px;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  justify-content: space-between;
+  gap: 14px;
+  justify-content: center;
   
   @media (max-width: 768px) {
     max-height: 55vh;
@@ -634,12 +634,21 @@
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     padding: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 0;
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
-    width: calc(33.33% - 8px);
-    min-width: 250px;
+    width: calc(30% - 12px);
+    min-width: 200px;
+    color: #000000;
+    
+    body.dark-mode & {
+      color: #FFFFFF;
+    }
+    
+    &:last-child:nth-child(7) {
+      margin-top: 16px;
+    }
 
     &:hover {
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
@@ -653,22 +662,36 @@
       font-weight: 700;
       margin-bottom: 12px;
       color: var(--primary-color);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
       padding-bottom: 8px;
+      
+      body.dark-mode & {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      }
 
       .edit-time-button {
         background: none;
         border: none;
-        color: rgba(255, 255, 255, 0.5);
+        color: rgba(0, 0, 0, 0.5);
         cursor: pointer;
         font-size: 1rem;
         padding: 4px 8px;
         border-radius: 4px;
         transition: all 0.2s ease;
+        display: none; /* Ocultar el botón X */
+
+        body.dark-mode & {
+          color: rgba(255, 255, 255, 0.5);
+        }
 
         &:hover {
-          color: rgba(255, 255, 255, 0.8);
-          background-color: rgba(255, 255, 255, 0.1);
+          color: rgba(0, 0, 0, 0.8);
+          background-color: rgba(0, 0, 0, 0.1);
+          
+          body.dark-mode & {
+            color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(255, 255, 255, 0.1);
+          }
         }
       }
     }
@@ -697,8 +720,12 @@
       .time-label {
         font-size: 0.85rem;
         margin-bottom: 6px;
-        color: rgba(255, 255, 255, 0.8);
+        color: rgba(0, 0, 0, 0.8);
         font-weight: 600;
+        
+        body.dark-mode & {
+          color: rgba(255, 255, 255, 0.8);
+        }
       }
 
       .select-wrapper {
