@@ -343,9 +343,13 @@
 
   .step-actions {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     gap: 20px;
     margin-top: 1.5rem;
+    
+    button:first-child:not(:last-child) {
+      margin-right: auto;
+    }
     .next-button {
       background: linear-gradient(45deg, #6a11cb, #2575fc);
       color: white;
@@ -437,6 +441,10 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 1.5rem;
+    
+    .back-button {
+      margin-right: auto;
+    }
 
     .nav-button {
       padding: 0.75rem 1.5rem;
@@ -834,8 +842,12 @@
   
   .summary-actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     margin-top: 30px;
+    
+    button:first-child:not(:last-child) {
+      margin-right: auto;
+    }
     
     .next-button {
         background: linear-gradient(45deg, #6a11cb, #2575fc);
