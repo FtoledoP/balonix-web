@@ -20,6 +20,7 @@
   --loader-color-dark: #2575FC;
   --loader-stroke-color: #000000;
   --loader-text-color: #121212;
+  --upload-icon-color: #121212;
 }
 
 body {
@@ -48,6 +49,7 @@ body.dark-mode {
   --loader-background-color: #121212;
   --loader-color-light: #FFFFFF;
   --loader-color-dark: #FFFFFF;
+  --upload-icon-color: #FFFFFF;
   --loader-stroke-color: #FFFFFF;
   --loader-text-color: #FFFFFF;
 }
