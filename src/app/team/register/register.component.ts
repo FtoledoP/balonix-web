@@ -160,6 +160,19 @@ export class RegisterComponent implements OnInit {
     return this.availableDays.some(day => this.schedule[day] !== null);
   }
 
+  isFormValid(): boolean {
+    // Verificar que todos los campos requeridos estén completos
+    const step1Valid = this.teamName && this.selectedRegion && this.selectedComuna;
+    const step2Valid = this.selectedFile !== null;
+    const step3Valid = this.hasSelectedDaysWithTimes();
+    
+    // Verificar que estemos en el paso final y en la subpágina de resumen
+    const isOnFinalStep = this.currentStep === 3 && this.currentSubStep === 'summary';
+    
+    // El formulario es válido si todos los campos están completos y estamos en el paso final
+    return step1Valid && step2Valid && step3Valid && isOnFinalStep;
+  }
+
   prevStep() {
     if (this.currentStep > 1) {
       if (this.currentStep === 3) {
@@ -189,8 +202,9 @@ export class RegisterComponent implements OnInit {
   }
 
   async registerTeam() {
-    if (!this.selectedFile) {
-      console.error('No logo selected');
+    // Verificar que todos los campos requeridos estén completos
+    if (!this.isFormValid()) {
+      console.error('Formulario incompleto');
       return;
     }
 
@@ -216,7 +230,12 @@ export class RegisterComponent implements OnInit {
       // Paso 2: Subir la imagen a Storage
       const filePath = `teams/${docRef.id}/${docRef.id}-LOGO`;
       const storageRef = ref(this.firebaseService.storage, filePath);
-      await uploadBytes(storageRef, this.selectedFile);
+      // Verificar que selectedFile no sea nulo antes de usarlo
+      if (this.selectedFile) {
+        await uploadBytes(storageRef, this.selectedFile);
+      } else {
+        throw new Error('No se ha seleccionado ningún archivo');
+      }
 
       // Paso 3: Obtener la URL de descarga
       const logoUrl = await getDownloadURL(storageRef);

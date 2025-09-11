@@ -166,6 +166,9 @@
               <button type="button" class="nav-button back-button" (click)="setCurrentSubStep('times')">Atrás</button>
               <button type="button" class="nav-button confirm-button" [disabled]="!hasSelectedDaysWithTimes()">Confirmar horarios <i class="fas fa-check"></i></button>
             </div>
+            <div class="form-validation-message" *ngIf="currentSubStep === 'summary' && !isFormValid()">
+              <p>Por favor completa todos los campos requeridos para habilitar el botón de registro.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -177,7 +180,7 @@
         <span>Siguiente</span>
         <i class="fas fa-arrow-right"></i>
       </button>
-      <button type="submit" class="next-button" *ngIf="currentStep === 3">Registrar Equipo <i class="fas fa-check-circle"></i></button>
+      <button type="submit" class="next-button" *ngIf="currentStep === 3" [disabled]="!isFormValid()">Registrar Equipo <i class="fas fa-check-circle"></i></button>
     </div>
   </form>
 </div>

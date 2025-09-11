@@ -367,6 +367,7 @@
       border-radius: 30px;
       box-shadow: 0 8px 20px rgba(106, 17, 203, 0.3);
       text-transform: uppercase;
+      max-width: 100%;
       
       &::before {
         content: "";
@@ -378,6 +379,7 @@
         background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
         opacity: 0;
         transition: opacity 0.3s ease;
+        border-radius: 30px;
       }
       
       span {
@@ -396,9 +398,12 @@
         background: linear-gradient(45deg, #5a0cb6, #1a65e6);
         box-shadow: 0 10px 25px rgba(106, 17, 203, 0.4);
         transform: translateY(-3px);
+        color: white;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         
         &::before {
           opacity: 1;
+          border-radius: 30px;
         }
         
         i {
@@ -513,6 +518,8 @@
         background: linear-gradient(45deg, #5a0cb6, #1a65e6);
         box-shadow: 0 10px 25px rgba(106, 17, 203, 0.4);
         transform: translateY(-3px);
+        color: white;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         
         &::before {
           opacity: 1;
@@ -550,18 +557,6 @@
       box-shadow: 0 8px 20px rgba(106, 17, 203, 0.3);
       text-transform: uppercase;
       
-      &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-      
       span {
         position: relative;
         z-index: 2;
@@ -572,6 +567,18 @@
         position: relative;
         z-index: 2;
         transition: transform 0.3s ease;
+      }
+      
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+        opacity: 0;
+        transition: opacity 0.3s ease;
       }
       
       &:hover:not(:disabled) {
@@ -594,10 +601,21 @@
         box-shadow: none;
         cursor: not-allowed;
       }
-        
-      &:hover i {
-        transform: scale(1.2);
+    }
+    
+    .form-validation-message {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background-color: rgba(255, 87, 87, 0.1);
+      border-left: 3px solid #ff5757;
+      border-radius: 4px;
+      
+      p {
+        color: #ff5757;
+        font-size: 0.9rem;
+        margin: 0;
       }
+    }
     }
 
     button:disabled {
@@ -1159,4 +1177,3 @@
     margin-bottom: 1rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
-}

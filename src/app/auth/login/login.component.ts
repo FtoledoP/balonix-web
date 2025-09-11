@@ -4,14 +4,13 @@ import { Router, RouterModule } from '@angular/router';
 import { FirebaseService } from '../../services/firebase.service';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { ToastrService } from 'ngx-toastr';
-import { LoaderComponent } from '../../components/loader/loader.component';
 import { CommonModule } from '@angular/common';
 import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, RouterModule, LoaderComponent, CommonModule],
+  imports: [FormsModule, RouterModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
