@@ -178,7 +178,14 @@
         <span>Siguiente</span>
         <i class="fas fa-arrow-right"></i>
       </button>
-      <button type="submit" class="next-button" *ngIf="currentStep === 3" [disabled]="!isFormValid()">Registrar Equipo <i class="fas fa-check-circle"></i></button>
+      <button type="submit" class="next-button" *ngIf="currentStep === 3" [disabled]="!isFormValid() || isLoading">
+        <ng-container *ngIf="!isLoading">
+          Registrar Equipo <i class="fas fa-check-circle"></i>
+        </ng-container>
+        <ng-container *ngIf="isLoading">
+          <i class="fas fa-spinner fa-spin"></i>
+        </ng-container>
+      </button>
     </div>
   </form>
 </div>

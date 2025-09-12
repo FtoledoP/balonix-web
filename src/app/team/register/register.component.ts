@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DataService } from '../../services/data.service';
@@ -29,6 +29,8 @@ interface DayOrderType {
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent implements OnInit {
+  @Output() teamCreated = new EventEmitter<void>();
+  
   currentStep = 1;
   currentSubStep = 'days';
   teamName = '';
@@ -38,6 +40,7 @@ export class RegisterComponent implements OnInit {
   selectedComuna = '';
   selectedFile: File | null = null;
   logoPreview: string | ArrayBuffer | null = null;
+  isLoading = false;
   
   availableDays = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
   timeSlots: string[] = [];
@@ -261,6 +264,9 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
+    // Activar el estado de carga
+    this.isLoading = true;
+
     let teamDocRef;
     let logoStorageRef;
     let logoUrl = '';
@@ -312,6 +318,11 @@ export class RegisterComponent implements OnInit {
       await batch.commit();
       
       this.toastr.success('Equipo creado exitosamente');
+      
+      // Emitir evento para cerrar el modal
+      this.teamCreated.emit();
+      
+      // Navegar a la página de inicio
       this.router.navigate(['/home']);
 
     } catch (error) {
@@ -328,6 +339,9 @@ export class RegisterComponent implements OnInit {
       } catch (rollbackError) {
         console.error('Error during rollback: ', rollbackError);
       }
+    } finally {
+      // Desactivar el estado de carga independientemente del resultado
+      this.isLoading = false;
     }
   }
 }
