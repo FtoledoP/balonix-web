@@ -1,6 +1,8 @@
 :host {
   display: block;
-  animation: fadeIn 0.3s ease-in-out;
+  &:not(.page-reload) {
+    animation: fadeIn 0.3s ease-in-out;
+  }
 }
 
 .overlay {
