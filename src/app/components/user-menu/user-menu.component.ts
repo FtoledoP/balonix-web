@@ -12,6 +12,7 @@ import { ThemeService } from '../../services/theme.service';
 export class UserMenuComponent {
   @Output() closeMenu = new EventEmitter<void>();
   @Output() logout = new EventEmitter<void>();
+  @Output() createTeam = new EventEmitter<void>();
 
   @Input() top: number = 0;
   @Input() left: number = 0;
@@ -48,12 +49,17 @@ export class UserMenuComponent {
     return !this.centered;
   }
 
-  onLogout() {
-    this.logout.emit();
+  onCreateTeam() {
+    this.createTeam.emit();
     this.closeMenu.emit();
   }
-  
+
   onCloseMenu() {
+    this.closeMenu.emit();
+  }
+
+  onLogout() {
+    this.logout.emit();
     this.closeMenu.emit();
   }
 }
