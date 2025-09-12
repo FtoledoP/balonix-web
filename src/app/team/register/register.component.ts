@@ -7,6 +7,18 @@ import { collection, addDoc, updateDoc, doc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { Timestamp } from 'firebase/firestore';
 
+// Interfaz para el objeto dayOrder
+interface DayOrderType {
+  [key: string]: number;
+  'Lunes': number;
+  'Martes': number;
+  'Miércoles': number;
+  'Jueves': number;
+  'Viernes': number;
+  'Sábado': number;
+  'Domingo': number;
+}
+
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -29,6 +41,17 @@ export class RegisterComponent implements OnInit {
   timeSlots: string[] = [];
   schedule: { [key: string]: { startTime: string, endTime: string } | null } = {};
   selectedDays: { day: string, timeSlot: { start: string, end: string } | null }[] = [];
+  
+  // Orden de los días para ordenar correctamente
+  dayOrder: DayOrderType = {
+    'Lunes': 1,
+    'Martes': 2,
+    'Miércoles': 3,
+    'Jueves': 4,
+    'Viernes': 5,
+    'Sábado': 6,
+    'Domingo': 7
+  };
 
   constructor(private dataService: DataService, private firebaseService: FirebaseService) {}
 
@@ -158,6 +181,18 @@ export class RegisterComponent implements OnInit {
   
   hasSelectedDays(): boolean {
     return this.availableDays.some(day => this.schedule[day] !== null);
+  }
+  
+  // Método para obtener los días seleccionados ordenados de lunes a domingo
+  getOrderedSelectedDays(): { day: string, timeSlot: { start: string, end: string } | null }[] {
+    return [...this.selectedDays]
+      .filter(dayObj => dayObj.timeSlot !== null)
+      .sort((a, b) => {
+        // Verificar que las claves existen en dayOrder
+        const dayOrderA = this.dayOrder[a.day as keyof DayOrderType] || 0;
+        const dayOrderB = this.dayOrder[b.day as keyof DayOrderType] || 0;
+        return dayOrderA - dayOrderB;
+      });
   }
 
   isFormValid(): boolean {
