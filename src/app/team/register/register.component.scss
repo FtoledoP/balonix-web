@@ -21,6 +21,18 @@
   margin: 0 auto;
   overflow-y: auto;
   
+  .step-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  
+  h2 {
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    color: var(--text-color);
+  }
+}
+
   @media (max-width: 1200px) {
     width: 92%;
     max-width: 850px;
@@ -195,7 +207,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 30px;
     flex-wrap: wrap;
     
     @media (max-width: 480px) {
@@ -209,13 +221,14 @@
     align-items: center;
     position: relative;
     cursor: pointer;
+    z-index: 1;
 
     .step-number {
-      width: 24px;
-      height: 24px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.1);
-      color: var(--text-color);
+      background-color: #e0e0e0;
+      color: #333;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -223,10 +236,15 @@
       font-size: 0.9rem;
       margin-bottom: 8px;
       transition: all 0.3s ease;
+      
+      body.dark-mode & {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: white;
+      }
     }
 
     .step-label {
-      font-size: 0.8rem;
+      font-size: 14px;
       color: var(--text-color);
       font-weight: 500;
       transition: all 0.3s ease;
@@ -246,16 +264,20 @@
   }
 
   .progress-connector {
-    width: 40px;
+    width: 50px;
     height: 2px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: #e0e0e0;
     margin: 0 10px;
+    margin-bottom: 30px;
+    
+    body.dark-mode & {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
     
     @media (max-width: 480px) {
-      width: 20px;
+      width: 30px;
       margin: 0 5px;
     }
-    margin-bottom: 25px;
   }
 
   .schedule-subtitle {
@@ -265,6 +287,17 @@
     font-weight: 600;
     text-align: center;
   }
+  
+  .schedule-description {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  text-align: center;
+  margin-bottom: 1rem;
+  opacity: 0.8;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
   .days-container {
     display: flex;
@@ -813,7 +846,17 @@
 }
 
 .summary-container {
-  margin-top: 20px;
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 8px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
   
   .summary-header {
     display: flex;
@@ -850,6 +893,36 @@
     margin-top: 15px;
   }
   
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    margin-bottom: 0;
+    
+    body.dark-mode & {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+    
+    .summary-day {
+      font-weight: 500;
+      color: var(--text-color);
+      font-size: 0.9rem;
+    }
+    
+    .summary-time {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+  }
+  
   .day-summary-item {
     display: flex;
     justify-content: space-between;
@@ -883,11 +956,46 @@
   
   .summary-actions {
     display: flex;
-    justify-content: flex-end;
-    margin-top: 30px;
+    justify-content: space-between;
+    margin-top: 15px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
     
     button:first-child:not(:last-child) {
       margin-right: auto;
+    }
+    
+    .confirm-button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 250px;
+      margin: 0 auto;
+      
+      &:hover:not(:disabled) {
+        background-color: darken(#5E5CE6, 10%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      
+      i {
+        margin-left: 8px;
+      }
     }
     
     .next-button {

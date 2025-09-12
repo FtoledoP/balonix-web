@@ -151,6 +151,7 @@
                 Editar horarios
               </button>
             </div>
+            <p class="schedule-description">Selecciona los días de la semana y los horarios en los que estás disponible para participar en el equipo</p>
             <div class="summary-container">
               <div *ngFor="let dayObj of selectedDays">
                 <div *ngIf="dayObj.timeSlot" class="summary-item">
@@ -164,7 +165,7 @@
             </div>
             <div class="summary-actions">
               <button type="button" class="nav-button back-button" (click)="setCurrentSubStep('times')">Atrás</button>
-              <button type="button" class="nav-button confirm-button" [disabled]="!hasSelectedDaysWithTimes()">Confirmar horarios <i class="fas fa-check"></i></button>
+              <button type="button" class="confirm-button" [disabled]="!hasSelectedDaysWithTimes()">Guardar Disponibilidad</button>
             </div>
             <div class="form-validation-message" *ngIf="currentSubStep === 'summary' && !isFormValid()">
               <p>Por favor completa todos los campos requeridos para habilitar el botón de registro.</p>
