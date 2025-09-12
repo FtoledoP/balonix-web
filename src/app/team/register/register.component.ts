@@ -3,9 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DataService } from '../../services/data.service';
 import { FirebaseService } from '../../services/firebase.service';
-import { collection, addDoc, updateDoc, doc } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { collection, addDoc, updateDoc, doc, deleteDoc, runTransaction, writeBatch } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { Timestamp } from 'firebase/firestore';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 // Interfaz para el objeto dayOrder
 interface DayOrderType {
@@ -53,7 +55,12 @@ export class RegisterComponent implements OnInit {
     'Domingo': 7
   };
 
-  constructor(private dataService: DataService, private firebaseService: FirebaseService) {}
+  constructor(
+    private dataService: DataService, 
+    private firebaseService: FirebaseService,
+    private toastr: ToastrService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.regions = this.dataService.getRegions();
@@ -239,54 +246,87 @@ export class RegisterComponent implements OnInit {
   async registerTeam() {
     // Verificar que todos los campos requeridos estén completos
     if (!this.isFormValid()) {
-      console.error('Formulario incompleto');
+      this.toastr.warning('Por favor completa todos los campos requeridos');
       return;
     }
 
     const user = this.firebaseService.auth.currentUser;
     if (!user) {
-      console.error('User not logged in');
+      this.toastr.error('Debes iniciar sesión para crear un equipo');
       return;
     }
 
-    let docRef;
+    if (!this.selectedFile) {
+      this.toastr.error('Debes seleccionar un logo para el equipo');
+      return;
+    }
+
+    let teamDocRef;
+    let logoStorageRef;
+    let logoUrl = '';
+    
     try {
+      // Crear un batch para operaciones de Firestore
+      const batch = writeBatch(this.firebaseService.firestore);
+      
       // Paso 1: Crear el documento en Firestore para obtener el ID
-      docRef = await addDoc(collection(this.firebaseService.firestore, 'teams'), {
+      teamDocRef = doc(collection(this.firebaseService.firestore, 'teams'));
+      
+      // Preparar los datos del equipo
+      const teamData = {
         name: this.teamName,
         region: this.selectedRegion.region,
         district: this.selectedComuna,
         captainId: user.uid,
         createdAt: Timestamp.now(),
         schedule: this.hasSelectedDaysWithTimes() ? this.schedule : null,
-        logoUrl: '' // Dejar vacío por ahora
-      });
-
+        logoUrl: '' // Se actualizará después
+      };
+      
+      // Añadir la creación del equipo al batch
+      batch.set(teamDocRef, teamData);
+      
       // Paso 2: Subir la imagen a Storage
-      const filePath = `teams/${docRef.id}/${docRef.id}-LOGO`;
-      const storageRef = ref(this.firebaseService.storage, filePath);
-      // Verificar que selectedFile no sea nulo antes de usarlo
-      if (this.selectedFile) {
-        await uploadBytes(storageRef, this.selectedFile);
-      } else {
-        throw new Error('No se ha seleccionado ningún archivo');
-      }
-
+      const filePath = `teams/${teamDocRef.id}/${teamDocRef.id}-LOGO`;
+      logoStorageRef = ref(this.firebaseService.storage, filePath);
+      
+      // Subir la imagen
+      await uploadBytes(logoStorageRef, this.selectedFile);
+      
       // Paso 3: Obtener la URL de descarga
-      const logoUrl = await getDownloadURL(storageRef);
-
+      logoUrl = await getDownloadURL(logoStorageRef);
+      
       // Paso 4: Actualizar el documento con la URL del logo
-      await updateDoc(doc(this.firebaseService.firestore, 'teams', docRef.id), {
-        logoUrl: logoUrl
+      batch.update(teamDocRef, { logoUrl: logoUrl });
+      
+      // Paso 5: Crear el documento en la colección teamMemberships
+      const membershipRef = doc(collection(this.firebaseService.firestore, 'teamMemberships'));
+      batch.set(membershipRef, {
+        joinedAt: Timestamp.now(),
+        userId: user.uid,
+        teamId: teamDocRef.id,
+        role: 'captain'
       });
+      
+      // Ejecutar todas las operaciones de Firestore como una transacción
+      await batch.commit();
+      
+      this.toastr.success('Equipo creado exitosamente');
+      this.router.navigate(['/home']);
 
-      console.log('Team registered successfully with ID: ', docRef.id);
-
-    } catch (e) {
-      console.error('Error registering team: ', e);
-      // Rollback: si algo falla, eliminar el documento si se creó
-      if (docRef) {
-        // await deleteDoc(doc(this.firebaseService.firestore, 'teams', docRef.id));
+    } catch (error) {
+      this.toastr.error('Error al crear el equipo. Por favor intenta nuevamente.');
+      console.error('Error registering team: ', error);
+      
+      // Rollback: si algo falla, eliminar la imagen si se subió
+      try {
+        if (logoStorageRef) {
+          await deleteObject(logoStorageRef).catch(err => console.error('Error deleting logo:', err));
+        }
+        // No es necesario hacer rollback de las operaciones de Firestore
+        // ya que el batch garantiza que todas las operaciones se ejecutan o ninguna
+      } catch (rollbackError) {
+        console.error('Error during rollback: ', rollbackError);
       }
     }
   }
