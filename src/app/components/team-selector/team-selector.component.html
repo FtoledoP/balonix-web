@@ -2,11 +2,10 @@
   <ng-container *ngIf="data.teams">
     <select 
       *ngIf="data.teams.length > 0; else noTeams" 
-      (change)="onTeamSelectionChange($event)" 
-      [value]="data.profile?.activeTeam || ''"
+      (change)="onTeamSelectionChange($event)"
       class="team-select">
-      <option value="" disabled>Seleccionar equipo...</option>
-      <option *ngFor="let team of data.teams" [value]="team.id">
+      <option value="" [selected]="!data.profile?.activeTeam">Seleccionar equipo...</option>
+      <option *ngFor="let team of data.teams" [value]="team.id" [selected]="team.id === data.profile?.activeTeam">
         {{ team.name }}
       </option>
     </select>

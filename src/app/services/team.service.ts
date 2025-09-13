@@ -1,7 +1,8 @@
 import { Injectable, Injector } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { FirebaseService } from './firebase.service';
 import { collection, doc, getDoc, getDocs, query, updateDoc, where } from 'firebase/firestore';
+import { UserService } from './user.service';
 
 export interface Team {
   id: string;
@@ -21,15 +22,23 @@ export class TeamService {
   activeTeam$ = this.activeTeamSource.asObservable();
 
   private firebaseService?: FirebaseService;
+  private userService?: UserService;
 
   constructor(private injector: Injector) { }
 
-  // Helper to lazily get FirebaseService
+  // Helper to lazily get services
   private getFirebaseService(): FirebaseService {
     if (!this.firebaseService) {
       this.firebaseService = this.injector.get(FirebaseService);
     }
     return this.firebaseService;
+  }
+
+  private getUserService(): UserService {
+    if (!this.userService) {
+      this.userService = this.injector.get(UserService);
+    }
+    return this.userService;
   }
 
   async getTeam(teamId: string, fsInstance?: FirebaseService): Promise<Team | null> {
@@ -47,8 +56,7 @@ export class TeamService {
     }
   }
 
-  async getTeamsForUser(userId: string): Promise<void> {
-    const fs = this.getFirebaseService();
+  private async getTeamsForUser(userId: string, fs: FirebaseService): Promise<Team[]> {
     console.log('Fetching teams for userId:', userId); // DEBUG
     try {
       const membershipQuery = query(collection(fs.firestore, 'teamMemberships'), where('userId', '==', userId));
@@ -58,28 +66,46 @@ export class TeamService {
       console.log('Team IDs found:', teamIds); // DEBUG
       
       if (teamIds.length > 0) {
-        const teamPromises = teamIds.map(id => this.getTeam(id));
-        const teams = (await Promise.all(teamPromises)).filter(team => team !== null) as Team[];
-        this.teamsSource.next(teams);
-      } else {
-        this.teamsSource.next([]);
+        const teamPromises = teamIds.map(id => this.getTeam(id, fs));
+        return (await Promise.all(teamPromises)).filter(team => team !== null) as Team[];
       }
+      return [];
     } catch (error) {
       console.error("Error fetching teams for user:", error);
-      this.teamsSource.next([]);
+      return [];
     }
   }
 
   async updateActiveTeam(userId: string, teamId: string): Promise<void> {
-    console.log('Updating active team for userId:', userId, 'to teamId:', teamId); // DEBUG
     const fs = this.getFirebaseService();
+    const userService = this.getUserService();
     try {
       const userDocRef = doc(fs.firestore, 'users', userId);
       await updateDoc(userDocRef, { activeTeam: teamId });
-      const activeTeam = await this.getTeam(teamId, fs); // Pass the instance here
+      
+      const activeTeam = this.teamsSource.value.find(team => team.id === teamId) || null;
       this.activeTeamSource.next(activeTeam);
+
+      // Update user profile in UserService as well
+      const currentProfile = await firstValueFrom(userService.userProfile$);
+      if (currentProfile) {
+        userService.setUserProfile({ ...currentProfile, activeTeam: teamId });
+      }
     } catch (error) {
       console.error("Error updating active team:", error);
+    }
+  }
+
+  async loadUserTeamsAndSetActive(userId: string, activeTeamId?: string): Promise<void> {
+    const fs = this.getFirebaseService();
+    const teams = await this.getTeamsForUser(userId, fs);
+    this.teamsSource.next(teams);
+
+    if (activeTeamId && teams.length > 0) {
+      const activeTeam = teams.find(team => team.id === activeTeamId);
+      this.activeTeamSource.next(activeTeam || null);
+    } else {
+      this.activeTeamSource.next(null);
     }
   }
 

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TeamService, Team } from '../../services/team.service';
 import { UserService, UserProfile } from '../../services/user.service';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-team-selector',
@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
   templateUrl: './team-selector.component.html',
   styleUrls: ['./team-selector.component.scss']
 })
-export class TeamSelectorComponent implements OnInit {
+export class TeamSelectorComponent {
   teams$: Observable<Team[]>;
   userProfile$: Observable<UserProfile | null>;
   
@@ -23,15 +23,11 @@ export class TeamSelectorComponent implements OnInit {
     this.userProfile$ = this.userService.userProfile$;
   }
 
-  ngOnInit(): void {}
-
-  onTeamSelectionChange(event: Event): void {
+  async onTeamSelectionChange(event: Event): Promise<void> {
     const selectedTeamId = (event.target as HTMLSelectElement).value;
-    this.userProfile$.subscribe(profile => {
-      console.log('User profile:', profile); // DEBUG
-      if (profile) {
-        this.teamService.updateActiveTeam(profile.uid, selectedTeamId);
-      }
-    }).unsubscribe(); // Unsubscribe immediately after getting the profile
+    const profile = await firstValueFrom(this.userProfile$);
+    if (profile) {
+      this.teamService.updateActiveTeam(profile.uid, selectedTeamId);
+    }
   }
 }

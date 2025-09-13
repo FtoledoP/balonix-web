@@ -38,8 +38,8 @@ export class FirebaseService {
           if (userDoc.exists()) {
             const userProfile = { uid: user.uid, ...userDoc.data() } as UserProfile;
             this.userService.setUserProfile(userProfile);
-            // Load teams for the user AFTER setting the profile
-            await this.teamService.getTeamsForUser(user.uid);
+            // Load teams and set active team in one go
+            await this.teamService.loadUserTeamsAndSetActive(userProfile.uid, userProfile.activeTeam);
           }
         } catch (error) {
           console.error("Error during auth state change:", error);
