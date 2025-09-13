@@ -77,8 +77,8 @@ export class SidebarComponent implements OnInit {
           this.userMenuTop = rect.top - 200; // Aumentar el margen para que se vea completo
           this.userMenuLeft = rect.left + rect.width / 2;
         } else {
-          // Con sidebar cerrado, posicionar a la derecha del perfil
-          this.userMenuTop = rect.top - 100; // Ajustar más arriba para que se vean todas las opciones
+          // Con sidebar cerrado, posicionar a la derecha del perfil y más arriba
+          this.userMenuTop = rect.top - 180; // Ajustar mucho más arriba para que se vean todas las opciones
           this.userMenuLeft = rect.right + 10; // 10px de margen
         }
         
