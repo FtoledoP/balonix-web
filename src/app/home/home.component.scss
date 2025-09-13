@@ -4,7 +4,9 @@
   gap: 2.5rem;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .welcome-section {
@@ -44,9 +46,10 @@
 
 .stats-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   margin-top: 1rem;
+  width: 100%;
 }
 
 .stat-card {
@@ -152,8 +155,9 @@
 
 .action-buttons {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
+  width: 100%;
 }
 
 .action-button {
@@ -196,16 +200,94 @@
   }
 }
 
+/* Tablets (pantallas medianas) */
 @media (max-width: 768px) {
+  .home-container {
+    padding: 1rem 1.5rem;
+    gap: 2rem;
+  }
+  
   .stats-cards {
     grid-template-columns: 1fr;
   }
 
   .action-buttons {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
   .welcome-header h1 {
     font-size: 2rem;
+  }
+  
+  .stat-card {
+    padding: 1.2rem;
+  }
+  
+  .quick-actions h2 {
+    text-align: center;
+    
+    &::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+}
+
+/* Móviles (pantallas pequeñas) */
+@media (max-width: 480px) {
+  .home-container {
+    padding: 0.8rem;
+    gap: 1.5rem;
+  }
+  
+  .welcome-section {
+    gap: 1.5rem;
+  }
+  
+  .welcome-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .welcome-header .welcome-subtitle {
+    font-size: 1rem;
+  }
+  
+  .stats-cards {
+    gap: 1rem;
+  }
+  
+  .stat-card {
+    padding: 1rem;
+  }
+  
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .stat-content h3 {
+    font-size: 1.1rem;
+  }
+  
+  .stat-content p {
+    font-size: 0.9rem;
+  }
+  
+  .action-buttons {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+  
+  .action-button {
+    padding: 1rem;
+  }
+  
+  .action-button svg {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .action-button span {
+    font-size: 0.95rem;
   }
 }
