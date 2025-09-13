@@ -23,9 +23,9 @@ export class TeamSelectorComponent {
     this.userProfile$ = this.userService.userProfile$;
   }
 
-  async onTeamSelectionChange(event: Event): Promise<void> {
+  onTeamSelectionChange(event: Event): void {
     const selectedTeamId = (event.target as HTMLSelectElement).value;
-    const profile = await firstValueFrom(this.userProfile$);
+    const profile = this.userService.userProfileSource.getValue();
     if (profile) {
       this.teamService.updateActiveTeam(profile.uid, selectedTeamId);
     }

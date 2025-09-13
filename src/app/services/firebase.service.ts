@@ -36,7 +36,13 @@ export class FirebaseService {
         try {
           const userDoc = await getDoc(doc(this.firestore, 'users', user.uid));
           if (userDoc.exists()) {
-            const userProfile = { uid: user.uid, ...userDoc.data() } as UserProfile;
+            let userProfile = { uid: user.uid, ...userDoc.data() } as UserProfile;
+            
+            // Check for a pending team update that might not have been saved yet
+            if (this.teamService.pendingTeamId) {
+              userProfile.activeTeam = this.teamService.pendingTeamId;
+            }
+
             this.userService.setUserProfile(userProfile);
             // Load teams and set active team in one go
             await this.teamService.loadUserTeamsAndSetActive(userProfile.uid, userProfile.activeTeam);

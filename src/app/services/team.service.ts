@@ -21,6 +21,7 @@ export class TeamService {
   private activeTeamSource = new BehaviorSubject<Team | null>(null);
   activeTeam$ = this.activeTeamSource.asObservable();
 
+  public pendingTeamId: string | null = null;
   private firebaseService?: FirebaseService;
   private userService?: UserService;
 
@@ -76,24 +77,41 @@ export class TeamService {
     }
   }
 
-  async updateActiveTeam(userId: string, teamId: string): Promise<void> {
-    const fs = this.getFirebaseService();
+  updateActiveTeam(userId: string, teamId: string): void {
     const userService = this.getUserService();
-    try {
-      const userDocRef = doc(fs.firestore, 'users', userId);
-      await updateDoc(userDocRef, { activeTeam: teamId });
-      
-      const activeTeam = this.teamsSource.value.find(team => team.id === teamId) || null;
-      this.activeTeamSource.next(activeTeam);
+    
+    // Set pending state
+    this.pendingTeamId = teamId;
 
-      // Update user profile in UserService as well
-      const currentProfile = await firstValueFrom(userService.userProfile$);
-      if (currentProfile) {
-        userService.setUserProfile({ ...currentProfile, activeTeam: teamId });
-      }
-    } catch (error) {
-      console.error("Error updating active team:", error);
+    // Optimistic UI Update
+    const activeTeam = this.teamsSource.value.find(team => team.id === teamId) || null;
+    this.activeTeamSource.next(activeTeam);
+
+    const currentProfile = userService.userProfileSource.getValue();
+    if (currentProfile) {
+      userService.setUserProfile({ ...currentProfile, activeTeam: teamId });
     }
+
+    // Update Firestore in the background
+    const fs = this.getFirebaseService();
+    const userDocRef = doc(fs.firestore, 'users', userId);
+    const startTime = performance.now();
+    updateDoc(userDocRef, { activeTeam: teamId })
+      .then(() => {
+        const endTime = performance.now();
+        console.log(`Firestore update took ${(endTime - startTime).toFixed(2)} ms.`);
+        // Clear pending state on success
+        if (this.pendingTeamId === teamId) {
+          this.pendingTeamId = null;
+        }
+      })
+      .catch(error => {
+        console.error("Error updating active team in Firestore:", error);
+        // Optional: Revert UI changes and clear pending state here if Firestore update fails
+        if (this.pendingTeamId === teamId) {
+          this.pendingTeamId = null;
+        }
+      });
   }
 
   async loadUserTeamsAndSetActive(userId: string, activeTeamId?: string): Promise<void> {

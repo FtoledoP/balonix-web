@@ -15,7 +15,7 @@ export interface UserProfile {
   providedIn: 'root'
 })
 export class UserService {
-  private userProfileSource = new BehaviorSubject<UserProfile | null>(null);
+  public userProfileSource = new BehaviorSubject<UserProfile | null>(null);
   userProfile$ = this.userProfileSource.asObservable();
 
   setUserProfile(profile: UserProfile | null) {
