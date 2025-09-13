@@ -181,12 +181,7 @@ a {
 app-team-selector {
   margin-bottom: 1rem;
   transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-:host-context(.main-container:not(.sidebar-open)) app-team-selector {
-  opacity: 0;
-  width: 0;
-  display: none;
+  width: 100%;
 }
 
 .spacer {

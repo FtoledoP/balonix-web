@@ -21,6 +21,7 @@
   --loader-stroke-color: #000000;
   --loader-text-color: #121212;
   --upload-icon-color: #121212;
+  --inverse-color: #000000;
 }
 
 body {
@@ -52,4 +53,5 @@ body.dark-mode {
   --upload-icon-color: #FFFFFF;
   --loader-stroke-color: #FFFFFF;
   --loader-text-color: #FFFFFF;
+  --inverse-color: #ffffff;
 }

@@ -9,6 +9,40 @@
   margin: 0 auto;
 }
 
+:host-context(.main-container:not(.sidebar-open)) {
+  .team-selector-container {
+    padding: 0;
+  }
+  
+  .team-selector-label {
+    display: none;
+  }
+  
+  .active-team-display {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    justify-content: center;
+    background: none;
+    border: none;
+    box-shadow: none;
+    margin: 0.5rem auto;
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+  
+  .team-name {
+    display: none;
+  }
+  
+  .team-logo-circle {
+    margin-right: 0;
+  }
+}
+
 .active-team-display {
   display: flex;
   align-items: center;
