@@ -20,7 +20,7 @@
 
 .modal-content {
   background-color: var(--secondary-background-color);
-  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.9));
+  background-image: linear-gradient(to bottom, var(--sidebar-gradient-start), var(--sidebar-gradient-end));
   border-radius: 12px;
   width: 90%;
   max-width: 800px;
@@ -28,13 +28,16 @@
   overflow-y: auto;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.5);
   color: var(--text-color);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: none;
   
   body.dark-mode & {
-    background-color: #1e1e1e;
-    background-image: linear-gradient(135deg, rgba(70, 0, 120, 0.9), rgba(20, 0, 60, 0.9));
+    background-color: var(--secondary-background-color);
+    background-image: linear-gradient(135deg, var(--gradient-color-start), var(--gradient-color-end));
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: none;
+    opacity: 1;
+    color: white;
+    background-blend-mode: normal;
   }
 }
 
@@ -44,16 +47,17 @@
   align-items: center;
   padding: 18px 24px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  background-image: linear-gradient(to right, #f8f8f8, #efefef);
-  color: #333;
+  background-image: linear-gradient(135deg, var(--gradient-color-start), var(--gradient-color-end));
+  color: white;
   border-radius: 12px 12px 0 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   
   body.dark-mode & {
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    background-image: linear-gradient(to right, rgba(70, 0, 120, 0.9), rgba(20, 0, 60, 0.9));
-    color: white;
+    background-image: linear-gradient(to right, var(--gradient-color-start), var(--gradient-color-end));
+    color: var(--text-color);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    opacity: 1;
   }
 }
 
@@ -104,251 +108,88 @@
   justify-content: center;
 }
 
-.team-card-wrapper {
-  margin: 10px;
+/* Estilos para las tarjetas con animación de volteo */
+.flip-card {
+  background-color: transparent;
+  width: 130px;
+  height: 130px;
+  perspective: 1000px;
+  font-family: sans-serif;
+  margin: 8px;
 }
 
-/* Estilos para las tarjetas */
-.card { 
-  overflow: visible; 
-  width: 190px; 
-  height: 120px; /* Altura reducida aún más para que solo quepa el nombre del equipo */
-  cursor: pointer;
-} 
-
-.content { 
-  width: 100%; 
-  height: 100%; 
-  transform-style: preserve-3d; 
-  transition: transform 300ms; 
-  box-shadow: 0px 0px 10px 1px #000000ee; 
-  border-radius: 5px; 
-} 
-
-.front, .back { 
-  background-color: var(--secondary-background-color); 
-  position: absolute; 
-  width: 100%; 
-  height: 100%;
-  backface-visibility: hidden; 
-  -webkit-backface-visibility: hidden; 
-  border-radius: 5px; 
-  overflow: hidden; 
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  
-  body.dark-mode & {
-    background-color: #151515;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  }
-} 
-
-.back { 
-  width: 100%; 
-  height: 100%; 
-  justify-content: center; 
-  display: flex; 
-  align-items: center; 
-  overflow: hidden; 
-} 
-
-.back::before { 
-  position: absolute; 
-  content: ' '; 
-  display: block; 
-  width: 160px; 
-  height: 160%; 
-  background: linear-gradient(90deg, transparent, var(--gradient-color-start), var(--gradient-color-end), var(--gradient-color-end), var(--gradient-color-start), transparent); 
-  animation: rotation_481 5000ms infinite linear; 
-} 
-
-.back-content { 
-  position: absolute; 
-  width: 99%; 
-  height: 99%; 
-  background-color: var(--secondary-background-color); 
-  border-radius: 5px; 
-  color: var(--text-color); 
-  display: flex; 
-  flex-direction: column; 
-  justify-content: center; 
-  align-items: center; 
-  gap: 15px; 
-  padding: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  
-  body.dark-mode & {
-    background-color: #151515;
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-  }
-} 
-
-.back-content strong { 
+.title {
+  font-size: 1.1em;
+  font-weight: 900;
   text-align: center;
-  word-wrap: normal;
-  word-break: normal;
-  hyphens: none;
-  max-width: 100%;
-  display: block;
-  overflow-wrap: break-word;
-  white-space: normal;
-  line-height: 1.2;
-} 
-
-.card:hover .content { 
-  transform: rotateY(180deg); 
-} 
-
-@keyframes rotation_481 { 
-  0% { 
-    transform: rotateZ(0deg); 
-  } 
-
-  100% { 
-    transform: rotateZ(360deg); 
-  } 
-} 
-
-.front { 
-  transform: rotateY(180deg); 
-  color: var(--text-color); 
-  
-  body.dark-mode & {
-    color: white;
-  }
-} 
-
-.front .front-content { 
-  position: absolute; 
-  width: 100%; 
-  height: 100%; 
-  padding: 10px; 
-  display: flex; 
-  flex-direction: column; 
-  justify-content: space-between; 
-} 
-
-.front-content .badge { 
-  padding: 4px 12px; 
-  border-radius: 10px; 
-  backdrop-filter: blur(2px); 
-  width: fit-content; 
-  max-width: 90%;
-  text-align: center;
-  word-wrap: normal;
-  word-break: normal;
-  hyphens: none;
-  overflow-wrap: break-word;
-  white-space: normal;
-  line-height: 1.2;
   margin: 0 auto;
-  background-color: var(--primary-color);
-  color: white;
-  font-weight: 500;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-} 
-
-.description { 
-  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1); 
-  width: 100%; 
-  padding: 10px; 
-  background-color: rgba(var(--gradient-color-start), 0.1); 
-  backdrop-filter: blur(5px); 
-  border-radius: 5px; 
-  
-  body.dark-mode & {
-    box-shadow: 0px 0px 10px 5px #00000088; 
-    background-color: #00000099; 
-  }
-} 
-
-.title { 
-  font-size: 11px; 
-  max-width: 100%; 
-  display: flex; 
-  justify-content: center; 
-} 
-
-.title p { 
-  width: 100%; 
-  text-align: center;
-  word-wrap: normal;
-  word-break: normal;
-  hyphens: none;
+  word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: normal;
+  hyphens: none;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
   line-height: 1.2;
-} 
-
-.card-footer { 
-  color: #ffffff88; 
-  margin-top: 5px; 
-  font-size: 8px; 
-} 
-
-.front .img { 
-  position: absolute; 
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover; 
-  object-position: center; 
-} 
-
-.circle { 
-  width: 90px; 
-  height: 90px; 
-  border-radius: 50%; 
-  background-color: var(--gradient-color-start); 
-  position: relative; 
-  filter: blur(15px); 
-  animation: floating 2600ms infinite linear; 
-} 
-
-#bottom { 
-  background-color: var(--gradient-color-end); 
-  left: 50px; 
-  top: 0px; 
-  width: 150px; 
-  height: 150px; 
-  animation-delay: -800ms; 
-} 
-
-#right { 
-  background-color: var(--primary-color); 
-  left: 160px; 
-  top: -80px; 
-  width: 30px; 
-  height: 30px; 
-  animation-delay: -1800ms; 
-} 
-
-@keyframes floating { 
-  0% { 
-    transform: translateY(0px); 
-  } 
-
-  50% { 
-    transform: translateY(10px); 
-  } 
-
-  100% { 
-    transform: translateY(0px); 
-  } 
 }
 
-/* Estilos específicos para la tarjeta de crear equipo */
-.create-team-card .circle {
-  background-color: var(--primary-color);
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
 }
 
-.create-team-card #bottom {
-  background-color: var(--gradient-color-start);
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
 }
 
-.create-team-card #right {
-  background-color: var(--gradient-color-end);
+.flip-card-front, .flip-card-back {
+  box-shadow: 0 8px 14px 0 rgba(0,0,0,0.2);
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border: 1px solid var(--primary-color);
+  border-radius: 1rem;
 }
 
-.create-team-card .back::before {
-  background: linear-gradient(90deg, transparent, var(--primary-color), var(--gradient-color-start), var(--gradient-color-start), var(--primary-color), transparent);
+.flip-card-front {
+  background: linear-gradient(120deg, var(--secondary-color) 60%, var(--sidebar-gradient-start) 88%,
+     var(--sidebar-gradient-end) 40%, var(--primary-color) 48%);
+  color: var(--text-color);
+}
+
+.flip-card-back {
+  background: linear-gradient(120deg, var(--gradient-color-start) 30%, var(--gradient-color-end) 88%,
+     var(--secondary-color) 40%, var(--primary-color) 78%);
+  color: white;
+  transform: rotateY(180deg);
+}
+
+/* Estilos para la tarjeta de crear equipo */
+.create-team .flip-card-front {
+  background: linear-gradient(120deg, var(--secondary-background-color) 60%, var(--sidebar-gradient-start) 88%,
+     var(--sidebar-gradient-end) 40%, var(--primary-color) 48%);
+  color: var(--text-color);
+}
+
+.create-team .flip-card-back {
+  background: linear-gradient(120deg, var(--gradient-color-start) 30%, var(--gradient-color-end) 88%,
+     var(--secondary-color) 40%, var(--primary-color) 78%);
+  color: white;
+}
+
+/* Adaptaciones para modo oscuro */
+body.dark-mode .flip-card-front,
+body.dark-mode .flip-card-back {
+  box-shadow: 0 8px 14px 0 rgba(0,0,0,0.4);
 }
