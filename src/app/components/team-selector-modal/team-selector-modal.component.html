@@ -13,20 +13,8 @@
             <p class="title">{{team.name}}</p>
           </div>
           <div class="flip-card-back">
-            <p class="title">{{team.name}}</p>
-          </div>
-        </div>
-      </div>
-      
-      
-      <!-- Tarjeta para crear nuevo equipo -->
-      <div class="flip-card create-team" (click)="createTeam()">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <p class="title">NUEVO EQUIPO</p>
-          </div>
-          <div class="flip-card-back">
-            <p class="title">CREAR</p>
+            <img *ngIf="team.logoUrl" [src]="team.logoUrl" alt="{{team.name}} logo" class="team-logo">
+            <p class="title" *ngIf="!team.logoUrl">{{team.name}}</p>
           </div>
         </div>
       </div>

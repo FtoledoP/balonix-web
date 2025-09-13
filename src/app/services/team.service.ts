@@ -9,6 +9,7 @@ export interface Team {
   name: string;
   createdAt: Date;
   createdBy: string;
+  logoUrl?: string;
 }
 
 @Injectable({

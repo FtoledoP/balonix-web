@@ -116,6 +116,7 @@
   perspective: 1000px;
   font-family: sans-serif;
   margin: 8px;
+  cursor: pointer;
 }
 
 .title {
@@ -173,6 +174,15 @@
      var(--secondary-color) 40%, var(--primary-color) 78%);
   color: white;
   transform: rotateY(180deg);
+}
+
+.team-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Estilos para la tarjeta de crear equipo */
