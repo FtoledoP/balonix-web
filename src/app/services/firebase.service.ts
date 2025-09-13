@@ -6,6 +6,7 @@ import { getStorage, FirebaseStorage } from 'firebase/storage';
 import { environment } from '../../environments/environment';
 import { UserService, UserProfile } from './user.service';
 import { LoadingService } from './loading.service';
+import { TeamService } from './team.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class FirebaseService {
 
   constructor(
     private userService: UserService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private teamService: TeamService
   ) {
     this.loadingService.show();
     this.app = initializeApp(environment.firebaseConfig);
@@ -31,13 +33,23 @@ export class FirebaseService {
   private handleAuthStateChange() {
     onAuthStateChanged(this.auth, async (user) => {
       if (user) {
-        const userDoc = await getDoc(doc(this.firestore, 'users', user.uid));
-        if (userDoc.exists()) {
-          this.userService.setUserProfile(userDoc.data() as UserProfile);
+        try {
+          const userDoc = await getDoc(doc(this.firestore, 'users', user.uid));
+          if (userDoc.exists()) {
+            const userProfile = { uid: user.uid, ...userDoc.data() } as UserProfile;
+            this.userService.setUserProfile(userProfile);
+            // Load teams for the user AFTER setting the profile
+            await this.teamService.getTeamsForUser(user.uid);
+          }
+        } catch (error) {
+          console.error("Error during auth state change:", error);
+          this.userService.setUserProfile(null);
+        } finally {
+          this.loadingService.hide();
         }
-        this.loadingService.hide();
       } else {
         this.userService.setUserProfile(null);
+        this.teamService.clearTeams(); // Clear teams on logout
         this.loadingService.hide();
       }
     });

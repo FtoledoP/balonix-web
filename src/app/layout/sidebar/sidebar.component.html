@@ -20,6 +20,8 @@
 
 <div class="spacer"></div>
 
+<app-team-selector></app-team-selector>
+
 <div class="user-profile" *ngIf="userProfile$ | async as profile" (click)="toggleUserMenu($event)" [class.menu-open]="isUserMenuOpen">
   <div class="user-avatar">
     <span>{{ getInitials(profile.name, profile.lastName) }}</span>

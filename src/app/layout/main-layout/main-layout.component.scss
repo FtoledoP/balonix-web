@@ -8,12 +8,19 @@ app-sidebar {
   transition: width 0.3s;
 }
 
+.main-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
 .content {
   flex-grow: 1;
   padding: 2rem;
-  transition: margin-left 0.3s;
   background-color: var(--background-color);
   position: relative;
+  overflow-y: auto;
 }
 
 

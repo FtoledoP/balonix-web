@@ -1,0 +1,17 @@
+<div class="team-selector-container" *ngIf="{ teams: teams$ | async, profile: userProfile$ | async } as data">
+  <ng-container *ngIf="data.teams">
+    <select 
+      *ngIf="data.teams.length > 0; else noTeams" 
+      (change)="onTeamSelectionChange($event)" 
+      [value]="data.profile?.activeTeam || ''"
+      class="team-select">
+      <option value="" disabled>Seleccionar equipo...</option>
+      <option *ngFor="let team of data.teams" [value]="team.id">
+        {{ team.name }}
+      </option>
+    </select>
+    <ng-template #noTeams>
+      <p class="no-teams-message">No tienes equipos</p>
+    </ng-template>
+  </ng-container>
+</div>

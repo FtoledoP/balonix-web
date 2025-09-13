@@ -8,6 +8,7 @@ export interface UserProfile {
   email: string;
   phoneNumber: string;
   createdAt: Date;
+  activeTeam?: string;
 }
 
 @Injectable({
