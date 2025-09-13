@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Team } from '../../services/team.service';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-team-selector-modal',
@@ -18,9 +19,23 @@ export class TeamSelectorModalComponent {
   @Output() closeModal = new EventEmitter<void>();
   @Output() createTeamRequest = new EventEmitter<void>();
   
+  isLoading = false;
+  
   selectTeam(team: Team): void {
+    // No hacer nada si ya está cargando
+    if (this.isLoading) return;
+    
+    // Mostrar overlay de carga
+    this.isLoading = true;
+    
+    // Emitir el evento de selección de equipo
     this.teamSelected.emit(team);
-    this.close();
+    
+    // Simular un tiempo de carga (puedes ajustar esto según tus necesidades)
+    timer(1500).subscribe(() => {
+      this.isLoading = false;
+      this.close();
+    });
   }
   
   close(): void {
