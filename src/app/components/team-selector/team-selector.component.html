@@ -1,16 +1,31 @@
-<div class="team-selector-container" *ngIf="{ teams: teams$ | async, profile: userProfile$ | async } as data">
+<div class="team-selector-container" *ngIf="{ teams: teams$ | async, profile: userProfile$ | async, activeTeam: activeTeam$ | async } as data">
+  <div class="team-selector-label">Equipo Activo</div>
   <ng-container *ngIf="data.teams">
-    <select 
-      *ngIf="data.teams.length > 0; else noTeams" 
-      (change)="onTeamSelectionChange($event)"
-      class="team-select">
-      <option value="" [selected]="!data.profile?.activeTeam">Seleccionar equipo...</option>
-      <option *ngFor="let team of data.teams" [value]="team.id" [selected]="team.id === data.profile?.activeTeam">
-        {{ team.name }}
-      </option>
-    </select>
+    <div class="active-team-display" *ngIf="data.teams.length > 0 && data.activeTeam; else noTeams" (click)="openTeamSelector()">
+      <div class="team-logo-circle">
+        <!-- Usamos las iniciales del equipo como logo provisional -->
+        <span>{{ getTeamInitials(data.activeTeam.name) }}</span>
+      </div>
+      <div class="team-name">
+        {{ data.activeTeam.name }}
+      </div>
+    </div>
+    
     <ng-template #noTeams>
-      <p class="no-teams-message">No tienes equipos</p>
+      <div class="no-teams-container">
+        <p class="no-teams-message">No tienes equipos</p>
+        <button class="create-team-btn" (click)="createTeam()">Crear equipo</button>
+      </div>
     </ng-template>
   </ng-container>
+  
+  <!-- Modal de selección de equipos -->
+  <app-team-selector-modal 
+    [teams]="data.teams || []" 
+    [activeTeam]="data.activeTeam" 
+    [isVisible]="showModal"
+    (teamSelected)="selectTeam($event)"
+    (closeModal)="closeModal()"
+    (createTeamRequest)="createTeam()">
+  </app-team-selector-modal>
 </div>

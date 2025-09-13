@@ -1,0 +1,70 @@
+<div class="modal-overlay" *ngIf="isVisible" (click)="close()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Seleccionar Equipo</h2>
+      <button class="close-button" (click)="close()">×</button>
+    </div>
+    
+    <div class="teams-container">
+      <!-- Tarjeta para cada equipo -->
+      <div class="team-card-wrapper" *ngFor="let team of teams">
+        <div class="card" (click)="selectTeam(team)">
+          <div class="content">
+            <div class="back">
+              <div class="back-content">
+                <strong>{{ team.name }}</strong>
+              </div>
+            </div>
+            <div class="front">
+              <div class="img">
+                <div class="circle"></div>
+                <div class="circle" id="right"></div>
+                <div class="circle" id="bottom"></div>
+              </div>
+              <div class="front-content">
+                <small class="badge">{{ team.name }}</small>
+                <div class="description">
+                  <div class="title">
+                    <p class="title">
+                      <strong>{{ team.name }}</strong>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Tarjeta para crear nuevo equipo -->
+      <div class="team-card-wrapper">
+        <div class="card create-team-card" (click)="createTeam()">
+          <div class="content">
+            <div class="back">
+              <div class="back-content">
+                <strong>Crear Equipo</strong>
+              </div>
+            </div>
+            <div class="front">
+              <div class="img">
+                <div class="circle"></div>
+                <div class="circle" id="right"></div>
+                <div class="circle" id="bottom"></div>
+              </div>
+              <div class="front-content">
+                <small class="badge">Nuevo</small>
+                <div class="description">
+                  <div class="title">
+                    <p class="title">
+                      <strong>Crear Equipo</strong>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
