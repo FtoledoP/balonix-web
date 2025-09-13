@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { FirebaseService } from './firebase.service';
-import { collection, doc, getDoc, getDocs, query, updateDoc, where } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, query, updateDoc, where, onSnapshot } from 'firebase/firestore';
 import { UserService } from './user.service';
 
 export interface Team {
@@ -126,10 +126,62 @@ export class TeamService {
     } else {
       this.activeTeamSource.next(null);
     }
+    
+    // Configurar la escucha de cambios en las membresías del equipo
+    this.setupTeamMembershipsListener(userId, fs);
   }
 
+  // Escuchar cambios en las membresías del equipo
+  private teamMembershipsUnsubscribe: (() => void) | null = null;
+  
+  private setupTeamMembershipsListener(userId: string, fs: FirebaseService): void {
+    // Limpiar cualquier suscripción anterior
+    if (this.teamMembershipsUnsubscribe) {
+      this.teamMembershipsUnsubscribe();
+      this.teamMembershipsUnsubscribe = null;
+    }
+    
+    // Configurar la escucha de cambios en las membresías
+    const membershipQuery = query(collection(fs.firestore, 'teamMemberships'), where('userId', '==', userId));
+    
+    this.teamMembershipsUnsubscribe = onSnapshot(membershipQuery, async (snapshot) => {
+      // Si hay cambios en las membresías, recargar los equipos
+      if (!snapshot.empty) {
+        const teamIds = snapshot.docs.map(doc => doc.data()['teamId']);
+        const teamPromises = teamIds.map(id => this.getTeam(id, fs));
+        const teams = (await Promise.all(teamPromises)).filter(team => team !== null) as Team[];
+        
+        // Actualizar la lista de equipos
+        this.teamsSource.next(teams);
+        
+        // Mantener el equipo activo si existe, o seleccionar el primero si no hay activo
+        const currentActiveTeam = this.activeTeamSource.getValue();
+        if (currentActiveTeam) {
+          const stillExists = teams.some(team => team.id === currentActiveTeam.id);
+          if (!stillExists && teams.length > 0) {
+            this.activeTeamSource.next(teams[0]);
+          }
+        } else if (teams.length > 0) {
+          this.activeTeamSource.next(teams[0]);
+        }
+      } else {
+        // Si no hay membresías, limpiar los equipos
+        this.teamsSource.next([]);
+        this.activeTeamSource.next(null);
+      }
+    }, (error) => {
+      console.error('Error listening to team memberships:', error);
+    });
+  }
+  
   clearTeams(): void {
     this.teamsSource.next([]);
     this.activeTeamSource.next(null);
+    
+    // Limpiar la suscripción a cambios en membresías
+    if (this.teamMembershipsUnsubscribe) {
+      this.teamMembershipsUnsubscribe();
+      this.teamMembershipsUnsubscribe = null;
+    }
   }
 }
