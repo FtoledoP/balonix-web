@@ -47,7 +47,7 @@ export class TeamSelectorModalComponent {
     this.close();
   }
   
-  getTeamInitials(teamName: string): string {
+  getTeamInitials(teamName: string | undefined): string {
     if (!teamName) return '';
     
     // Dividir el nombre por espacios y tomar la primera letra de cada palabra

@@ -108,94 +108,156 @@
   justify-content: center;
 }
 
-/* Estilos para las tarjetas con animación de volteo */
-.flip-card {
-  background-color: transparent;
-  width: 130px;
-  height: 130px;
-  perspective: 1000px;
-  font-family: sans-serif;
-  margin: 8px;
-  cursor: pointer;
+/* Estilos para la cuadrícula de equipos */
+.team-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 20px;
+  max-height: 500px;
+  overflow-y: auto;
+  padding: 15px;
+  justify-items: center;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  width: 100%;
+  
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
 }
 
-.title {
-  font-size: 1.1em;
-  font-weight: 900;
-  text-align: center;
-  margin: 0 auto;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  white-space: normal;
-  hyphens: none;
-  width: 90%;
+@media (min-width: 768px) {
+  .team-cards {
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .team-cards {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+
+.card {
+  width: 190px;
+  background-image: linear-gradient(135deg, var(--gradient-color-start-2), var(--gradient-color-end-2));
+  padding: .4em;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  body.dark-mode & {
+    background: linear-gradient(145deg, #2d3748, #1a202c);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    
+    &:hover {
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    }
+  }
+}
+
+.card-image {
+  background-color: var(--form-background-color);
+  width: 100%;
+  height: 130px;
+  border-radius: 6px 6px 0 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 40px;
-  line-height: 1.2;
-}
-
-.flip-card-inner {
+  overflow: hidden;
+  transition: transform 0.3s ease;
   position: relative;
+  
+  &:hover {
+    transform: scale(0.98);
+  }
+  
+  body.dark-mode & {
+    background-color: var(--input-background-color);
+  }
+}
+
+.logo-container {
   width: 100%;
   height: 100%;
-  text-align: center;
-  transition: transform 0.3s;
-  transform-style: preserve-3d;
-}
-
-.flip-card:hover .flip-card-inner {
-  transform: rotateY(180deg);
-}
-
-.flip-card-front, .flip-card-back {
-  box-shadow: 0 8px 14px 0 rgba(0,0,0,0.2);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 6px 6px 0 0;
   position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  border: 1px solid var(--primary-color);
-  border-radius: 1rem;
+  top: 0;
+  left: 0;
 }
 
-.flip-card-front {
-  background: linear-gradient(120deg, var(--secondary-color) 60%, var(--sidebar-gradient-start) 88%,
-     var(--sidebar-gradient-end) 40%, var(--primary-color) 48%);
-  color: var(--text-color);
-}
-
-.flip-card-back {
-  background: linear-gradient(120deg, var(--gradient-color-start) 30%, var(--gradient-color-end) 88%,
-     var(--secondary-color) 40%, var(--primary-color) 78%);
+.team-initials {
+  font-size: 2.5rem;
+  font-weight: bold;
   color: white;
-  transform: rotateY(180deg);
+  opacity: 0.7;
 }
 
-.team-logo {
-  width: 100px;
-  height: 100px;
+.heading {
+  font-weight: 600;
+  color: var(--text-color);
+  padding: 7px;
+  font-size: 1rem;
+  line-height: 1.3;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  word-wrap: break-word;
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: none;
+  white-space: normal;
+  
+  &:hover {
+    cursor: pointer;
+  }
+  
+  body.dark-mode & {
+    color: var(--text-color);
+  }
+}
+
+.team-logo-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-image: linear-gradient(135deg, var(--gradient-color-start), var(--gradient-color-end));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+/* Estilo para logos en otros contextos */
+.team-logo-small {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  margin: 0 auto;
+  margin-right: 16px;
+  flex-shrink: 0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* Estilos para la tarjeta de crear equipo */
-.create-team .flip-card-front {
-  background: linear-gradient(120deg, var(--secondary-background-color) 60%, var(--sidebar-gradient-start) 88%,
-     var(--sidebar-gradient-end) 40%, var(--primary-color) 48%);
+.team-name {
+  font-size: 16px;
+  font-weight: 500;
   color: var(--text-color);
-}
-
-.create-team .flip-card-back {
-  background: linear-gradient(120deg, var(--gradient-color-start) 30%, var(--gradient-color-end) 88%,
-     var(--secondary-color) 40%, var(--primary-color) 78%);
-  color: white;
+  flex-grow: 1;
 }
 
 /* Adaptaciones para modo oscuro */

@@ -6,16 +6,16 @@
     </div>
     
     <div class="teams-container">
-      <!-- Tarjetas con animación de volteo para cada equipo -->
-      <div class="flip-card" *ngFor="let team of teams" (click)="selectTeam(team)">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <p class="title">{{team.name}}</p>
+      <!-- Tarjetas de equipos -->
+      <div class="team-cards">
+        <div class="card" *ngFor="let team of teams" (click)="selectTeam(team)">
+          <div class="card-image">
+            <!-- Mostrar logo si existe, o iniciales si no hay logo -->
+            <div *ngIf="team?.logoUrl" class="logo-container" [style.background-image]="'url(' + team?.logoUrl + ')'">
+            </div>
+            <div *ngIf="!team?.logoUrl" class="team-initials">{{getTeamInitials(team?.name)}}</div>
           </div>
-          <div class="flip-card-back">
-            <img *ngIf="team.logoUrl" [src]="team.logoUrl" alt="{{team.name}} logo" class="team-logo">
-            <p class="title" *ngIf="!team.logoUrl">{{team.name}}</p>
-          </div>
+          <div class="heading">{{team?.name}}</div>
         </div>
       </div>
     </div>

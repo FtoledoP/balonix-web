@@ -22,6 +22,8 @@
   --loader-text-color: #121212;
   --upload-icon-color: #121212;
   --inverse-color: #000000;
+  --gradient-color-start-2: #b27fe7;
+  --gradient-color-end-2: #8ab5ec;
 }
 
 body {
@@ -54,4 +56,6 @@ body.dark-mode {
   --loader-stroke-color: #FFFFFF;
   --loader-text-color: #FFFFFF;
   --inverse-color: #ffffff;
+  --gradient-color-start-2: #342447;
+  --gradient-color-end-2: #1d2e44;
 }
