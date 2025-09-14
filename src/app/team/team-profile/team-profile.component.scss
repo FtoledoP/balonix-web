@@ -1,39 +1,61 @@
+@use 'sass:color';
+
 .team-profile-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 24px;
+  background-color: var(--secondary-background-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 .team-header {
   display: flex;
   align-items: center;
   margin-bottom: 30px;
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  background-image: linear-gradient(to right, var(--gradient-color-start-2), var(--gradient-color-end-2));
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  color: white;
 }
 
 .team-avatar {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #6c5ce7;
+  background-color: var(--primary-color);
   color: white;
-  font-size: 24px;
+  font-size: 32px;
   font-weight: bold;
   border-radius: 50%;
-  margin-right: 20px;
+  margin-right: 25px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border: 3px solid rgba(255, 255, 255, 0.7);
+  transition: transform 0.3s ease;
+}
+
+.team-avatar:hover {
+  transform: scale(1.05);
 }
 
 .team-logo {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 20px;
+  margin-right: 25px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border: 3px solid rgba(255, 255, 255, 0.7);
+  transition: transform 0.3s ease;
+}
+
+.team-logo:hover {
+  transform: scale(1.05);
 }
 
 .team-info {
@@ -41,63 +63,225 @@
 }
 
 .team-name {
-  font-size: 28px;
-  margin: 0 0 5px 0;
-  color: #333;
+  font-size: 32px;
+  margin: 0 0 8px 0;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-weight: 600;
 }
 
 .team-created {
-  color: #666;
-  margin: 0 0 15px 0;
-  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 20px 0;
+  font-size: 15px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  
+  svg {
+    color: rgba(255, 255, 255, 0.9);
+  }
 }
 
 .edit-team-btn {
-  background-color: #6c5ce7;
+  background-color: rgba(255, 255, 255, 0.2);
   color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 10px 20px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .edit-team-btn:hover {
-  background-color: #5649c0;
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .team-content {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 20px;
+  gap: 24px;
+}
+
+@media (min-width: 576px) {
+  .team-profile-container {
+    padding: 16px;
+  }
+  
+  .team-header {
+    flex-direction: column;
+    text-align: center;
+    padding-bottom: 16px;
+  }
+  
+  .team-avatar, .team-logo {
+    margin-right: 0;
+    margin-bottom: 16px;
+  }
+  
+  .team-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 @media (min-width: 768px) {
+  .team-profile-container {
+    padding: 20px;
+  }
+  
+  .team-header {
+    flex-direction: row;
+    text-align: left;
+  }
+  
+  .team-avatar, .team-logo {
+    margin-right: 20px;
+    margin-bottom: 0;
+  }
+  
+  .team-info {
+    align-items: flex-start;
+  }
+  
   .team-content {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
+@media (min-width: 992px) {
+  .team-profile-container {
+    padding: 24px;
+  }
+  
+  .team-content {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 .team-section {
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--secondary-background-color);
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(var(--primary-color-rgb), 0.1);
+  height: 100%;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  }
 }
 
 .team-section h2 {
   margin-top: 0;
-  color: #333;
-  font-size: 20px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
-  margin-bottom: 15px;
+  color: var(--text-color);
+  font-size: 22px;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  
+  svg {
+    color: var(--primary-color);
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background-image: linear-gradient(to right, var(--gradient-color-start), var(--gradient-color-end));
+  }
+}
+
+.team-details {
+  p {
+    margin: 8px 0;
+    font-size: 15px;
+    color: var(--text-secondary-color);
+    
+    strong {
+      color: var(--text-color);
+      font-weight: 600;
+    }
+    
+    .team-id {
+      font-family: monospace;
+      background-color: var(--secondary-background-color);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+  }
+}
+
+.coming-soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+  color: var(--text-secondary-color);
+  
+  svg {
+    margin-bottom: 16px;
+    color: var(--text-secondary-color);
+    opacity: 0.7;
+  }
+  
+  p {
+    margin: 0;
+    font-size: 15px;
+  }
 }
 
 .loading-message {
   text-align: center;
-  padding: 40px;
+  padding: 60px;
   font-size: 18px;
-  color: #666;
+  color: var(--text-secondary-color);
+  background-color: var(--secondary-background-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-top: 20px;
+  
+  p {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    &::before {
+      content: '';
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(var(--primary-color-rgb), 0.3);
+      border-radius: 50%;
+      border-top-color: var(--primary-color);
+      animation: spin 1s linear infinite;
+      margin-bottom: 15px;
+    }
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
