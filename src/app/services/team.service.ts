@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { FirebaseService } from './firebase.service';
-import { collection, doc, getDoc, getDocs, query, updateDoc, where, onSnapshot } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, query, updateDoc, where, onSnapshot, Timestamp } from 'firebase/firestore';
 import { UserService } from './user.service';
 
 export interface Team {
@@ -12,6 +12,14 @@ export interface Team {
   createdBy: string;
   logoUrl?: string;
   captainId?: string;
+  region?: string;
+  district?: string;
+  schedule?: {
+    [key: string]: {
+      startTime: string;
+      endTime: string;
+    } | null;
+  };
 }
 
 @Injectable({
@@ -51,7 +59,12 @@ export class TeamService {
       const teamDocRef = doc(fs.firestore, 'teams', teamId);
       const teamDocSnap = await getDoc(teamDocRef);
       if (teamDocSnap.exists()) {
-        return { id: teamDocSnap.id, ...teamDocSnap.data() } as Team;
+        const data = teamDocSnap.data();
+        const createdAt = data['createdAt'];
+        if (createdAt instanceof Timestamp) {
+          data['createdAt'] = createdAt.toDate();
+        }
+        return { id: teamDocSnap.id, ...data } as Team;
       }
       return null;
     } catch (error) {
@@ -206,7 +219,12 @@ export class TeamService {
         getDoc(teamDocRef)
           .then(docSnap => {
             if (docSnap.exists()) {
-              const team = { id: docSnap.id, ...docSnap.data() } as Team;
+              const data = docSnap.data();
+              const createdAt = data['createdAt'];
+              if (createdAt instanceof Timestamp) {
+                data['createdAt'] = createdAt.toDate();
+              }
+              const team = { id: docSnap.id, ...data } as Team;
               observer.next(team);
             } else {
               observer.next(null);

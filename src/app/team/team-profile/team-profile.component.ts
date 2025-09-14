@@ -62,4 +62,14 @@ export class TeamProfileComponent implements OnInit, OnDestroy {
   navigateToEditTeam(teamId: string): void {
     this.router.navigate(['/team-management/edit', teamId]);
   }
+
+  getScheduleDays(schedule: Team['schedule']): string[] {
+    const daysOrder = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+    if (!schedule) {
+      return daysOrder;
+    }
+    
+    const scheduleDays = Object.keys(schedule);
+    return daysOrder.filter(day => scheduleDays.includes(day));
+  }
 }

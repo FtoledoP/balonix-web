@@ -31,6 +31,36 @@
     </div>
   </div>
   
+  <!-- Sección de Horarios del Equipo -->
+  <div class="team-schedule-card" *ngIf="team$ | async as team">
+    <h2 class="schedule-title">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 2V5" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 2V5" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3.5 9.09H20.5" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M21 8.5V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5Z" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M15.6947 13.7H15.7037" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M15.6947 16.7H15.7037" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11.9955 13.7H12.0045" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11.9955 16.7H12.0045" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8.29431 13.7H8.30331" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8.29431 16.7H8.30331" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Horarios del Equipo
+    </h2>
+    <div class="schedule-grid">
+      <div *ngFor="let day of getScheduleDays(team.schedule)" class="day-card" [class.active]="team.schedule && team.schedule[day]">
+        <span class="day-name">{{ day }}</span>
+        <div *ngIf="team.schedule && team.schedule[day]" class="day-time">
+          {{ team.schedule[day]?.startTime }} - {{ team.schedule[day]?.endTime }}
+        </div>
+        <div *ngIf="!team.schedule || !team.schedule[day]" class="day-closed">
+          Sin disponibilidad
+        </div>
+      </div>
+    </div>
+  </div>
+  
   <div class="team-content" *ngIf="team$ | async as team">
     <div class="team-section">
       <h2>
@@ -43,9 +73,10 @@
         Información del Equipo
       </h2>
       <div class="team-details">
-        <!-- Aquí se pueden agregar más detalles del equipo como descripción, ubicación, etc. -->
         <p><strong>ID del Equipo:</strong> <span class="team-id">{{ team.id }}</span></p>
         <p><strong>Capitán:</strong> <span *ngIf="team.captainId">{{ team.captainId }}</span><span *ngIf="!team.captainId">No asignado</span></p>
+        <p *ngIf="team.region"><strong>Región:</strong> <span>{{ team.region }}</span></p>
+        <p *ngIf="team.district"><strong>Comuna:</strong> <span>{{ team.district }}</span></p>
       </div>
     </div>
     
