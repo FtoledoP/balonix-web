@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { TeamService, Team } from '../../services/team.service';
 import { UserService, UserProfile } from '../../services/user.service';
 import { Observable, firstValueFrom, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { TeamSelectorModalComponent } from '../team-selector-modal/team-selector-modal.component';
 
 @Component({
@@ -24,7 +26,8 @@ export class TeamSelectorComponent implements OnInit, OnDestroy {
   
   constructor(
     private teamService: TeamService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {
     this.teams$ = this.teamService.teams$;
     this.userProfile$ = this.userService.userProfile$;
@@ -45,7 +48,12 @@ export class TeamSelectorComponent implements OnInit, OnDestroy {
   }
   
   openTeamSelector(): void {
+    // Siempre mostrar el selector de equipos cuando se hace clic en el equipo activo
     this.showModal = true;
+  }
+
+  navigateToTeamProfile(teamId: string): void {
+    this.router.navigate(['/team-profile', teamId]);
   }
   
   closeModal(): void {
@@ -53,12 +61,13 @@ export class TeamSelectorComponent implements OnInit, OnDestroy {
   }
   
   selectTeam(team: Team): void {
-    // Obtenemos el perfil de usuario actual desde el servicio
-    const userProfile = this.userService.userProfileSource.getValue();
-    if (userProfile) {
-      this.teamService.updateActiveTeam(userProfile.uid, team.id);
-    }
-    this.closeModal();
+    // Obtenemos el perfil de usuario actual desde el observable
+    this.userProfile$.pipe(take(1)).subscribe(userProfile => {
+      if (userProfile) {
+        this.teamService.updateActiveTeam(userProfile.uid, team.id);
+      }
+      this.closeModal();
+    });
   }
   
   getTeamInitials(teamName: string): string {

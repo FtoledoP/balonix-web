@@ -1,5 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
-import { BehaviorSubject, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { FirebaseService } from './firebase.service';
 import { collection, doc, getDoc, getDocs, query, updateDoc, where, onSnapshot } from 'firebase/firestore';
 import { UserService } from './user.service';
@@ -10,6 +11,7 @@ export interface Team {
   createdAt: Date;
   createdBy: string;
   logoUrl?: string;
+  captainId?: string;
 }
 
 @Injectable({
@@ -88,10 +90,12 @@ export class TeamService {
     const activeTeam = this.teamsSource.value.find(team => team.id === teamId) || null;
     this.activeTeamSource.next(activeTeam);
 
-    const currentProfile = userService.userProfileSource.getValue();
-    if (currentProfile) {
-      userService.setUserProfile({ ...currentProfile, activeTeam: teamId });
-    }
+    // Usar el observable para obtener el perfil de usuario
+    userService.userProfile$.pipe(take(1)).subscribe(currentProfile => {
+      if (currentProfile) {
+        userService.setUserProfile({ ...currentProfile, activeTeam: teamId });
+      }
+    });
 
     // Update Firestore in the background
     const fs = this.getFirebaseService();
@@ -183,5 +187,36 @@ export class TeamService {
       this.teamMembershipsUnsubscribe();
       this.teamMembershipsUnsubscribe = null;
     }
+  }
+  
+  // Método para obtener un equipo por su ID (para la página de perfil)
+  getTeamById(teamId: string): Observable<Team | null> {
+    return new Observable<Team | null>(observer => {
+      const fs = this.getFirebaseService();
+      const teamDocRef = doc(fs.firestore, 'teams', teamId);
+      
+      // Primero intentamos obtener el equipo de la lista actual
+      const currentTeams = this.teamsSource.getValue();
+      const teamFromCache = currentTeams.find(team => team.id === teamId);
+      
+      if (teamFromCache) {
+        observer.next(teamFromCache);
+      } else {
+        // Si no está en la lista actual, lo buscamos en Firestore
+        getDoc(teamDocRef)
+          .then(docSnap => {
+            if (docSnap.exists()) {
+              const team = { id: docSnap.id, ...docSnap.data() } as Team;
+              observer.next(team);
+            } else {
+              observer.next(null);
+            }
+          })
+          .catch(error => {
+            console.error('Error fetching team by ID:', error);
+            observer.error(error);
+          });
+      }
+    });
   }
 }

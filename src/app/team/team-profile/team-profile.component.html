@@ -1,0 +1,46 @@
+<div class="team-profile-container">
+  <div class="team-header" *ngIf="team$ | async as team">
+    <div class="team-avatar" *ngIf="!team.logoUrl">
+      {{ team.name | slice:0:2 }}
+    </div>
+    <img *ngIf="team.logoUrl" [src]="team.logoUrl" alt="Logo del equipo" class="team-logo">
+    
+    <div class="team-info">
+      <h1 class="team-name">{{ team.name }}</h1>
+      <p class="team-created">Creado el {{ team.createdAt | date:'dd/MM/yyyy' }}</p>
+      
+      <button 
+        *ngIf="isTeamCaptain$ | async" 
+        class="edit-team-btn" 
+        (click)="navigateToEditTeam(team.id)">
+        Editar Equipo
+      </button>
+    </div>
+  </div>
+  
+  <div class="team-content" *ngIf="team$ | async as team">
+    <div class="team-section">
+      <h2>Información del Equipo</h2>
+      <div class="team-details">
+        <!-- Aquí se pueden agregar más detalles del equipo como descripción, ubicación, etc. -->
+        <p>ID del Equipo: {{ team.id }}</p>
+      </div>
+    </div>
+    
+    <!-- Sección para miembros del equipo (se implementará en el futuro) -->
+    <div class="team-section">
+      <h2>Miembros del Equipo</h2>
+      <p>Próximamente se mostrará la lista de miembros del equipo.</p>
+    </div>
+    
+    <!-- Sección para estadísticas del equipo (se implementará en el futuro) -->
+    <div class="team-section">
+      <h2>Estadísticas</h2>
+      <p>Próximamente se mostrarán las estadísticas del equipo.</p>
+    </div>
+  </div>
+  
+  <div class="loading-message" *ngIf="!(team$ | async)">
+    <p>Cargando información del equipo...</p>
+  </div>
+</div>

@@ -8,6 +8,8 @@ import { UserMenuComponent } from '../../components/user-menu/user-menu.componen
 import { TeamRegisterModalComponent } from '../../components/team-register-modal/team-register-modal.component';
 import { TeamSelectorComponent } from '../../components/team-selector/team-selector.component';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { TeamService, Team } from '../../services/team.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,6 +21,7 @@ import { Observable } from 'rxjs';
 export class SidebarComponent implements OnInit {
   // Component properties
   userProfile$: Observable<UserProfile | null>;
+  activeTeam$: Observable<Team | null>;
   isUserMenuOpen = false;
   userMenuTop = 0;
   userMenuLeft = 0;
@@ -28,10 +31,12 @@ export class SidebarComponent implements OnInit {
     public sidebarService: SidebarService,
     private userService: UserService,
     private firebaseService: FirebaseService,
+    private teamService: TeamService,
     private router: Router,
     private elementRef: ElementRef
   ) {
     this.userProfile$ = this.userService.userProfile$;
+    this.activeTeam$ = this.teamService.activeTeam$;
   }
 
   @HostListener('document:click', ['$event'])
@@ -56,6 +61,18 @@ export class SidebarComponent implements OnInit {
 
   toggleTeamRegisterModal() {
     this.isTeamRegisterModalOpen = !this.isTeamRegisterModalOpen;
+  }
+
+  navigateToTeamProfile() {
+    // Obtener el equipo activo y navegar a su perfil usando el observable
+    this.activeTeam$.pipe(take(1)).subscribe(activeTeam => {
+      if (activeTeam) {
+        this.router.navigate(['/team-profile', activeTeam.id]);
+      } else {
+      // Si no hay equipo activo, navegar a la página de gestión de equipos
+      this.router.navigate(['/team-management']);
+      }
+    });
   }
 
   toggleUserMenu(event?: MouseEvent) {
