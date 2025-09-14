@@ -64,12 +64,14 @@ export class TeamProfileComponent implements OnInit, OnDestroy {
   }
 
   getScheduleDays(schedule: Team['schedule']): string[] {
-    const daysOrder = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
     if (!schedule) {
-      return daysOrder;
+      return [];
     }
+
+    const daysOrder = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
     
-    const scheduleDays = Object.keys(schedule);
-    return daysOrder.filter(day => scheduleDays.includes(day));
+    const availableDays = Object.keys(schedule).filter(day => schedule[day] !== null);
+    
+    return availableDays.sort((a, b) => daysOrder.indexOf(a) - daysOrder.indexOf(b));
   }
 }

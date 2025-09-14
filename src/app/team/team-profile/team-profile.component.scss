@@ -1,26 +1,24 @@
 @use 'sass:color';
 
+:host {
+  display: block;
+  padding: 24px;
+}
+
 .team-profile-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 24px;
-  background-color: var(--secondary-background-color);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
 }
 
 .team-header {
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
-  padding: 25px;
-  background-image: linear-gradient(to right, var(--gradient-color-start-2), var(--gradient-color-end-2));
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  color: white;
+  gap: 24px;
+  margin-bottom: 32px;
+  padding: 24px;
+  background: var(--secondary-background-color);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
 }
 
 .team-avatar {
@@ -31,17 +29,10 @@
   justify-content: center;
   background-color: var(--primary-color);
   color: white;
-  font-size: 32px;
-  font-weight: bold;
+  font-size: 36px;
+  font-weight: 600;
   border-radius: 50%;
-  margin-right: 25px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  border: 3px solid rgba(255, 255, 255, 0.7);
-  transition: transform 0.3s ease;
-}
-
-.team-avatar:hover {
-  transform: scale(1.05);
+  flex-shrink: 0;
 }
 
 .team-logo {
@@ -49,14 +40,7 @@
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 25px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  border: 3px solid rgba(255, 255, 255, 0.7);
-  transition: transform 0.3s ease;
-}
-
-.team-logo:hover {
-  transform: scale(1.05);
+  flex-shrink: 0;
 }
 
 .team-info {
@@ -64,441 +48,155 @@
 }
 
 .team-name {
-  font-size: 32px;
-  margin: 0 0 8px 0;
-  color: white;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 28px;
   font-weight: 600;
+  margin: 0 0 4px 0;
+  color: var(--text-color);
 }
 
 .team-created {
-  color: rgba(255, 255, 255, 0.9);
-  margin: 0 0 20px 0;
-  font-size: 15px;
-  font-weight: 400;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  
-  svg {
-    color: rgba(255, 255, 255, 0.9);
-  }
-}
-
-.edit-team-btn {
-  background-color: rgba(255, 255, 255, 0.2);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  padding: 10px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(5px);
-  font-size: 15px;
+  color: var(--text-color-secondary);
+  margin: 0 0 16px 0;
+  font-size: 14px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.edit-team-btn:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
+.edit-team-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 
-/* Estilos para la tarjeta de horarios */
-.team-schedule-card {
-  background-color: var(--primary-background-color);
-  border-radius: 10px;
-  padding: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  margin-bottom: 24px;
-  
-  .schedule-title {
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--text-color);
-    margin: 0 0 20px 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid var(--primary-color);
-    
-    svg {
-      color: var(--primary-color);
-    }
-  }
-  
-  .schedule-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 16px;
-  }
-  
-  .day-card {
-    background-color: var(--secondary-background-color);
-    border-radius: 8px;
-    padding: 16px;
-    text-align: center;
-    border: 1px solid transparent;
-    transition: all 0.3s ease;
-    
-    .day-name {
-      font-weight: 600;
-      color: var(--text-color-secondary);
-      display: block;
-      margin-bottom: 8px;
-    }
-    
-    .day-time {
-      font-size: 15px;
-      color: var(--text-color);
-      font-weight: 500;
-    }
-    
-    .day-closed {
-      font-size: 14px;
-      color: var(--text-color-secondary);
-      opacity: 0.7;
-    }
-    
-    &.active {
-      border-color: var(--primary-color);
-      background-color: rgba(var(--primary-color-rgb), 0.1);
-      
-      .day-name {
-        color: var(--primary-color);
-      }
-    }
+  &:hover {
+    filter: brightness(1.1);
   }
 }
 
-.team-content {
+.profile-layout {
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
-}
 
-.team-section {
-  background-color: var(--primary-background-color);
-  border-radius: 10px;
-  padding: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  margin-bottom: 20px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  position: relative;
-  overflow: hidden; /* Re-añadido para contener el pseudo-elemento */
-}
-
-.team-section::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(to right, var(--gradient-color-start-2), var(--gradient-color-end-2));
-  border-radius: 0 0 10px 10px;
-}
-
-/* Estilos base para móviles (antes de cualquier media query) */
-@media (max-width: 575px) {
-  .team-profile-container {
-    padding: 12px;
-    margin: 0 8px;
-  }
-  
-  .team-header {
-    flex-direction: column;
-    text-align: center;
-    padding: 16px;
-    margin-bottom: 20px;
-  }
-  
-  .team-avatar, .team-logo {
-    width: 80px;
-    height: 80px;
-    margin-right: 0;
-    margin-bottom: 12px;
-  }
-  
-  .team-name {
-    font-size: 24px;
-  }
-  
-  .team-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .edit-team-btn {
-    padding: 8px 16px;
-    font-size: 14px;
-  }
-  
-  .team-schedule-card {
-    padding: 16px;
-    
-    .schedule-title {
-      font-size: 18px;
-    }
-    
-    .schedule-grid {
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 12px;
-    }
-  }
-  
-  .team-content {
-    gap: 16px;
-  }
-  
-  .team-section {
-    padding: 16px;
-    margin-bottom: 10px;
+  @media (min-width: 992px) {
+    grid-template-columns: 2fr 1fr;
   }
 }
 
-@media (min-width: 576px) and (max-width: 767px) {
-  .team-profile-container {
-    padding: 16px;
-    margin: 0 auto;
-  }
-  
-  .team-header {
-    flex-direction: row;
-    text-align: left;
-    padding: 20px;
-  }
-  
-  .team-avatar, .team-logo {
-    width: 90px;
-    height: 90px;
-    margin-right: 20px;
-    margin-bottom: 0;
-  }
-  
-  .team-info {
-    align-items: flex-start;
-  }
-  
-  .team-content {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  
-  .team-section {
-    padding: 20px;
-  }
+.main-column, .secondary-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-@media (min-width: 768px) {
-  .team-profile-container {
-    padding: 20px;
-  }
-  
-  .team-header {
-    flex-direction: row;
-    text-align: left;
-  }
-  
-  .team-avatar, .team-logo {
-    width: 100px;
-    height: 100px;
-    margin-right: 20px;
-    margin-bottom: 0;
-  }
-  
-  .team-info {
-    align-items: flex-start;
-  }
-  
-  .team-content {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-  }
-}
-
-@media (min-width: 992px) {
-  .team-profile-container {
-    padding: 24px;
-  }
-  
-  .team-content {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.team-section {
+.team-schedule-card, .team-section {
   background-color: var(--secondary-background-color);
-  border-radius: 10px;
-  padding: 25px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid rgba(var(--primary-color-rgb), 0.1);
-  margin-bottom: 20px;
-  position: relative;
-  
-  /* Borde inferior más visible y profesional */
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 6px;
-    background: linear-gradient(to right, transparent, var(--primary-color), transparent);
-    border-radius: 0 0 10px 10px;
-    opacity: 0.4;
-    transition: opacity 0.3s ease;
-  }
-  
-  /* Mejoras para la visualización en pantallas pequeñas */
-  h2 {
-    font-size: 18px;
-    margin-top: 0;
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(var(--primary-color-rgb), 0.1);
-    
-    svg {
-      width: 20px;
-      height: 20px;
-    }
-    
-    @media (max-width: 575px) {
-      font-size: 16px;
-      margin-bottom: 12px;
-      padding-bottom: 8px;
-      
-      svg {
-        width: 18px;
-        height: 18px;
-      }
-    }
-  }
-  
-  .team-details {
-    p {
-      margin: 8px 0;
-      font-size: 15px;
-      display: flex;
-      flex-wrap: wrap;
-      
-      strong {
-        display: inline-block;
-        min-width: 100px;
-      }
-      
-      span {
-        word-break: break-all;
-        overflow-wrap: break-word;
-      }
-      
-      @media (max-width: 575px) {
-        font-size: 14px;
-        margin: 6px 0;
-        flex-direction: column;
-        
-        strong {
-          min-width: auto;
-          margin-bottom: 4px;
-        }
-        
-        span {
-          font-size: 13px;
-          color: var(--text-color-secondary);
-        }
-      }
-    }
-  }
-  
-  .coming-soon {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px 0;
-    
-    p {
-      margin-top: 15px;
-      color: var(--text-color-secondary);
-    }
-    
-    @media (max-width: 575px) {
-      padding: 15px 0;
-      font-size: 14px;
-      
-      svg {
-        width: 35px;
-        height: 35px;
-      }
-      
-      p {
-        margin-top: 10px;
-      }
-    }
-  }
-  
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-    
-    &::after {
-      opacity: 0.8; /* Aumenta la opacidad del borde al pasar el cursor */
-    }
-  }
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid var(--border-color);
 }
 
-.team-section h2 {
-  margin-top: 0;
-  color: var(--text-color);
-  font-size: 22px;
-  border-bottom: 2px solid var(--primary-color);
-  padding-bottom: 12px;
-  margin-bottom: 20px;
+.card-title {
+  font-size: 18px;
   font-weight: 600;
-  position: relative;
+  color: var(--text-color);
+  margin: 0 0 20px 0;
   display: flex;
   align-items: center;
   gap: 10px;
-  
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+
   svg {
     color: var(--primary-color);
   }
-  
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 50px;
-    height: 2px;
-    background-image: linear-gradient(to right, var(--gradient-color-start), var(--gradient-color-end));
+}
+
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 16px;
+}
+
+.day-card {
+  background-color: var(--primary-background-color);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+
+  .day-name {
+    font-weight: 500;
+    color: var(--text-color-secondary);
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
   }
+
+  .day-time {
+    font-size: 15px;
+    color: var(--text-color);
+    font-weight: 500;
+  }
+
+  .day-closed {
+    font-size: 14px;
+    color: var(--text-color-secondary);
+    opacity: 0.7;
+  }
+
+  &.active {
+    border-color: var(--primary-color);
+    background-color: rgba(var(--primary-color-rgb), 0.1);
+    
+    .day-name {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+  }
+}
+
+.no-schedule-message {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-color-secondary);
+  font-style: italic;
 }
 
 .team-details {
   p {
-    margin: 8px 0;
+    margin: 0 0 12px 0;
     font-size: 15px;
-    color: var(--text-secondary-color);
-    
+    color: var(--text-color-secondary);
+    display: flex;
+    justify-content: space-between;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
     strong {
       color: var(--text-color);
-      font-weight: 600;
+      font-weight: 500;
     }
-    
+
+    span {
+      text-align: right;
+    }
+
     .team-id {
       font-family: monospace;
-      background-color: var(--secondary-background-color);
+      background-color: var(--primary-background-color);
       padding: 2px 6px;
       border-radius: 4px;
       font-size: 14px;
@@ -511,16 +209,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
   text-align: center;
-  color: var(--text-secondary-color);
-  
+  padding: 20px 0;
+  color: var(--text-color-secondary);
+
   svg {
     margin-bottom: 16px;
-    color: var(--text-secondary-color);
-    opacity: 0.7;
+    opacity: 0.5;
   }
-  
+
   p {
     margin: 0;
     font-size: 15px;
@@ -531,30 +228,46 @@
   text-align: center;
   padding: 60px;
   font-size: 18px;
-  color: var(--text-secondary-color);
-  background-color: var(--secondary-background-color);
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  margin-top: 20px;
+  color: var(--text-color-secondary);
   
-  p {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
-    &::before {
-      content: '';
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(var(--primary-color-rgb), 0.3);
-      border-radius: 50%;
-      border-top-color: var(--primary-color);
-      animation: spin 1s linear infinite;
-      margin-bottom: 15px;
-    }
+  p::before {
+    content: '';
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(var(--primary-color-rgb), 0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px;
+    display: block;
   }
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+@media (max-width: 767px) {
+  :host {
+    padding: 16px;
+  }
+
+  .team-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .profile-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .team-details p {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+
+    span {
+      text-align: left;
+    }
+  }
 }
