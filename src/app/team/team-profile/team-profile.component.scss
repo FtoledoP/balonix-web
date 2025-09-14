@@ -4,11 +4,12 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 24px;
-  padding-bottom: 34px; /* Añade espacio extra en la parte inferior */
   background-color: var(--secondary-background-color);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .team-header {
@@ -338,10 +339,8 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 1px solid rgba(var(--primary-color-rgb), 0.1);
-  height: 100%;
   margin-bottom: 20px;
   position: relative;
-  padding-bottom: 10px; /* Espacio para el pseudo-elemento */
   
   /* Borde inferior más visible y profesional */
   &::after {
