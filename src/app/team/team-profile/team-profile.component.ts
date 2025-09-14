@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TeamService, Team } from '../../services/team.service';
+import { TeamService, Team, TeamMember } from '../../services/team.service';
 import { UserService, UserProfile } from '../../services/user.service';
-import { Observable, Subscription, of, switchMap, map } from 'rxjs';
+import { Observable, Subscription, of, switchMap, map, tap } from 'rxjs';
 
 @Component({
   selector: 'app-team-profile',
@@ -14,6 +14,7 @@ import { Observable, Subscription, of, switchMap, map } from 'rxjs';
 })
 export class TeamProfileComponent implements OnInit, OnDestroy {
   team$: Observable<Team | null> = of(null);
+  teamMembers$: Observable<TeamMember[]> = of([]);
   userProfile$: Observable<UserProfile | null>;
   isTeamCaptain$: Observable<boolean> = of(false);
   private subscriptions: Subscription[] = [];
@@ -36,6 +37,8 @@ export class TeamProfileComponent implements OnInit, OnDestroy {
           this.router.navigate(['/team-management']);
           return of(null);
         }
+        // Obtener miembros cuando tenemos el teamId
+        this.teamMembers$ = this.teamService.getTeamMembers(teamId);
         return this.teamService.getTeamById(teamId);
       })
     );

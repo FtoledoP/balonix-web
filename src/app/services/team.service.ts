@@ -1,9 +1,20 @@
 import { Injectable, Injector } from '@angular/core';
-import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
+import { switchMap, map, take } from 'rxjs/operators';
 import { FirebaseService } from './firebase.service';
 import { collection, doc, getDoc, getDocs, query, updateDoc, where, onSnapshot, Timestamp } from 'firebase/firestore';
-import { UserService } from './user.service';
+import { UserService, UserProfile } from './user.service';
+
+export interface TeamMembership {
+  userId: string;
+  teamId: string;
+  role: 'captain' | 'member';
+  joinedAt: Timestamp;
+}
+
+export interface TeamMember extends UserProfile {
+  role: 'captain' | 'member';
+}
 
 export interface Team {
   id: string;
@@ -235,6 +246,39 @@ export class TeamService {
             observer.error(error);
           });
       }
+    });
+  }
+
+  getTeamMembers(teamId: string): Observable<TeamMember[]> {
+    const fs = this.getFirebaseService();
+    const userService = this.getUserService();
+    const membersQuery = query(collection(fs.firestore, 'teamMemberships'), where('teamId', '==', teamId));
+
+    return new Observable(observer => {
+      getDocs(membersQuery).then(snapshot => {
+        const memberships = snapshot.docs.map(d => d.data() as TeamMembership);
+        
+        if (memberships.length === 0) {
+          observer.next([]);
+          observer.complete();
+          return;
+        }
+
+        const memberProfiles$ = memberships.map(member => 
+          userService.getUserById(member.userId).pipe(
+            map(userProfile => ({
+              ...userProfile,
+              role: member.role
+            } as TeamMember))
+          )
+        );
+
+        combineLatest(memberProfiles$).subscribe(members => {
+          observer.next(members.filter(m => m.uid)); // Filter out any null profiles
+          observer.complete();
+        });
+
+      }).catch(error => observer.error(error));
     });
   }
 }
