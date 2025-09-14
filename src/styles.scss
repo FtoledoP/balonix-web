@@ -2,6 +2,7 @@
 
 :root {
   --primary-color: #5E5CE6;
+  --primary-color-rgb: 94, 92, 230;
   --secondary-color: #F2F2F7;
   --gradient-color-start: #9d50ee;
   --gradient-color-end: #4a8cff;
@@ -26,16 +27,19 @@
   --gradient-color-end-2: #8ab5ec;
 }
 
-body {
+html, body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
   background-color: var(--background-color);
   color: var(--text-color);
+  height: 100%;
+  overflow: hidden;
 }
 
 body.dark-mode {
   --primary-color: #5E5CE6;
+  --primary-color-rgb: 94, 92, 230;
   --secondary-color: #3A3A3C;
   --gradient-color-start: #8A31EB;
   --gradient-color-end: #4595FC;

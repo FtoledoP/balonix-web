@@ -1,6 +1,7 @@
 .main-container {
   display: flex;
-  height: 100vh;
+  height: 100%;
+  overflow: hidden;
 }
 
 app-sidebar {
@@ -10,10 +11,11 @@ app-sidebar {
 
 .content {
   flex-grow: 1;
-  padding: 2rem;
+  padding: 1rem;
   transition: margin-left 0.3s;
   background-color: var(--background-color);
   position: relative;
+  overflow: hidden;
 }
 
 
