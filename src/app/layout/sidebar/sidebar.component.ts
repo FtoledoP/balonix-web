@@ -10,6 +10,7 @@ import { TeamSelectorComponent } from '../../components/team-selector/team-selec
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { TeamService, Team } from '../../services/team.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sidebar',
@@ -33,7 +34,8 @@ export class SidebarComponent implements OnInit {
     private firebaseService: FirebaseService,
     private teamService: TeamService,
     private router: Router,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private toastr: ToastrService
   ) {
     this.userProfile$ = this.userService.userProfile$;
     this.activeTeam$ = this.teamService.activeTeam$;
@@ -69,8 +71,16 @@ export class SidebarComponent implements OnInit {
       if (activeTeam) {
         this.router.navigate(['/team-profile', activeTeam.id]);
       } else {
-      // Si no hay equipo activo, navegar a la página de gestión de equipos
-      this.router.navigate(['/team-management']);
+        // Verificar si el usuario tiene equipos
+        this.teamService.teams$.pipe(take(1)).subscribe(teams => {
+          if (teams && teams.length > 0) {
+            // Si tiene equipos pero ninguno activo, mostrar mensaje
+            this.toastr.info('Selecciona un equipo activo para continuar');
+          } else {
+            // Si no tiene equipos, mostrar mensaje para crear uno
+            this.toastr.warning('Debes crear un equipo primero');
+          }
+        });
       }
     });
   }
