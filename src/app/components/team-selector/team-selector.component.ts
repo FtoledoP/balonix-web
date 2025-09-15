@@ -65,6 +65,11 @@ export class TeamSelectorComponent implements OnInit, OnDestroy {
     this.userProfile$.pipe(take(1)).subscribe(userProfile => {
       if (userProfile) {
         this.teamService.updateActiveTeam(userProfile.uid, team.id);
+        
+        // Navegar solo si ya estamos en la página de perfil de un equipo
+        if (this.router.url.startsWith('/team-profile/')) {
+          this.router.navigate(['/team-profile', team.id]);
+        }
       }
       this.closeModal();
     });
