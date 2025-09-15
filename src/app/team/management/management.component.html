@@ -1,1 +1,21 @@
-<p>management works!</p>
+<div class="management-container">
+  <div *ngIf="isLoading" class="loading-indicator">
+    <p>Cargando...</p>
+  </div>
+
+  <div *ngIf="!isLoading && errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage" class="team-management-content">
+    <div class="header">
+      <h2>{{ isEditing ? 'Editar Equipo' : 'Gestión de Equipo' }}</h2>
+      <p class="privacy-notice">Esta sección es privada. Solo los capitanes del equipo pueden acceder y editar la información.</p>
+    </div>
+
+    <div class="team-info-placeholder">
+      <p>Área privada para la gestión del equipo. Aquí se mostrarán los datos del equipo para editar.</p>
+      <p *ngIf="teamId">ID del equipo: {{ teamId }}</p>
+    </div>
+  </div>
+</div>
