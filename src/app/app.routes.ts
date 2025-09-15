@@ -7,6 +7,9 @@ import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthLayoutComponent } from './layout/auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
+import { TeamProfileComponent } from './team/team-profile/team-profile.component';
+
+import { TeamCaptainGuard } from './guards/team-captain.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -24,6 +27,8 @@ export const routes: Routes = [
     children: [
       { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
       { path: 'team-management', component: ManagementComponent, canActivate: [AuthGuard] },
+      { path: 'team-management/edit/:id', component: ManagementComponent, canActivate: [AuthGuard, TeamCaptainGuard] },
+      { path: 'team-profile/:id', component: TeamProfileComponent, canActivate: [AuthGuard] },
     ],
   },
 ];

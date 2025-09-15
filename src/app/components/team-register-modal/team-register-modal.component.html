@@ -1,5 +1,5 @@
 <div class="modal-overlay" @fade (click)="onClose()">
   <div class="modal-content" @slide (click)="$event.stopPropagation()">
-    <app-register></app-register>
+    <app-register (teamCreated)="onClose()"></app-register>
   </div>
 </div>

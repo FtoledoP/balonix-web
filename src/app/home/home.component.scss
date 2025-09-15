@@ -1,21 +1,41 @@
+:host {
+  position: relative;
+  display: block;
+  height: 100%;
+  background-color: var(--background-color);
+  overflow: hidden;
+}
+
 .home-container {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
   padding: 1rem;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .welcome-section {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  margin-bottom: 2rem;
 }
 
 .welcome-header {
   text-align: center;
   margin-bottom: 1rem;
+  background-color: rgba(var(--primary-color-rgb), 0.08);
+  padding: 1.5rem;
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  border: 2px solid rgba(var(--primary-color-rgb), 0.2);
 
   h1 {
     font-size: 2.5rem;
@@ -44,15 +64,20 @@
 
 .stats-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   margin-top: 1rem;
+  width: 100%;
 }
 
 .stat-card {
+  background-color: var(--secondary-background-color);
   background-image: linear-gradient(to bottom, var(--sidebar-gradient-start), var(--sidebar-gradient-end));
   border-radius: 12px;
   padding: 1.5rem;
+  border: 2px solid rgba(var(--primary-color-rgb), 0.3);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: flex-start;
   gap: 1rem;
@@ -60,6 +85,8 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 
   &::before {
     content: '';
@@ -101,8 +128,10 @@
     svg {
       width: 100%;
       height: 100%;
-      stroke: white;
       stroke-width: 2px;
+      path {
+        stroke: white;
+      }
     }
   }
 
@@ -150,13 +179,14 @@
 
 .action-buttons {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
+  width: 100%;
 }
 
 .action-button {
   background-color: var(--secondary-background-color);
-  border: none;
+  border: 2px solid rgba(var(--primary-color-rgb), 0.3);
   border-radius: 10px;
   padding: 1.2rem;
   display: flex;
@@ -165,13 +195,16 @@
   gap: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
 
   svg {
     width: 32px;
     height: 32px;
-    stroke: var(--primary-color);
     transition: all 0.3s ease;
+    path {
+      stroke: var(--inverse-color);
+    }
   }
 
   span {
@@ -182,8 +215,10 @@
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+    background-color: rgba(var(--primary-color-rgb), 0.1);
     background-image: linear-gradient(to bottom, var(--sidebar-gradient-start), var(--sidebar-gradient-end));
+    border-color: rgba(var(--primary-color-rgb), 0.5);
 
     svg {
       transform: scale(1.1);
@@ -192,16 +227,94 @@
   }
 }
 
+/* Tablets (pantallas medianas) */
 @media (max-width: 768px) {
+  .home-container {
+    padding: 1rem 1.5rem;
+    gap: 2rem;
+  }
+  
   .stats-cards {
     grid-template-columns: 1fr;
   }
 
   .action-buttons {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
   .welcome-header h1 {
     font-size: 2rem;
+  }
+  
+  .stat-card {
+    padding: 1.2rem;
+  }
+  
+  .quick-actions h2 {
+    text-align: center;
+    
+    &::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+}
+
+/* Móviles (pantallas pequeñas) */
+@media (max-width: 480px) {
+  .home-container {
+    padding: 0.8rem;
+    gap: 1.5rem;
+  }
+  
+  .welcome-section {
+    gap: 1.5rem;
+  }
+  
+  .welcome-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .welcome-header .welcome-subtitle {
+    font-size: 1rem;
+  }
+  
+  .stats-cards {
+    gap: 1rem;
+  }
+  
+  .stat-card {
+    padding: 1rem;
+  }
+  
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .stat-content h3 {
+    font-size: 1.1rem;
+  }
+  
+  .stat-content p {
+    font-size: 0.9rem;
+  }
+  
+  .action-buttons {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+  
+  .action-button {
+    padding: 1rem;
+  }
+  
+  .action-button svg {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .action-button span {
+    font-size: 0.95rem;
   }
 }

@@ -1,0 +1,31 @@
+<div class="modal-overlay" *ngIf="isVisible" (click)="close()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2><strong>Seleccionar Equipo</strong></h2>
+      <button class="close-button" (click)="close()">×</button>
+    </div>
+    
+    <div class="teams-container">
+      <!-- Tarjetas de equipos -->
+      <div class="team-cards">
+        <div class="card" *ngFor="let team of teams" (click)="selectTeam(team)">
+          <div class="card-image">
+            <!-- Mostrar logo si existe, o iniciales si no hay logo -->
+            <div *ngIf="team?.logoUrl" class="logo-container" [style.background-image]="'url(' + team?.logoUrl + ')'">
+            </div>
+            <div *ngIf="!team?.logoUrl" class="team-initials">{{getTeamInitials(team?.name)}}</div>
+          </div>
+          <div class="heading">{{team?.name}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Overlay de carga -->
+<div class="loading-overlay" *ngIf="isLoading">
+  <div class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Cambiando equipo...</p>
+  </div>
+</div>

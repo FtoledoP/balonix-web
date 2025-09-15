@@ -13,4 +13,24 @@ import { CommonModule } from '@angular/common';
 })
 export class MainLayoutComponent {
   constructor(public sidebarService: SidebarService) {}
+  
+  /**
+   * Cierra el sidebar cuando se hace clic en el overlay
+   * Solo es relevante en pantallas pequeñas
+   */
+  closeSidebar(): void {
+    if (this.sidebarService.currentValue) {
+      this.sidebarService.toggle();
+    }
+  }
+
+  /**
+   * Abre el sidebar cuando se hace clic en el botón flotante
+   * Solo es relevante en pantallas pequeñas
+   */
+  openSidebar(): void {
+    if (!this.sidebarService.currentValue) {
+      this.sidebarService.toggle();
+    }
+  }
 }

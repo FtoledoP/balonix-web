@@ -1,0 +1,305 @@
+/* Estilos para el modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(3px);
+  
+  body.dark-mode & {
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+  }
+}
+
+.modal-content {
+  background-color: var(--secondary-background-color);
+  background-image: linear-gradient(to bottom, var(--sidebar-gradient-start), var(--sidebar-gradient-end));
+  border-radius: 12px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  color: var(--text-color);
+  border: none;
+  
+  body.dark-mode & {
+    background-color: var(--secondary-background-color);
+    background-image: linear-gradient(135deg, var(--gradient-color-start), var(--gradient-color-end));
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    border: none;
+    opacity: 1;
+    color: white;
+    background-blend-mode: normal;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background-image: linear-gradient(135deg, var(--gradient-color-start), var(--gradient-color-end));
+  color: white;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  
+  body.dark-mode & {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background-image: linear-gradient(to right, var(--gradient-color-start), var(--gradient-color-end));
+    color: var(--text-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    opacity: 1;
+  }
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: inherit;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  
+  body.dark-mode & {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #555;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  
+  body.dark-mode & {
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.close-button:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  
+  body.dark-mode & {
+    color: white;
+  }
+}
+
+.teams-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+}
+
+/* Estilos para la cuadrícula de equipos */
+.team-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 20px;
+  max-height: 500px;
+  overflow-y: auto;
+  padding: 15px;
+  justify-items: center;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  width: 100%;
+  
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+}
+
+@media (min-width: 768px) {
+  .team-cards {
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .team-cards {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+
+.card {
+  width: 190px;
+  background-image: linear-gradient(135deg, var(--gradient-color-start-2), var(--gradient-color-end-2));
+  padding: .4em;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  body.dark-mode & {
+    background: linear-gradient(145deg, #2d3748, #1a202c);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    
+    &:hover {
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    }
+  }
+}
+
+.card-image {
+  background-color: var(--form-background-color);
+  width: 100%;
+  height: 130px;
+  border-radius: 6px 6px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  position: relative;
+  
+  &:hover {
+    transform: scale(0.98);
+  }
+  
+  body.dark-mode & {
+    background-color: var(--input-background-color);
+  }
+}
+
+.logo-container {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 6px 6px 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.team-initials {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  opacity: 0.7;
+}
+
+.heading {
+  font-weight: 600;
+  color: var(--text-color);
+  padding: 7px;
+  font-size: 1rem;
+  line-height: 1.3;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  word-wrap: break-word;
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: none;
+  white-space: normal;
+  
+  &:hover {
+    cursor: pointer;
+  }
+  
+  body.dark-mode & {
+    color: var(--text-color);
+  }
+}
+
+.team-logo-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-image: linear-gradient(135deg, var(--gradient-color-start), var(--gradient-color-end));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+/* Estilo para logos en otros contextos */
+.team-logo-small {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 16px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.team-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-color);
+  flex-grow: 1;
+}
+
+/* Adaptaciones para modo oscuro */
+body.dark-mode .flip-card-front,
+body.dark-mode .flip-card-back {
+  box-shadow: 0 8px 14px 0 rgba(0,0,0,0.4);
+}
+
+/* Estilos para el overlay de carga */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(5px);
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--primary-color);
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

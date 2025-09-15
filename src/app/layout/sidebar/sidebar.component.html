@@ -13,16 +13,14 @@
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7V21H22V7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
   <span>Dashboard</span>
 </a>
-<a routerLink="/team-management" routerLinkActive="active">
+<a (click)="navigateToTeamProfile()" routerLinkActive="active">
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12ZM12 15C8.13401 15 5 18.134 5 22H19C19 18.134 15.866 15 12 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
   <span>Mi Equipo</span>
 </a>
-<a (click)="toggleTeamRegisterModal()">
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 6V18M6 12H18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-  <span>Crear Equipo</span>
-</a>
 
 <div class="spacer"></div>
+
+<app-team-selector (createTeamRequest)="toggleTeamRegisterModal()"></app-team-selector>
 
 <div class="user-profile" *ngIf="userProfile$ | async as profile" (click)="toggleUserMenu($event)" [class.menu-open]="isUserMenuOpen">
   <div class="user-avatar">
@@ -40,12 +38,12 @@
 </div>
 
 <!-- Menú de usuario separado para evitar problemas de propagación de eventos -->
-<app-user-menu
-  *ngIf="isUserMenuOpen"
-  (logout)="logout()"
-  (closeMenu)="toggleUserMenu()"
-  [top]="userMenuTop"
-  [left]="userMenuLeft"
-  [centered]="sidebarService.currentValue"
+<app-user-menu *ngIf="isUserMenuOpen" 
+    (logout)="logout()"
+    (closeMenu)="isUserMenuOpen = false"
+    (createTeam)="toggleTeamRegisterModal()"
+    [top]="userMenuTop"
+    [left]="userMenuLeft"
+    [centered]="sidebarService.currentValue"
 ></app-user-menu>
 <app-team-register-modal *ngIf="isTeamRegisterModalOpen" (closeModal)="toggleTeamRegisterModal()"></app-team-register-modal>

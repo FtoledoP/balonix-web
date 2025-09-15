@@ -6,18 +6,22 @@ import { UserService, UserProfile } from '../../services/user.service';
 import { FirebaseService } from '../../services/firebase.service';
 import { UserMenuComponent } from '../../components/user-menu/user-menu.component';
 import { TeamRegisterModalComponent } from '../../components/team-register-modal/team-register-modal.component';
+import { TeamSelectorComponent } from '../../components/team-selector/team-selector.component';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { TeamService, Team } from '../../services/team.service';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule, UserMenuComponent, TeamRegisterModalComponent],
+  imports: [CommonModule, RouterModule, UserMenuComponent, TeamRegisterModalComponent, TeamSelectorComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent implements OnInit {
   // Component properties
   userProfile$: Observable<UserProfile | null>;
+  activeTeam$: Observable<Team | null>;
   isUserMenuOpen = false;
   userMenuTop = 0;
   userMenuLeft = 0;
@@ -27,10 +31,12 @@ export class SidebarComponent implements OnInit {
     public sidebarService: SidebarService,
     private userService: UserService,
     private firebaseService: FirebaseService,
+    private teamService: TeamService,
     private router: Router,
     private elementRef: ElementRef
   ) {
     this.userProfile$ = this.userService.userProfile$;
+    this.activeTeam$ = this.teamService.activeTeam$;
   }
 
   @HostListener('document:click', ['$event'])
@@ -57,6 +63,18 @@ export class SidebarComponent implements OnInit {
     this.isTeamRegisterModalOpen = !this.isTeamRegisterModalOpen;
   }
 
+  navigateToTeamProfile() {
+    // Obtener el equipo activo y navegar a su perfil usando el observable
+    this.activeTeam$.pipe(take(1)).subscribe(activeTeam => {
+      if (activeTeam) {
+        this.router.navigate(['/team-profile', activeTeam.id]);
+      } else {
+      // Si no hay equipo activo, navegar a la página de gestión de equipos
+      this.router.navigate(['/team-management']);
+      }
+    });
+  }
+
   toggleUserMenu(event?: MouseEvent) {
     if (event) {
       event.stopPropagation();
@@ -76,8 +94,8 @@ export class SidebarComponent implements OnInit {
           this.userMenuTop = rect.top - 200; // Aumentar el margen para que se vea completo
           this.userMenuLeft = rect.left + rect.width / 2;
         } else {
-          // Con sidebar cerrado, posicionar a la derecha del perfil
-          this.userMenuTop = rect.top - 100; // Ajustar más arriba para que se vean todas las opciones
+          // Con sidebar cerrado, posicionar a la derecha del perfil y más arriba
+          this.userMenuTop = rect.top - 180; // Ajustar mucho más arriba para que se vean todas las opciones
           this.userMenuLeft = rect.right + 10; // 10px de margen
         }
         

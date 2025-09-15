@@ -1,6 +1,16 @@
 <div class="main-container" [class.sidebar-open]="(sidebarService.isOpen$ | async)">
-  <app-sidebar></app-sidebar>
-  <div class="content">
-    <router-outlet></router-outlet>
+  <!-- Overlay para cerrar el sidebar en pantallas pequeñas -->
+  <div class="sidebar-overlay" (click)="closeSidebar()"></div>
+  <!-- Botón flotante para abrir el sidebar cuando está cerrado -->
+  <div class="sidebar-toggle-button" (click)="openSidebar()">
+    <div class="toggle-bar"></div>
+    <div class="toggle-bar"></div>
+    <div class="toggle-bar"></div>
   </div>
+  <app-sidebar></app-sidebar>
+  <main class="main-content">
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
 </div>
