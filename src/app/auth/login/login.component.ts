@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { FirebaseService } from '../../services/firebase.service';
@@ -10,7 +11,7 @@ import { LoadingService } from '../../services/loading.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, RouterModule, CommonModule],
+  imports: [FormsModule, RouterModule, CommonModule, SidebarComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
