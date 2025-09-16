@@ -7,6 +7,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { LoadingService } from '../../services/loading.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-login',
@@ -18,13 +19,20 @@ import { LoadingService } from '../../services/loading.service';
 export class LoginComponent {
   email = '';
   password = '';
-
+  isDarkMode: boolean;
+  toggleTheme() {
+    this.themeService.toggleDarkMode();
+    this.isDarkMode = this.themeService.isDarkMode();
+  }
   constructor(
     private firebaseService: FirebaseService,
     private toastr: ToastrService,
     private router: Router,
-    private loadingService: LoadingService
-  ) {}
+    private loadingService: LoadingService,
+    private themeService: ThemeService
+  ) {
+    this.isDarkMode = this.themeService.isDarkMode();
+  }
 
   async login() {
     if (!this.email || !this.password) {
