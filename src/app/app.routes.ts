@@ -5,6 +5,7 @@ import { RegisterComponent } from './team/register/register.component';
 import { ManagementComponent } from './team/management/management.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './guards/auth.guard';
+import { TeamEditComponent } from './team/team-edit/team-edit.component';
 import { AuthLayoutComponent } from './layout/auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 import { TeamProfileComponent } from './team/team-profile/team-profile.component';
@@ -27,7 +28,7 @@ export const routes: Routes = [
     children: [
       { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
       { path: 'team-management', component: ManagementComponent, canActivate: [AuthGuard] },
-      { path: 'team-management/edit/:id', component: ManagementComponent, canActivate: [AuthGuard, TeamCaptainGuard] },
+      { path: 'team-management/edit/:id', component: TeamEditComponent, canActivate: [AuthGuard, TeamCaptainGuard] },
       { path: 'team-profile/:id', component: TeamProfileComponent, canActivate: [AuthGuard] },
     ],
   },

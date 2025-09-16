@@ -1,0 +1,95 @@
+<div class="edit-team-container">
+  <ng-container *ngIf="!isLoading; else loadingTemplate">
+    <div class="edit-form-card" *ngIf="team">
+      <div class="card-header">
+        <h1>Editar Equipo: <strong>{{ team.name }}</strong></h1>
+        <p>Actualiza la información de tu equipo.</p>
+      </div>
+      
+      <form [formGroup]="editForm" (ngSubmit)="saveChanges()">
+        
+        <!-- Nombre, Región, Comuna -->
+        <div class="form-section">
+          <div class="form-field">
+            <label for="name">Nombre del Equipo</label>
+            <input id="name" type="text" formControlName="name" placeholder="Ej: Los Campeones">
+          </div>
+          
+          <div class="form-field">
+            <label for="region">Región</label>
+            <select id="region" formControlName="region" (change)="onRegionChange($event)">
+              <option [ngValue]="null" disabled>Selecciona una región</option>
+              <option *ngFor="let region of regions" [ngValue]="region">{{ region.region }}</option>
+            </select>
+          </div>
+          
+          <div class="form-field">
+            <label for="district">Comuna</label>
+            <select id="district" formControlName="district">
+              <option value="" disabled>Selecciona una comuna</option>
+              <option *ngFor="let comuna of comunas" [value]="comuna">{{ comuna }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Logo -->
+        <div class="form-section">
+          <h2>Logo del Equipo</h2>
+          <div class="logo-upload-area">
+            <label for="logo-input" class="logo-drop-zone">
+              <ng-container *ngIf="!logoPreview; else showLogo">
+                <p>Arrastra y suelta el logo aquí, o haz clic para seleccionarlo.</p>
+              </ng-container>
+              <ng-template #showLogo>
+                <img [src]="logoPreview" alt="Previsualización del logo" class="logo-preview">
+              </ng-template>
+            </label>
+            <input id="logo-input" type="file" (change)="onFileSelected($event)" accept="image/*" class="file-input">
+          </div>
+        </div>
+
+        <!-- Horarios -->
+        <div class="form-section" formGroupName="schedule">
+          <h2>Disponibilidad Semanal</h2>
+          <div class="days-selection">
+            <button type="button" *ngFor="let day of availableDays" 
+                    [class.selected]="editForm.get('schedule.' + day)?.value"
+                    (click)="toggleDay(day)">
+              {{ day }}
+            </button>
+          </div>
+
+          <div class="time-slots-container" *ngIf="scheduleHasValues">
+            <h3>Define los horarios</h3>
+            <div class="time-slot-field" *ngFor="let day of availableDays">
+              <ng-container *ngIf="editForm.get('schedule.' + day)?.value as slot">
+                <label>{{ day }}</label>
+                <div class="time-inputs">
+                  <select [formControlName]="day + '.startTime'">
+                    <option *ngFor="let time of timeSlots" [value]="time">{{ time }}</option>
+                  </select>
+                  <span>-</span>
+                  <select [formControlName]="day + '.endTime'">
+                    <option *ngFor="let time of timeSlots" [value]="time">{{ time }}</option>
+                  </select>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="cancel-btn" [routerLink]="['/team-profile', team.id]">Cancelar</button>
+          <button type="submit" class="save-btn" [disabled]="editForm.invalid || isSaving">
+            <span *ngIf="!isSaving">Guardar Cambios</span>
+            <span *ngIf="isSaving">Guardando...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </ng-container>
+
+  <ng-template #loadingTemplate>
+    <p class="loading-text">Cargando datos del equipo...</p>
+  </ng-template>
+</div>

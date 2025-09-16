@@ -281,4 +281,10 @@ export class TeamService {
       }).catch(error => observer.error(error));
     });
   }
+
+  updateTeam(teamId: string, data: Partial<Team>): Promise<void> {
+    const fs = this.getFirebaseService();
+    const teamDocRef = doc(fs.firestore, 'teams', teamId);
+    return updateDoc(teamDocRef, data);
+  }
 }
