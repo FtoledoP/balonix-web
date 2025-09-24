@@ -7,6 +7,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import { ToastrService } from 'ngx-toastr';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { CommonModule } from '@angular/common';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-register',
@@ -22,11 +23,19 @@ export class RegisterComponent {
   password = '';
   phoneNumber = '';
   isLoading = false;
-
+  isDarkMode: boolean;
   constructor(
     private firebaseService: FirebaseService,
-    private toastr: ToastrService
-  ) {}
+    private toastr: ToastrService,
+    private themeService: ThemeService
+  ) {
+    this.isDarkMode = this.themeService.isDarkMode();
+  }
+
+  toggleTheme() {
+    this.themeService.toggleDarkMode();
+    this.isDarkMode = this.themeService.isDarkMode();
+  }
 
   async register() {
     if (!this.name || !this.lastName || !this.email || !this.password || !this.phoneNumber) {
